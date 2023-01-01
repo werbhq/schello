@@ -1,5 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
+import Stack from "@mui/material/Stack";
 
 interface PlaceAPIResponse {
   display_name: string;
@@ -15,21 +17,60 @@ export interface PlaceData {
   lon: string;
 }
 
+function AutocompleteCustom({
+  options,
+  setInput,
+  formVars,
+  setFormVars,
+  loading,
+}: {
+  options: PlaceData[];
+  setInput: any;
+  formVars: any;
+  setFormVars: any;
+  loading: boolean;
+}) {
+  return (
+    <Stack direction="row" spacing={2} alignItems="center">
+      <Autocomplete
+        options={options}
+        onInputChange={(e, value: any) => {
+          setInput(value);
+        }}
+        getOptionLabel={(option: PlaceData) => option.title}
+        style={{ width: 300 }}
+        noOptionsText={"No Place Found"}
+        onChange={(e, value) => {
+          setFormVars({ ...formVars, location: value });
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
+      {loading && <CircularProgress />}
+    </Stack>
+  );
+}
+
 export function PlaceSearch(props: any) {
   const { formVars, setFormVars } = props;
   const [options, setOptions] = React.useState<PlaceData[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [input, setInput] = React.useState<string>("kerala");
   const previousController = React.useRef<AbortController>();
 
   const getData = (searchTerm: string) => {
     if (previousController.current) {
       previousController.current.abort();
+      setLoading(false);
     }
     const controller = new AbortController();
     const signal = controller.signal;
     previousController.current = controller;
 
+    const search = searchTerm.replace(" ", "+");
+
+    setLoading(true);
     fetch(
-      `https://nominatim.openstreetmap.org/search.php?q=${searchTerm}&accept-language=en&countrycodes=IN&format=jsonv2`,
+      `https://nominatim.openstreetmap.org/search.php?q=${search}&accept-language=en&countrycodes=IN&format=jsonv2`,
       {
         signal,
         headers: {
@@ -48,34 +89,21 @@ export function PlaceSearch(props: any) {
           }
         );
         setOptions(updatedOptions);
+        setLoading(false);
       });
   };
 
-  const onInputChange = (event: any, searchTerm: string) => {
-    if (searchTerm) {
-      getData(searchTerm);
-    } else {
-      setOptions([]);
-    }
-  };
-
   React.useEffect(() => {
-    getData("Kerala");
-  }, []);
+    getData(input);
+  }, [input]);
 
   return (
-    <Autocomplete
+    <AutocompleteCustom
       options={options}
-      onInputChange={onInputChange}
-      getOptionLabel={(option) => option.title}
-      style={{ width: 300 }}
-      noOptionsText={"Enter a place to search"}
-      onChange={(e, value) => {
-        console.log(formVars);
-
-        setFormVars({ ...formVars, location: value });
-      }}
-      renderInput={(params) => <TextField {...params} />}
+      setInput={setInput}
+      formVars={formVars}
+      setFormVars={setFormVars}
+      loading={loading}
     />
   );
 }
