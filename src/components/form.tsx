@@ -7,6 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
+import { PlaceSearch, PlaceData } from "./PlaceSearch";
 import {
   CircularProgress,
   FormGroup,
@@ -22,6 +23,7 @@ interface FormVars {
   category: string | null;
   description: string;
   image: string | null;
+  location: PlaceData | null;
 }
 
 export default function NativePickers() {
@@ -34,6 +36,7 @@ export default function NativePickers() {
     category: "USAGE_SUSPECTED",
     description: "",
     image: null,
+    location: null,
   });
 
   const [imageLoad, setImageLoad] = React.useState(false);
@@ -148,7 +151,12 @@ export default function NativePickers() {
         </FormGroup>
 
         <FormGroup>
-          <InputLabel id="facial-feat">Facial Features</InputLabel>
+          <InputLabel>Rough Location</InputLabel>
+          <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+        </FormGroup>
+
+        <FormGroup>
+          <InputLabel>Facial Features</InputLabel>
           <iframe
             id="frame"
             ref={frameRef}
