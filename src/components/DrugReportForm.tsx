@@ -9,11 +9,13 @@ import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
 import { PlaceSearch, PlaceData } from "./PlaceSearch";
 import {
+  Button,
   CircularProgress,
   FormGroup,
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 
 interface FormVars {
@@ -26,7 +28,7 @@ interface FormVars {
   location: PlaceData | null;
 }
 
-export default function NativePickers() {
+export default function DrugReportForm() {
   const currentTime = dayjs();
 
   const [formVars, setFormVars] = React.useState<FormVars>({
@@ -39,15 +41,12 @@ export default function NativePickers() {
     location: null,
   });
 
-  const [imageLoad, setImageLoad] = React.useState(false);
-
-  const frameRef = React.useRef<HTMLIFrameElement>(null);
+  const [imageLoading, setImageLoading] = React.useState(false);
 
   window.addEventListener("message", subscribe);
   document.addEventListener("message", subscribe);
 
   function subscribe(event: any) {
-    const frame = frameRef.current as HTMLIFrameElement;
     if (
       typeof event.data === "string" &&
       event?.data?.startsWith("https://models.readyplayer.me")
@@ -55,8 +54,8 @@ export default function NativePickers() {
       const id: string = event.data
         .replace("https://models.readyplayer.me/", "")
         .replace(".glb", ".png");
-      frame.style.display = "none";
-      setImageLoad(true);
+
+      setImageLoading(true);
       setFormVars({
         ...formVars,
         image: `https://api.readyplayer.me/v1/avatars/${id}`,
@@ -66,7 +65,7 @@ export default function NativePickers() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack padding={20} spacing={3} direction="column">
+      <Stack margin={4} spacing={4} direction="column">
         <FormGroup>
           <InputLabel>Date Of Incident</InputLabel>
           <DatePicker
@@ -157,30 +156,55 @@ export default function NativePickers() {
 
         <FormGroup>
           <InputLabel>Facial Features</InputLabel>
-          <iframe
-            id="frame"
-            ref={frameRef}
-            height={600}
-            title="Profile Pic"
-            src="https://yourappname.readyplayer.me/avatar?clearCache&bodyType=fullbody"
-            onLoad={() => {
-              setFormVars({ ...formVars, image: null });
-            }}
-          ></iframe>
-
-          {imageLoad && <CircularProgress sx={{ padding: 5 }} />}
-          {formVars.image != null ? (
-            <img
-              src={formVars.image}
-              width={200}
-              height={200}
-              alt="No Avatar Found"
-              onLoad={() => setImageLoad(false)}
-            ></img>
-          ) : (
-            <></>
+          <Typography variant="body2">
+            Select all the information you see fit
+          </Typography>
+          {!formVars.image && (
+            <iframe
+              id="frame"
+              height={600}
+              title="Profile Pic"
+              src="https://yourappname.readyplayer.me/avatar?clearCache&bodyType=fullbody"
+              onLoad={() => {
+                setFormVars({ ...formVars, image: null });
+              }}
+            ></iframe>
           )}
+
+          <Stack direction="row" spacing={2} alignItems="center">
+            {imageLoading && <CircularProgress sx={{ padding: 5 }} />}
+            {formVars.image && (
+              <img
+                src={formVars.image}
+                width={200}
+                height={200}
+                alt="No Avatar Found"
+                onLoad={() => setImageLoading(false)}
+              ></img>
+            )}
+            {!imageLoading && formVars.image != null && (
+              <Button
+                variant="contained"
+                sx={{ width: "10rem", height: "2rem", marginTop: "10px" }}
+                onClick={() => {
+                  setImageLoading(false);
+                  setFormVars({ ...formVars, image: null });
+                }}
+              >
+                Reset
+              </Button>
+            )}
+          </Stack>
         </FormGroup>
+        <Button
+          variant="contained"
+          sx={{ width: "10rem", marginTop: "20px" }}
+          onClick={() => {
+            console.log(formVars);
+          }}
+        >
+          Submit
+        </Button>
       </Stack>
     </LocalizationProvider>
   );
