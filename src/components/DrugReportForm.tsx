@@ -8,6 +8,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
 import { PlaceSearch, PlaceData } from "./PlaceSearch";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 import {
   Button,
   CircularProgress,
@@ -42,6 +48,18 @@ export default function DrugReportForm() {
   });
 
   const [imageLoading, setImageLoading] = React.useState(false);
+  const [validInput,setValidInput] = React.useState(true);
+  const [descCheck,setdescCheck] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [error,setError] = React.useState(true);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   window.addEventListener("message", subscribe);
   document.addEventListener("message", subscribe);
@@ -63,6 +81,8 @@ export default function DrugReportForm() {
     }
   }
 
+
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack margin={4} spacing={4} direction="column">
@@ -71,8 +91,15 @@ export default function DrugReportForm() {
           <DatePicker
             views={["year", "month", "day"]}
             value={formVars.dateIncident}
+            onError={(error) => {
+              setValidInput(false); 
+              console.log("Date","error",validInput);             
+            }}
             onChange={(newValue) => {
               setFormVars({ ...formVars, dateIncident: newValue });
+              setValidInput(true);
+              console.log("Date","ok",validInput);             
+
             }}
             renderInput={(params) => (
               <TextField {...params} sx={{ width: 220 }} />
@@ -87,8 +114,16 @@ export default function DrugReportForm() {
               <TimePicker
                 label="From"
                 value={formVars.time_from}
+                onError={(error) => {
+                  setValidInput(false);     
+                  console.log("time","error",validInput);             
+
+                }}
                 onChange={(newValue) => {
                   setFormVars({ ...formVars, time_from: newValue });
+                  setValidInput(true);
+                  console.log("time","ok",validInput);             
+
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
@@ -98,8 +133,17 @@ export default function DrugReportForm() {
               <TimePicker
                 label="To"
                 value={formVars.time_to}
+                onError={(error) => {
+                  setValidInput(false);
+                  console.log("time to","no");             
+
+                }}
                 onChange={(newValue) => {
-                  setFormVars({ ...formVars, time_from: newValue });
+                  setFormVars({ ...formVars, time_to: newValue });
+                  setValidInput(true);
+                  console.log("time to","ok");             
+
+
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
@@ -141,9 +185,23 @@ export default function DrugReportForm() {
           <Textarea
             placeholder="Briefly describe what happened"
             required
+            error = {!descCheck}
             minRows={5}
             maxRows={12}
+            onBlur={()=>{
+              if(!descCheck)
+              {                
+                setValidInput(false);
+                console.log("Description","error",validInput);             
+              }
+              else
+                setValidInput(true);
+                console.log("Description","ok",validInput);
+            }}
+            
             onChange={(e) => {
+              const pattern = /^[a-zA-Z ]+$/;
+              setdescCheck(pattern.test(e.target.value));
               setFormVars({ ...formVars, description: e.target.value });
             }}
           />
@@ -151,7 +209,7 @@ export default function DrugReportForm() {
 
         <FormGroup>
           <InputLabel>Rough Location</InputLabel>
-          <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+          <PlaceSearch formVars={formVars} setFormVars={setFormVars} setValidInput={setValidInput} />
         </FormGroup>
 
         <FormGroup>
@@ -161,14 +219,15 @@ export default function DrugReportForm() {
           </Typography>
           {!formVars.image && (
             <iframe
-              id="frame"
-              height={600}
-              title="Profile Pic"
-              src="https://yourappname.readyplayer.me/avatar?clearCache&bodyType=fullbody"
-              onLoad={() => {
-                setFormVars({ ...formVars, image: null });
-              }}
-            ></iframe>
+            id="frame"
+            height={600}
+            title="Profile Pic"
+            src="https://yourappname.readyplayer.me/avatar?clearCache&bodyType=fullbody"
+            onLoad={() => {
+              setFormVars({ ...formVars, image: null });
+              setValidInput(true);
+            }}
+          ></iframe>
           )}
 
           <Stack direction="row" spacing={2} alignItems="center">
@@ -179,7 +238,10 @@ export default function DrugReportForm() {
                 width={200}
                 height={200}
                 alt="No Avatar Found"
-                onLoad={() => setImageLoading(false)}
+                onLoad={() => {
+                  setImageLoading(false); 
+                  setValidInput(true);
+                }}
               ></img>
             )}
             {!imageLoading && formVars.image != null && (
@@ -200,11 +262,43 @@ export default function DrugReportForm() {
           variant="contained"
           sx={{ width: "10rem", marginTop: "20px" }}
           onClick={() => {
-            console.log(formVars);
+            if(validInput){
+              console.log(formVars);
+              setError(false);
+              handleClickOpen();
+            }
+            else{
+              console.log("error");
+              setError(true);
+              handleClickOpen();
+             
+            }
+            
           }}
         >
           Submit
         </Button>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {error ? "ERROR" : "SUCCESS"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            { error ? "make sure You entered all the details" : " your report is submitted"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+        
       </Stack>
     </LocalizationProvider>
   );
