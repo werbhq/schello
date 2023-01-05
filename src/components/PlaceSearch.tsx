@@ -2,17 +2,11 @@ import { Autocomplete, TextField } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
+import type { MapData } from "../models/MapData";
 
-interface PlaceAPIResponse {
+interface MapAPIResponse {
   display_name: string;
   place_id: string;
-  lat: string;
-  lon: string;
-}
-
-export interface PlaceData {
-  title: string;
-  id: string;
   lat: string;
   lon: string;
 }
@@ -24,7 +18,7 @@ function AutocompleteCustom({
   setFormVars,
   loading,
 }: {
-  options: PlaceData[];
+  options: MapData[];
   setInput: any;
   formVars: any;
   setFormVars: any;
@@ -37,8 +31,8 @@ function AutocompleteCustom({
         onInputChange={(e, value: any) => {
           setInput(value);
         }}
-        isOptionEqualToValue={(option: PlaceData, value: any) => true}
-        getOptionLabel={(option: PlaceData) => option.title}
+        isOptionEqualToValue={(option: MapData, value: any) => true}
+        getOptionLabel={(option: MapData) => option.title}
         style={{ width: 300 }}
         noOptionsText={"No Place Found"}
         onChange={(e, value) => {
@@ -53,7 +47,7 @@ function AutocompleteCustom({
 
 export function PlaceSearch(props: any) {
   const { formVars, setFormVars } = props;
-  const [options, setOptions] = React.useState<PlaceData[]>([]);
+  const [options, setOptions] = React.useState<MapData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [input, setInput] = React.useState<string>("kerala");
   const previousController = React.useRef<AbortController>();
@@ -87,7 +81,7 @@ export function PlaceSearch(props: any) {
         })
         .then(function (json) {
           const updatedOptions = json.map(
-            ({ display_name, place_id, lat, lon }: PlaceAPIResponse) => {
+            ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
               return { title: display_name, id: place_id, lat, lon };
             }
           );

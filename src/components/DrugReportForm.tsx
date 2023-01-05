@@ -7,7 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
-import { PlaceSearch, PlaceData } from "./PlaceSearch";
+import { PlaceSearch } from "./PlaceSearch";
 import DialogBox from "./ui/CustomDialogBox";
 
 import {
@@ -23,22 +23,25 @@ import {
   Radio,
   Alert,
 } from "@mui/material";
+import type { MapData } from "../models/MapData";
+import { addReport } from "../api/report";
+import { Report } from "../models/Report";
 interface FormVars {
   dateIncident: dayjs.Dayjs | null;
-  time_from: dayjs.Dayjs | null;
-  time_to: dayjs.Dayjs | null;
+  timeFrom: dayjs.Dayjs | null;
+  timeTo: dayjs.Dayjs | null;
   category: string | null;
   description: string;
   image: string | null;
-  location: PlaceData | null;
+  location: MapData | null;
 }
 
 export default function DrugReportForm() {
   const currentTime = dayjs();
   const defaultFormVars = {
     dateIncident: currentTime,
-    time_from: currentTime,
-    time_to: currentTime.add(2, "hour"),
+    timeFrom: currentTime,
+    timeTo: currentTime.add(2, "hour"),
     category: "USAGE_SUSPECTED",
     description: "",
     image: null,
@@ -63,6 +66,10 @@ export default function DrugReportForm() {
       title: "Please wait",
       description: "Facial features image is still loading",
     },
+    {
+      title: "Failed",
+      description: "Your report has not been submitted",
+    },
   ];
 
   const [dialogData, setDialogData] = React.useState({
@@ -73,7 +80,12 @@ export default function DrugReportForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const { time_from, time_to, description, location } = formVars;
+    const {
+      timeFrom: time_from,
+      timeTo: time_to,
+      description,
+      location,
+    } = formVars;
 
     setError([]);
     const new_errors = [];
@@ -99,17 +111,22 @@ export default function DrugReportForm() {
       return;
     }
 
-    setDialogData(dialog[0]);
-    setDialogOpen(true);
-
-    //TODO: Handle submit
     const parsedFormVars = {
       ...formVars,
       dateIncident: formVars.dateIncident?.toISOString(),
-      time_from: formVars.time_from?.toISOString(),
-      time_to: formVars.time_to?.toISOString(),
+      timeFrom: formVars.timeFrom?.toISOString(),
+      timeTo: formVars.timeTo?.toISOString(),
     };
-    console.log(parsedFormVars);
+
+    try {
+      await addReport(parsedFormVars as Report);
+      setDialogData(dialog[0]);
+      setDialogOpen(true);
+    } catch (error) {
+      console.error(error);
+      setDialogData(dialog[2]);
+      setDialogOpen(true);
+    }
   };
 
   window.addEventListener("message", listenFacialAPI);
@@ -160,9 +177,9 @@ export default function DrugReportForm() {
             <Stack spacing={2} direction="row">
               <TimePicker
                 label="From"
-                value={formVars.time_from}
+                value={formVars.timeFrom}
                 onChange={(newValue) => {
-                  setFormVars({ ...formVars, time_from: newValue });
+                  setFormVars({ ...formVars, timeFrom: newValue });
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
@@ -171,9 +188,9 @@ export default function DrugReportForm() {
 
               <TimePicker
                 label="To"
-                value={formVars.time_to}
+                value={formVars.timeTo}
                 onChange={(newValue) => {
-                  setFormVars({ ...formVars, time_to: newValue });
+                  setFormVars({ ...formVars, timeTo: newValue });
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
