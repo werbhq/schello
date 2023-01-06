@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export default function AppBarCustom() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ background: "#F1C043" }}>
       <Toolbar variant="dense">
         <IconButton
           edge="start"

@@ -36,7 +36,7 @@ interface FormVars {
   location: MapData | null;
 }
 
-export default function DrugReportForm() {
+export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
   const defaultFormVars = {
     dateIncident: currentTime,
