@@ -1,6 +1,6 @@
 import React from "react";
 
-import DrugReportForm from "./components/DrugReportForm";
+import DrugReportForm from "./pages/DrugReport/DrugReportForm";
 import AppBarCustom from "./components/ui/AppBarCustom";
 import { Box } from "@mui/material";
 

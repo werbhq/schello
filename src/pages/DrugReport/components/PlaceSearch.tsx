@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-import type { MapData } from "../models/MapData";
+import type { MapData } from "../../../models/MapData";
 
 interface MapAPIResponse {
   display_name: string;
