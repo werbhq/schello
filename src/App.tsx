@@ -1,11 +1,9 @@
-import React from "react";
-
-import DrugReportForm from "./pages/DrugReportForm";
+import DrugReportForm from "./pages/DrugReport/DrugReportForm";
 import AppBarCustom from "./components/ui/AppBarCustom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Community from "./pages/Community";
-import Error from "./pages/Error";
+import Home from "./pages/Home/Home";
+import Community from "./pages/Community/Community";
+import Error from "./pages/Error/Error";
 
 function App() {
   return (
