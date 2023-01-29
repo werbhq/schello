@@ -7,8 +7,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
-import { PlaceSearch } from "./PlaceSearch";
-import DialogBox from "./ui/CustomDialogBox";
+import { PlaceSearch } from "../components/PlaceSearch";
+import DialogBox from "../components/ui/CustomDialogBox";
 
 import {
   Button,
