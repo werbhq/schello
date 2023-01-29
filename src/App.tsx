@@ -1,17 +1,22 @@
-import React from "react";
-
 import DrugReportForm from "./pages/DrugReport/DrugReportForm";
 import AppBarCustom from "./components/ui/AppBarCustom";
-import { Box } from "@mui/material";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Community from "./pages/Community/Community";
+import Error from "./pages/Error/Error";
 import HomePage from "./pages/Home/Home";
 
 function App() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBarCustom />
-      {/* <DrugReportForm />; */}
-      <HomePage/>
-    </Box>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppBarCustom />}>
+          <Route index element={<HomePage />} />
+          <Route path="form" element={<DrugReportForm />} />
+          <Route path="community" element={<Community />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
