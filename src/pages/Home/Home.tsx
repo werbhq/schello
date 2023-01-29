@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Grid,
   Box,
@@ -7,44 +8,19 @@ import {
   List,
   ListItem,
 } from "@mui/material";
-
 import EventCard from "./components/EventCard";
 import { Event } from "../../models/General Awarness";
-import dayjs from "dayjs";
 
-let events: Event[] = [
-  {
-    id: "feiojeifwiowejo",
-    title: "Anti Drug Campaign",
-    visible: true,
-    time_from: dayjs("09:00AM", "HH:mmA").toISOString(),
-    time_to: dayjs("12:00PM", "HH:mmA").toISOString(),
-    date_from: dayjs("2023-01-23").toISOString(),
-    date_to: dayjs("2023-01-25").toISOString(),
-    description: "A campaign for children for drug awareness", // HTML
-    mode: "VIRTUAL",
-    venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
-  },
-  {
-    id: "feiojeifwiowejo",
-    title: "Venu Drug Campaign",
-    visible: true,
-    time_from: dayjs("09:00AM", "HH:mmA").toISOString(),
-    time_to: dayjs("12:00PM", "HH:mmA").toISOString(),
-    date_from: dayjs("2023-01-23").toISOString(),
-    date_to: dayjs("2023-01-23").toISOString(),
-    description: "A campaign for venu for drug awareness", // HTML
-    mode: "OFFLINE",
-    venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
-  },
-];
-
-for (let i = 0; i < 50; i++) {
-  events.push(events[0]);
-  events.push(events[1]);
-}
+import { events as eventsData } from "../tempData";
 
 function HomePage() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    // Fetches Data here
+    setEvents(eventsData);
+  }, []);
+
   return (
     <Grid container spacing={2} sx={{ padding: "20px" }}>
       <Grid
@@ -71,7 +47,7 @@ function HomePage() {
       </Grid>
       <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
         <h3>Events</h3>
-        <List style={{ maxHeight: "500px", overflow: "auto", padding: "0px" }}>
+        <List style={{ maxHeight: "350px", overflow: "auto", padding: "0px" }}>
           {events.map((e, index) => (
             <ListItem key={index} style={{ padding: "5px 0px" }}>
               <EventCard event={e} />

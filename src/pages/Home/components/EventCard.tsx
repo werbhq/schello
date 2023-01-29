@@ -5,36 +5,17 @@ import {
   Icon,
   Button,
   Stack,
-  IconButton,
-  IconButtonProps,
   Collapse,
-  Container,
 } from "@mui/material";
-import {
-  LocationOnSharp,
-  Schedule,
-  ExpandMore as ExpandMoreIcon,
-} from "@mui/icons-material";
-
+import { LocationOnSharp, Schedule } from "@mui/icons-material";
+import stringToHtml from "html-react-parser";
 import type { Event } from "../../../models/General Awarness";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import dayjs from "dayjs";
 import { useState } from "react";
-import styled from "@emotion/styled";
+import Expand from "../../../components/ui/Expand";
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-}));
-
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event, ...rest }: { event: Event }) {
   const displayTime = {
     startDate: dayjs(event.date_from).format("D MMM YYYY"),
     endDate: dayjs(event.date_to).format("D MMM YYYY"),
@@ -51,30 +32,31 @@ function EventCard({ event }: { event: Event }) {
   const handleExpand = () => setExpanded(!expanded);
 
   return (
-    <Card variant="outlined" sx={{ padding: "10px" }} onClick={handleExpand}>
-      <Grid container rowGap={"3px"}>
+    <Card
+      variant="outlined"
+      sx={{ padding: "10px" }}
+      onClick={handleExpand}
+      {...rest}
+    >
+      <Grid container rowGap={"2px"}>
         <Grid container justifyContent="space-between">
-          <Grid component={"h4"} sx={{ margin: "0" }}>
+          <Grid component={"h5"} sx={{ margin: "0" }}>
             {event.title}
           </Grid>
 
-          <Grid sx={{ margin: "0" }}>{event.mode}</Grid>
+          <Grid component={"h5"} sx={{ margin: "0", color: "grey" }}>
+            {event.mode}
+          </Grid>
         </Grid>
 
         <Grid container alignItems="center" justifyContent="center">
           <Schedule />
 
-          <p style={{ fontSize: "12px", margin: "0", padding: "0px 5px" }}>
+          <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
             {displayTimeDateString}
           </p>
 
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpand}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
+          <Expand expanded={expanded} handleExpand={handleExpand} />
         </Grid>
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -82,11 +64,12 @@ function EventCard({ event }: { event: Event }) {
             <Divider sx={{ width: "100%" }} />
 
             <Grid
+              item
               xs={12}
               component={"p"}
               sx={{ fontSize: "12px", margin: "0" }}
             >
-              {event.description}
+              {stringToHtml(event.description)}
             </Grid>
 
             <Grid container alignItems="center">
@@ -102,28 +85,45 @@ function EventCard({ event }: { event: Event }) {
               </Grid>
             </Grid>
 
-            <Stack spacing={1} direction="row">
-              <Button variant="contained">Register</Button>
-              {["Google", "Apple"].map((e) => (
-                <AddToCalendarButton
-                  name={event.title}
-                  description={event.description}
-                  startDate={dayjs(event.date_from).format("YYYY-MM-DD")}
-                  endDate={dayjs(event.date_to).format("YYYY-MM-DD")}
-                  startTime={dayjs(event.time_from).format("HH:mm")}
-                  endTime={dayjs(event.time_to).format("HH:mm")}
-                  timeZone="currentBrowser"
-                  location={event.venue}
-                  options={e}
-                  size="3"
-                  hideBackground
-                  hideCheckmark
-                  hideBranding
-                  hideTextLabelButton
-                  buttonStyle="neumorphism"
-                />
-              ))}
-            </Stack>
+            <Grid
+              container
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              {!!event.register_url && (
+                <Button
+                  variant="contained"
+                  href={event.register_url}
+                  sx={{ maxHeight: "40px" }}
+                >
+                  Register
+                </Button>
+              )}
+              <Stack spacing={0.5} direction="row">
+                {["Google", "Apple"].map((e) => (
+                  <AddToCalendarButton
+                    name={event.title}
+                    description={event.description}
+                    startDate={dayjs(event.date_from).format("YYYY-MM-DD")}
+                    endDate={dayjs(event.date_to).format("YYYY-MM-DD")}
+                    startTime={dayjs(event.time_from).format("HH:mm")}
+                    endTime={dayjs(event.time_to).format("HH:mm")}
+                    timeZone="currentBrowser"
+                    location={event.venue}
+                    options={e}
+                    size="3"
+                    hideBackground
+                    hideCheckmark
+                    hideBranding
+                    hideTextLabelButton
+                    buttonStyle="neumorphism"
+                  />
+                ))}
+              </Stack>
+            </Grid>
           </Grid>
         </Collapse>
       </Grid>
