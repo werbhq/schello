@@ -1,19 +1,48 @@
-import React from "react";
 import {
   Grid,
   Box,
   Container,
   Divider,
   Card,
-  Icon,
-  Button,
-  ButtonGroup,
+  List,
+  ListItem,
 } from "@mui/material";
-import {
-  LocationOnSharp,
-  CalendarTodaySharp,
-  Schedule,
-} from "@mui/icons-material";
+
+import EventCard from "./components/EventCard";
+import { Event } from "../../models/General Awarness";
+import dayjs from "dayjs";
+
+let events: Event[] = [
+  {
+    id: "feiojeifwiowejo",
+    title: "Anti Drug Campaign",
+    visible: true,
+    time_from: dayjs("09:00AM", "HH:mmA").toISOString(),
+    time_to: dayjs("12:00PM", "HH:mmA").toISOString(),
+    date_from: dayjs("2023-01-23").toISOString(),
+    date_to: dayjs("2023-01-25").toISOString(),
+    description: "A campaign for children for drug awareness", // HTML
+    mode: "VIRTUAL",
+    venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
+  },
+  {
+    id: "feiojeifwiowejo",
+    title: "Venu Drug Campaign",
+    visible: true,
+    time_from: dayjs("09:00AM", "HH:mmA").toISOString(),
+    time_to: dayjs("12:00PM", "HH:mmA").toISOString(),
+    date_from: dayjs("2023-01-23").toISOString(),
+    date_to: dayjs("2023-01-23").toISOString(),
+    description: "A campaign for venu for drug awareness", // HTML
+    mode: "OFFLINE",
+    venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
+  },
+];
+
+for (let i = 0; i < 50; i++) {
+  events.push(events[0]);
+  events.push(events[1]);
+}
 
 function HomePage() {
   return (
@@ -42,160 +71,13 @@ function HomePage() {
       </Grid>
       <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
         <h3>Events</h3>
-        <Box
-          sx={{
-            backgroundColor: "red",
-            padding: "10px",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "10px",
-          }}
-        >
-          <Card variant="outlined" sx={{ padding: "10px" }}>
-            <Grid container rowGap={"10px"}>
-              <Grid xs={12} component={"h4"} sx={{ margin: "0" }}>
-                Event Title
-              </Grid>
-              <Grid
-                xs={12}
-                component={"p"}
-                sx={{ fontSize: "12px", margin: "0" }}
-              >
-                Event Description
-              </Grid>
-              <Divider sx={{ width: "100%" }} />
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <LocationOnSharp />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>Location/Link</p>
-                </Grid>
-              </Grid>
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <Schedule />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>
-                    6pm, 12th Feb 22 → 8pm, 13th Feb 22
-                  </p>
-                </Grid>
-              </Grid>
-              <ButtonGroup
-                size="small"
-                disableElevation
-                sx={{ colGap: "10px" }}
-              >
-                <Button variant="contained">Register</Button>
-                {/* <div style={{ width: "10px" }}></div> */}
-                <Button variant="outlined" startIcon={<CalendarTodaySharp />}>
-                  Add to Calendar
-                </Button>
-              </ButtonGroup>
-            </Grid>
-          </Card>
-          <Card variant="outlined" sx={{ padding: "10px" }}>
-            <Grid container rowGap={"10px"}>
-              <Grid xs={12} component={"h4"} sx={{ margin: "0" }}>
-                Event Title
-              </Grid>
-              <Grid
-                xs={12}
-                component={"p"}
-                sx={{ fontSize: "12px", margin: "0" }}
-              >
-                Event Description
-              </Grid>
-              <Divider sx={{ width: "100%" }} />
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <LocationOnSharp />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>Location/Link</p>
-                </Grid>
-              </Grid>
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <Schedule />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>
-                    6pm, 12th Feb 22 → 8pm, 13th Feb 22
-                  </p>
-                </Grid>
-              </Grid>
-              <ButtonGroup
-                size="small"
-                disableElevation
-                sx={{ colGap: "10px" }}
-              >
-                <Button variant="contained">Register</Button>
-                {/* <div style={{ width: "10px" }}></div> */}
-                <Button variant="outlined" startIcon={<CalendarTodaySharp />}>
-                  Add to Calendar
-                </Button>
-              </ButtonGroup>
-            </Grid>
-          </Card>
-          <Card variant="outlined" sx={{ padding: "10px" }}>
-            <Grid container rowGap={"10px"}>
-              <Grid xs={12} component={"h4"} sx={{ margin: "0" }}>
-                Event Title
-              </Grid>
-              <Grid
-                xs={12}
-                component={"p"}
-                sx={{ fontSize: "12px", margin: "0" }}
-              >
-                Event Description
-              </Grid>
-              <Divider sx={{ width: "100%" }} />
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <LocationOnSharp />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>Location/Link</p>
-                </Grid>
-              </Grid>
-              <Grid container alignItems="center">
-                <Grid alignItems="center" justifyContent="center">
-                  <Icon>
-                    <Schedule />
-                  </Icon>
-                </Grid>
-                <Grid>
-                  <p style={{ fontSize: "12px", margin: "0" }}>
-                    6pm, 12th Feb 22 → 8pm, 13th Feb 22
-                  </p>
-                </Grid>
-              </Grid>
-              <ButtonGroup
-                size="small"
-                disableElevation
-                sx={{ colGap: "10px" }}
-              >
-                <Button variant="contained">Register</Button>
-                {/* <div style={{ width: "10px" }}></div> */}
-                <Button variant="outlined" startIcon={<CalendarTodaySharp />}>
-                  Add to Calendar
-                </Button>
-              </ButtonGroup>
-            </Grid>
-          </Card>
-        </Box>
+        <List style={{ maxHeight: "500px", overflow: "auto", padding: "0px" }}>
+          {events.map((e, index) => (
+            <ListItem key={index} style={{ padding: "5px 0px" }}>
+              <EventCard event={e} />
+            </ListItem>
+          ))}
+        </List>
       </Grid>
     </Grid>
   );
