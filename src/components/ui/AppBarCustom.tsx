@@ -14,21 +14,21 @@ export default function AppBarCustom() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ background: "#F1C043" }}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography
             variant="h6"
             color="inherit"
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            Drug Community App
+            Schello
           </Typography>
           <Button color="inherit" component={Link} to="/">
             Home
