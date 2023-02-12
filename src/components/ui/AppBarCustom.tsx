@@ -1,12 +1,4 @@
-import {
-  AppBar,
-  IconButton,
-  Toolbar,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Outlet, Link } from "react-router-dom";
 
 export default function AppBarCustom() {

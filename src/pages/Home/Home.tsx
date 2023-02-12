@@ -11,14 +11,13 @@ import {
 import EventCard from "./components/EventCard";
 import { Event } from "../../models/General Awarness";
 
-import { events as eventsData } from "../tempData";
+import { getEvents } from "../../api/events";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
-    // Fetches Data here
-    setEvents(eventsData);
+    getEvents().then(setEvents);
   }, []);
 
   return (

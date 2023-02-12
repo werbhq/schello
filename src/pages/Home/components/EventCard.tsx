@@ -34,7 +34,7 @@ function EventCard({ event, ...rest }: { event: Event }) {
   return (
     <Card
       variant="outlined"
-      sx={{ padding: "10px" }}
+      sx={{ padding: "10px", maxWidth: "30rem" }}
       onClick={handleExpand}
       {...rest}
     >
@@ -50,11 +50,12 @@ function EventCard({ event, ...rest }: { event: Event }) {
         </Grid>
 
         <Grid container alignItems="center" justifyContent="center">
-          <Schedule />
-
-          <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
-            {displayTimeDateString}
-          </p>
+          <Stack direction="row" alignItems="center" justifyContent="center">
+            <Schedule />
+            <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
+              {displayTimeDateString}
+            </p>
+          </Stack>
 
           <Expand expanded={expanded} handleExpand={handleExpand} />
         </Grid>
