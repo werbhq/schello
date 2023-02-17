@@ -104,8 +104,9 @@ function EventCard({ event, ...rest }: { event: Event }) {
                 </Button>
               )}
               <Stack spacing={0.5} direction="row">
-                {["Google", "Apple"].map((e) => (
+                {["Google", "Apple"].map((e, index) => (
                   <AddToCalendarButton
+                    key={index}
                     name={event.title}
                     description={event.description}
                     startDate={dayjs(event.date_from).format("YYYY-MM-DD")}
