@@ -1,7 +1,5 @@
 import * as React from "react";
 import {
-  Button,
-  CircularProgress,
   MenuItem,
   Select,
   Typography,
@@ -40,6 +38,21 @@ interface FormVars {
   location: MapData | null;
 }
 
+const DIALOG_MESSAGES = {
+  SUCCESS: {
+    title: "Success",
+    description: "Your report has been submitted",
+  },
+  WAIT: {
+    title: "Please wait",
+    description: "Facial features image is still loading",
+  },
+  FAILED: {
+    title: "Failed",
+    description: "Your report has not been submitted",
+  },
+};
+
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
   const defaultFormVars = {
@@ -54,33 +67,13 @@ export default function DrugReportForm(props: any) {
 
   const [formVars, setFormVars] = React.useState<FormVars>(defaultFormVars);
 
-  const [gender, setGender] = React.useState<"female" | "male">("female");
   const [enableFaceOption, setEnableFaceOption] = React.useState(false);
-  const [imageLoading, setImageLoading] = React.useState(false);
   const [submitLoading, setSubmitLoading] = React.useState(false);
 
   const [error, setError] = React.useState<string[]>([]);
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const dialog = {
-    SUCCESS: {
-      title: "Success",
-      description: "Your report has been submitted",
-    },
-    WAIT: {
-      title: "Please wait",
-      description: "Facial features image is still loading",
-    },
-    FAILED: {
-      title: "Failed",
-      description: "Your report has not been submitted",
-    },
-  };
-
-  const [dialogData, setDialogData] = React.useState({
-    title: "Success",
-    description: "Your report has been submitted",
-  });
+  const [dialogData, setDialogData] = React.useState(DIALOG_MESSAGES.SUCCESS);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -92,24 +85,19 @@ export default function DrugReportForm(props: any) {
       location,
     } = formVars;
 
+    // Handle Errors
     setError([]);
     const new_errors = [];
 
-    if (imageLoading) {
-      setDialogData(dialog.WAIT);
-      setDialogOpen(true);
-      return;
-    }
-
     if (time_from?.isAfter(time_to))
       new_errors.push(
-        "Incident {from time} cannot be after incident {to time}"
+        "Incident <from time> cannot be after incident <to time>"
       );
 
     if (description.split(" ").length < 10)
-      new_errors.push("Provide a {description} greater than 10 words");
+      new_errors.push("Provide a <description> greater than 10 words");
 
-    if (location == null) new_errors.push("Provide a {rough location}");
+    if (location == null) new_errors.push("Provide a <rough location>");
 
     if (new_errors.length > 0) {
       setError(new_errors);
@@ -126,35 +114,18 @@ export default function DrugReportForm(props: any) {
     try {
       setSubmitLoading(true);
       await addReport(parsedFormVars as Report);
-      setDialogData(dialog.SUCCESS);
+      setDialogData(DIALOG_MESSAGES.SUCCESS);
       setDialogOpen(true);
       setSubmitLoading(false);
     } catch (error) {
       console.error(error);
-      setDialogData(dialog.FAILED);
+      setDialogData(DIALOG_MESSAGES.FAILED);
       setDialogOpen(true);
     }
   };
 
-  window.addEventListener("message", listenFacialAPI);
-  document.addEventListener("message", listenFacialAPI);
-
-  function listenFacialAPI(event: any) {
-    if (
-      typeof event.data === "string" &&
-      event?.data?.startsWith("https://models.readyplayer.me")
-    ) {
-      const id: string = event.data
-        .replace("https://models.readyplayer.me/", "")
-        .replace(".glb", ".png");
-
-      setImageLoading(true);
-      setFormVars({
-        ...formVars,
-        image: `https://api.readyplayer.me/v1/avatars/${id}`,
-      });
-    }
-  }
+  const handleChange = async (e: any) =>
+    setFormVars({ ...formVars, [e.target.name]: e.target.value });
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -221,9 +192,8 @@ export default function DrugReportForm(props: any) {
               label="Category"
               variant="standard"
               sx={{ width: 300 }}
-              onChange={(newValue) => {
-                setFormVars({ ...formVars, category: newValue.target.value });
-              }}
+              name="category"
+              onChange={handleChange}
             >
               <MenuItem value={"USAGE_SUSPECTED"}>
                 Suspected Usage of drugs
@@ -247,9 +217,8 @@ export default function DrugReportForm(props: any) {
               required
               minRows={5}
               maxRows={12}
-              onChange={(e) => {
-                setFormVars({ ...formVars, description: e.target.value });
-              }}
+              name="description"
+              onBlur={handleChange}
             />
           </Stack>
 
@@ -290,75 +259,6 @@ export default function DrugReportForm(props: any) {
                   </Stack>
                 </RadioGroup>
               </FormControl>
-
-              {enableFaceOption === true ? (
-                <>
-                  <FormControl>
-                    <FormLabel id="gender">Gender</FormLabel>
-                    <RadioGroup
-                      aria-labelledby="gender"
-                      value={gender}
-                      name="gender-group"
-                      onChange={(e, value) => {
-                        setGender(value as "female" | "male");
-                      }}
-                    >
-                      <Stack direction="row">
-                        <FormControlLabel
-                          value="female"
-                          control={<Radio />}
-                          label="Female"
-                        />
-                        <FormControlLabel
-                          value="male"
-                          control={<Radio />}
-                          label="Male"
-                        />
-                      </Stack>
-                    </RadioGroup>
-                  </FormControl>
-                  {!formVars.image && (
-                    <iframe
-                      id="frame"
-                      height={600}
-                      title="Profile Pic"
-                      src={`https://yourappname.readyplayer.me/avatar?clearCache&bodyType=fullbody&gender=${gender}`}
-                      onLoad={() => {
-                        setFormVars({ ...formVars, image: null });
-                      }}
-                    ></iframe>
-                  )}
-                </>
-              ) : null}
-              {imageLoading && <CircularProgress sx={{ padding: 5 }} />}
-              {!imageLoading && formVars.image != null && (
-                <Button
-                  variant="contained"
-                  color="warning"
-                  sx={{ width: "10rem", height: "2rem", marginTop: "10px" }}
-                  onClick={() => {
-                    setImageLoading(false);
-                    setFormVars({ ...formVars, image: null });
-                  }}
-                >
-                  Reset Face Data
-                </Button>
-              )}
-              {formVars.image && (
-                <img
-                  src={formVars.image}
-                  width={200}
-                  height={200}
-                  style={{ border: imageLoading ? "" : "3px solid black" }}
-                  alt="No Avatar Found"
-                  onError={() => {
-                    setImageLoading(false);
-                  }}
-                  onLoad={() => {
-                    setImageLoading(false);
-                  }}
-                ></img>
-              )}
             </Stack>
           </Stack>
 
@@ -374,6 +274,7 @@ export default function DrugReportForm(props: any) {
               })}
             </Alert>
           )}
+
           <LoadingButton
             type="submit"
             loading={submitLoading}

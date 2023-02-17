@@ -50,45 +50,43 @@ export function PlaceSearch(props: any) {
   const [options, setOptions] = React.useState<MapData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [input, setInput] = React.useState<string>("kerala");
+  const AbortControllerRef = React.useRef<null | AbortController>(null);
 
-  const getData = (searchTerm: string, signal: AbortSignal) => {
-    const search = searchTerm.replace(" ", "+");
+  const getData = async (searchTerm: string) => {
+    if (AbortControllerRef.current) AbortControllerRef.current.abort();
+    AbortControllerRef.current = new AbortController();
+    const signal = AbortControllerRef.current.signal;
 
     const url = new URL("https://nominatim.openstreetmap.org/search.php");
-    url.searchParams.append("q", search);
+    url.searchParams.append("q", searchTerm);
     url.searchParams.append("accept-language", "en");
     url.searchParams.append("countrycodes", "IN");
     url.searchParams.append("format", "jsonv2");
 
-    setLoading(true);
-
-    fetch(url.href, {
-      signal,
+    const data = await fetch(url.href, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const updatedOptions = json.map(
-          ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
-            return { title: display_name, id: place_id, lat, lon };
-          }
-        );
-        setOptions(updatedOptions);
-        setLoading(false);
-      })
-      .catch((e) => {});
+      signal,
+    });
+
+    const json = await data.json();
+
+    const updatedOptions = json.map(
+      ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
+        return { title: display_name, id: place_id, lat, lon };
+      }
+    );
+
+    setOptions(updatedOptions);
   };
 
-  React.useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    getData(input, signal);
-
-    return () => controller.abort();
+  React.useMemo(() => {
+    setLoading(true);
+    getData(input)
+      .then(() => setLoading(false))
+      .catch((e) => {});
   }, [input]);
 
   return (
