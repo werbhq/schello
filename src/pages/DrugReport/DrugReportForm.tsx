@@ -28,7 +28,6 @@ import type { MapData } from "../../models/MapData";
 import { addReport } from "../../api/report";
 import { Report } from "../../models/Report";
 import { LoadingButton } from "@mui/lab";
-import { SaveOutlined } from "@mui/icons-material";
 
 interface FormVars {
   dateIncident: dayjs.Dayjs | null;
@@ -371,7 +370,6 @@ export default function DrugReportForm(props: any) {
           <LoadingButton
             type="submit"
             loading={submitLoading}
-            loadingPosition="start"
             variant="contained"
             sx={{ width: "8rem", marginTop: "20px" }}
           >
