@@ -11,14 +11,7 @@ function VisualizePage() {
 
   useEffect(() => {
     setLoading(true);
-    getEncryptedReports().then((e) => {
-      const arr = [];
-
-      for (let i = 0; i < 500; i++) {
-        arr.push(...e);
-      }
-      setReports(arr);
-    });
+    getEncryptedReports().then(setReports);
     setLoading(false);
   }, []);
 
