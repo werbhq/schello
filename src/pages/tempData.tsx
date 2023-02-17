@@ -61,7 +61,7 @@ let videoList: GeneralVideo[] = [
     title: "Benzo Dope and Tranq: The Next Wave of the Overdose Crisis",
     author: "EXCISE",
     visible: true,
-    timestamp: dayjs('2019-01-25').format('DD MMM, YYYY'),
+    timestamp: dayjs("2019-01-25").toISOString(),
     thumbnail: "https://img.youtube.com/vi/82QhIOgJy1c/sddefault.jpg",
     description: `<span dir="auto" class="style-scope yt-formatted-string">More than 100,000 Americans died of a drug overdose in 2021, the worst year on record. The newest wave of the overdose crisis involves man-made chemicals, including animal tranquilizers, that are being combined with fentanyl to make street drugs that are deadlier and more addictive.
   With access to an undisguised fentanyl dealer, Beyond Fentanyl looks at how drugs like “benzo dope” and “tranq” are ravaging North American communities and how U.S. policy affected the latest flood of synthetic street drugs.
@@ -69,12 +69,12 @@ let videoList: GeneralVideo[] = [
     platform: "YOUTUBE",
     url: "https://www.youtube.com/watch?v=82QhIOgJy1c",
   },
-  { 
+  {
     id: "82QhIOgJy1c",
     title: "Benzo Dope and Tranq: The Next Wave of the Overdose Crisis",
     author: "EXCISE",
     visible: true,
-    timestamp: dayjs('2019-01-25').format('DD MMM, YYYY'),
+    timestamp: dayjs("2019-01-25").toISOString(),
     thumbnail: "https://img.youtube.com/vi/82QhIOgJy1c/sddefault.jpg",
     description: `<span dir="auto" class="style-scope yt-formatted-string">More than 100,000 Americans died of a drug overdose in 2021, the worst year on record. The newest wave of the overdose crisis involves man-made chemicals, including animal tranquilizers, that are being combined with fentanyl to make street drugs that are deadlier and more addictive.
   With access to an undisguised fentanyl dealer, Beyond Fentanyl looks at how drugs like “benzo dope” and “tranq” are ravaging North American communities and how U.S. policy affected the latest flood of synthetic street drugs.

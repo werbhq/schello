@@ -30,7 +30,6 @@ function HomePage() {
     getEvents().then(setEvents);
   }, []);
 
-
   return (
     <Grid container spacing={2} sx={{ padding: "20px" }}>
       <Grid
@@ -76,6 +75,7 @@ function HomePage() {
           ))}
         </List>
       </Grid>
+
       <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
         <h3>Events</h3>
         <List style={{ maxHeight: "350px", overflow: "auto", padding: "0px" }}>

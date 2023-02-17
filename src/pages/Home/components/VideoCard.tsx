@@ -6,22 +6,20 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import stringToHtml from "html-react-parser";
-import { Collapse, Divider, Grid, IconButton, Stack } from "@mui/material";
+import { Collapse, Grid, Stack } from "@mui/material";
 import {
   Error,
   Google,
   Instagram,
   Schedule,
   YouTube,
-  YoutubeSearchedFor,
 } from "@mui/icons-material";
 import Expand from "../../../components/ui/Expand";
 
 export default function VideoCard(props: any) {
-  const [readMore, setReadMore] = React.useState<Boolean>(false);
-  const [expande, setExpande] = React.useState(false);
-  const handleExpan = () => setExpande(!expande);
-  let discription: any = stringToHtml(props.details.description);
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpand = () => setExpanded(!expanded);
+  let description: any = stringToHtml(props.details.description);
 
   function renderSwitch(param: string): JSX.Element {
     switch (param) {
@@ -35,6 +33,7 @@ export default function VideoCard(props: any) {
         return <Error />;
     }
   }
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -44,16 +43,18 @@ export default function VideoCard(props: any) {
       />
       <CardContent>
         <Grid>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6">
             {props.details.title}
           </Typography>
         </Grid>
+
         <Grid container>
           <Typography style={{ left: "0px", padding: "0px 5px 0px 0px" }}>
             {props.details.author}
           </Typography>
           {renderSwitch(props.details.platform)}
         </Grid>
+
         <Grid container alignItems="center" justifyContent="center">
           <Stack direction="row" alignItems="center" justifyContent="center">
             <Schedule />
@@ -62,11 +63,11 @@ export default function VideoCard(props: any) {
             </p>
           </Stack>
 
-          <Expand expanded={expande} handleExpand={handleExpan} />
+          <Expand expanded={expanded} handleExpand={handleExpand} />
         </Grid>
-        <Collapse in={expande} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Typography variant="body2" color="text.secondary">
-            {readMore ? discription.slice(0, 100) : discription}
+            {description}
           </Typography>
         </Collapse>
       </CardContent>

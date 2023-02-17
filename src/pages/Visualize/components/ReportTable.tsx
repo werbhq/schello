@@ -2,7 +2,6 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Report } from "../../../models/Report";
 import dayjs from "dayjs";
-import { Tooltip } from "@mui/material";
 
 const columns: GridColDef<Report>[] = [
   {
