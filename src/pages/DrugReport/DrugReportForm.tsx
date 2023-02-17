@@ -1,15 +1,4 @@
 import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers";
-import Textarea from "@mui/joy/Textarea";
-import { PlaceSearch } from "./components/PlaceSearch";
-import DialogBox from "../../components/ui/CustomDialogBox";
-
 import {
   Button,
   CircularProgress,
@@ -22,10 +11,24 @@ import {
   FormControlLabel,
   Radio,
   Alert,
+  TextField,
+  Stack,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { TimePicker } from "@mui/x-date-pickers";
+import Textarea from "@mui/joy/Textarea";
+import { PlaceSearch } from "./components/PlaceSearch";
+
+import DialogBox from "../../components/ui/CustomDialogBox";
+
 import type { MapData } from "../../models/MapData";
 import { addReport } from "../../api/report";
 import { Report } from "../../models/Report";
+import { LoadingButton } from "@mui/lab";
+
 interface FormVars {
   dateIncident: dayjs.Dayjs | null;
   timeFrom: dayjs.Dayjs | null;
@@ -53,24 +56,25 @@ export default function DrugReportForm(props: any) {
   const [gender, setGender] = React.useState<"female" | "male">("female");
   const [enableFaceOption, setEnableFaceOption] = React.useState(false);
   const [imageLoading, setImageLoading] = React.useState(false);
+  const [submitLoading, setSubmitLoading] = React.useState(false);
 
   const [error, setError] = React.useState<string[]>([]);
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const dialog = [
-    {
+  const dialog = {
+    SUCCESS: {
       title: "Success",
       description: "Your report has been submitted",
     },
-    {
+    WAIT: {
       title: "Please wait",
       description: "Facial features image is still loading",
     },
-    {
+    FAILED: {
       title: "Failed",
       description: "Your report has not been submitted",
     },
-  ];
+  };
 
   const [dialogData, setDialogData] = React.useState({
     title: "Success",
@@ -91,7 +95,7 @@ export default function DrugReportForm(props: any) {
     const new_errors = [];
 
     if (imageLoading) {
-      setDialogData(dialog[1]);
+      setDialogData(dialog.WAIT);
       setDialogOpen(true);
       return;
     }
@@ -119,12 +123,14 @@ export default function DrugReportForm(props: any) {
     };
 
     try {
+      setSubmitLoading(true);
       await addReport(parsedFormVars as Report);
-      setDialogData(dialog[0]);
+      setDialogData(dialog.SUCCESS);
       setDialogOpen(true);
+      setSubmitLoading(false);
     } catch (error) {
       console.error(error);
-      setDialogData(dialog[2]);
+      setDialogData(dialog.FAILED);
       setDialogOpen(true);
     }
   };
@@ -361,13 +367,14 @@ export default function DrugReportForm(props: any) {
               })}
             </Alert>
           )}
-          <Button
+          <LoadingButton
             type="submit"
+            loading={submitLoading}
             variant="contained"
-            sx={{ width: "10rem", marginTop: "20px" }}
+            sx={{ width: "8rem", marginTop: "20px" }}
           >
             Submit
-          </Button>
+          </LoadingButton>
         </Stack>
       </form>
       <DialogBox

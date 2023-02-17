@@ -2,8 +2,11 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// const prod = "https://us-central1-merit-werb.cloudfunctions.net/serverCall";
-const dev = "http://localhost:5001/merit-werb/us-central1/serverCall";
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://us-central1-merit-werb.cloudfunctions.net/serverCall"
+    : "http://localhost:5001/merit-werb/us-central1/serverCall";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCsV-3C_U3ksRXdsZorW9RXy7PifGTR52w",
   authDomain: "merit-werb.firebaseapp.com",
@@ -15,7 +18,7 @@ const firebaseConfig = {
 };
 
 export const baseApi = axios.create({
-  baseURL: dev,
+  baseURL,
   headers: {},
 });
 

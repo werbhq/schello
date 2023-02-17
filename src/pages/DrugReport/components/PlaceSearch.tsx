@@ -50,51 +50,45 @@ export function PlaceSearch(props: any) {
   const [options, setOptions] = React.useState<MapData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [input, setInput] = React.useState<string>("kerala");
-  const previousController = React.useRef<AbortController>();
 
-  const getData = (searchTerm: string) => {
-    if (previousController.current) {
-      previousController.current.abort();
-      setLoading(false);
-    }
-    const controller = new AbortController();
-    const signal = controller.signal;
-    previousController.current = controller;
-
+  const getData = (searchTerm: string, signal: AbortSignal) => {
     const search = searchTerm.replace(" ", "+");
+
+    const url = new URL("https://nominatim.openstreetmap.org/search.php");
+    url.searchParams.append("q", search);
+    url.searchParams.append("accept-language", "en");
+    url.searchParams.append("countrycodes", "IN");
+    url.searchParams.append("format", "jsonv2");
 
     setLoading(true);
 
-    try {
-      fetch(
-        `https://nominatim.openstreetmap.org/search.php?q=${search}&accept-language=en&countrycodes=IN&format=jsonv2`,
-        {
-          signal,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (json) {
-          const updatedOptions = json.map(
-            ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
-              return { title: display_name, id: place_id, lat, lon };
-            }
-          );
-          setOptions(updatedOptions);
-          setLoading(false);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    fetch(url.href, {
+      signal,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        const updatedOptions = json.map(
+          ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
+            return { title: display_name, id: place_id, lat, lon };
+          }
+        );
+        setOptions(updatedOptions);
+        setLoading(false);
+      })
+      .catch((e) => {});
   };
 
   React.useEffect(() => {
-    getData(input);
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    getData(input, signal);
+
+    return () => controller.abort();
   }, [input]);
 
   return (
