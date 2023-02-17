@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Community from "./pages/Community/Community";
 import Error from "./pages/Error/Error";
 import HomePage from "./pages/Home/Home";
+import VisualizePage from "./pages/Visualize/Visualize";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="form" element={<DrugReportForm />} />
           <Route path="community" element={<Community />} />
+          <Route path="visualize" element={<VisualizePage />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>

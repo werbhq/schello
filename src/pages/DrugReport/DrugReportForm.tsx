@@ -13,6 +13,7 @@ import {
   Alert,
   TextField,
   Stack,
+  Link,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
@@ -28,6 +29,7 @@ import type { MapData } from "../../models/MapData";
 import { addReport } from "../../api/report";
 import { Report } from "../../models/Report";
 import { LoadingButton } from "@mui/lab";
+import { Link as LinkRouter } from "react-router-dom";
 
 interface FormVars {
   dateIncident: dayjs.Dayjs | null;
@@ -159,9 +161,15 @@ export default function DrugReportForm(props: any) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form onSubmit={handleSubmit}>
         <Stack margin={4} spacing={4} direction="column">
-          <Typography>
-            The more details you provide the better we can investigate your
-            report
+          <Typography variant="h3">Drug Report</Typography>
+
+          <Typography variant="h6">
+            <span style={{ color: "red" }}>We guarantee your privacy</span>. All
+            the data you submit is{" "}
+            <span style={{ color: "red" }}>encrypted</span> and can only be seen
+            by a authorized personnel from Excise Department.
+            <br /> You can see the stored reports data in our database{" "}
+            <LinkRouter to="/visualize">here</LinkRouter>
           </Typography>
 
           <Stack spacing={2}>
@@ -236,7 +244,7 @@ export default function DrugReportForm(props: any) {
           <Stack spacing={2}>
             <FormLabel>Description*</FormLabel>
             <Textarea
-              placeholder="Briefly describe what happened"
+              placeholder="Describe what happened. The more details you provide the better we can investigate your report."
               required
               minRows={5}
               maxRows={12}
