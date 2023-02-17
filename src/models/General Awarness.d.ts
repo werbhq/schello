@@ -17,6 +17,7 @@ export interface GeneralVideo {
   title: string;
   author: "EXCISE";
   visible: boolean;
+  thumbnail: string;
   timestamp: string;
   description: string; // HTML
   platform: "YOUTUBE" | "DAILY-MOTION" | "GOOGLE-DRIVE" | "REEL";
