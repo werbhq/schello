@@ -1,12 +1,7 @@
-import { useEffect } from "react";
-import { Grid, Box, Container } from "@mui/material";
-import UploadVideoArticleForm from "./components/UploadForm";
+import { Grid, Box, Container, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function CommunityPage() {
-  useEffect(() => {
-    // Fetches Data here
-  }, []);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -16,11 +11,6 @@ function CommunityPage() {
         alignItems="center"
         justifyContent="center"
         display="flex"
-        style={{
-          minHeight: "100vh",
-          paddingTop: "10px",
-          paddingBottom: "30px",
-        }}
       >
         <Grid item xs={12} sx={{ paddingTop: "30px", paddingBottom: "30px" }}>
           <Container component={"h2"} sx={{ textAlign: "center" }}>
@@ -28,7 +18,15 @@ function CommunityPage() {
           </Container>
         </Grid>
         <Grid>
-          <UploadVideoArticleForm />
+          <Button
+            color="inherit"
+            component={Link}
+            to="/community/form"
+            variant="contained"
+          >
+            Submit Your Experience here
+          </Button>
+          {/* TODO: Add articles, videos */}
         </Grid>
       </Grid>
     </Box>

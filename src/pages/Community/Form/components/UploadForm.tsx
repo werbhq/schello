@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
-import Editor from "./EventDescription";
+import Editor from "./Editor";
 import { LoadingButton } from "@mui/lab";
-import DialogBox from "../../../components/ui/CustomDialogBox";
-import { CommunityArticle, CommunityVideo } from "../../../models/Community";
-import { PlatFormThumbnailExtractor } from "../../../util/PlatfromThumbnail";
-import { addCommunityForm } from "../../../api/community_form";
+import DialogBox from "../../../../components/ui/CustomDialogBox";
+import { CommunityArticle, CommunityVideo } from "../../../../models/Community";
+import { PlatFormThumbnailExtractor } from "../../../../util/PlatfromThumbnail";
+import { addCommunityForm } from "../../../../api/community_form";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,
@@ -100,11 +100,8 @@ function UploadVideoArticleForm() {
 
   return (
     <div>
-      <form
-        style={{ maxWidth: "40rem", padding: "1.5rem" }}
-        onSubmit={handleSubmit}
-      >
-        <Stack direction="column" spacing={2}>
+      <form onSubmit={handleSubmit}>
+        <Stack direction="column" margin={2} spacing={2}>
           <TextField
             label="Title"
             variant="filled"
@@ -137,6 +134,7 @@ function UploadVideoArticleForm() {
             <MenuItem value="VIDEO">Video</MenuItem>
             <MenuItem value="ARTICLE">Article</MenuItem>
           </Select>
+
           {type === "VIDEO" && (
             <>
               <InputLabel>Platform</InputLabel>
@@ -190,7 +188,7 @@ function UploadVideoArticleForm() {
           <Editor
             placeholder="Enter the description of the event"
             setEditorHtml={setEditorHtml}
-          ></Editor>
+          />
 
           {error.length > 0 && (
             <Alert severity="error">
@@ -209,7 +207,7 @@ function UploadVideoArticleForm() {
             type="submit"
             loading={submitLoading}
             variant="contained"
-            sx={{ width: "8rem", marginTop: "50px" }}
+            sx={{ width: "100%", marginTop: "50px", alignSelf: "center" }}
           >
             Submit
           </LoadingButton>
