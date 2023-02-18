@@ -78,11 +78,7 @@ function UploadVideoArticleForm() {
     const new_errors = [];
 
     if (!email?.includes("@")) new_errors.push("Provide a valid email");
-
-    if (!isValidUrl(link)) {
-      new_errors.push("Provide a valid url");
-    }
-
+    if (!isValidUrl(link)) new_errors.push("Provide a valid url");
     if (editorHtml === "") new_errors.push("Please enter the description");
 
     if (new_errors.length > 0) {
@@ -94,7 +90,6 @@ function UploadVideoArticleForm() {
       setSubmitLoading(true);
       // Add post handler
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      setFormVars(defaultFormVars);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
     } catch (error) {
       setDialogData(DIALOG_MESSAGES.FAILED);
