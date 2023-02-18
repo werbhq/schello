@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import type { MapData } from "../../../models/MapData";
@@ -27,6 +26,7 @@ function AutocompleteCustom({
   return (
     <Stack direction="row" spacing={2} alignItems="center">
       <Autocomplete
+        loading={loading}
         options={options}
         onInputChange={(e, value: any) => {
           setInput(value);
@@ -40,7 +40,6 @@ function AutocompleteCustom({
         }}
         renderInput={(params) => <TextField {...params} />}
       />
-      {loading && <CircularProgress />}
     </Stack>
   );
 }
