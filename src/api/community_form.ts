@@ -9,17 +9,16 @@ type CommunityForm = Omit<
 >;
 
 export const addCommunityForm = async (
-  data: CommunityForm & { type: "VIDEO" | "ARTICLE" }
+  data: CommunityForm,
+  type: "VIDEO" | "ARTICLE"
 ) => {
   const communityRef = collection(
     fireStore,
-    data.type === "ARTICLE"
-      ? MAPPING.COMMUNITY.ARTICLE
-      : MAPPING.COMMUNITY.VIDEO
+    type === "ARTICLE" ? MAPPING.COMMUNITY.ARTICLE : MAPPING.COMMUNITY.VIDEO
   );
 
   const refinedData =
-    data.type === "ARTICLE"
+    type === "ARTICLE"
       ? {
           title: data.title,
           author: data.author,

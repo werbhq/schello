@@ -12,17 +12,14 @@ import { useState } from "react";
 import Editor from "./EventDescription";
 import { LoadingButton } from "@mui/lab";
 import DialogBox from "../../../components/ui/CustomDialogBox";
+import { CommunityArticle, CommunityVideo } from "../../../models/Community";
+import { PlatFormThumbnailExtractor } from "../../../util/PlatfromThumbnail";
+import { addCommunityForm } from "../../../api/community_form";
 
-interface FormVars {
-  title: string | null;
-  author: string | null;
-  email: string | null;
-  type: "VIDEO" | "ARTICLE";
-  platform: string | null;
-  link: string | null;
-  description: string;
-}
-
+type CommunityForm = Omit<
+  CommunityVideo & CommunityArticle,
+  "id" | "timestamp" | "visible"
+>;
 const DIALOG_MESSAGES = {
   SUCCESS: {
     title: "Success",
@@ -35,18 +32,20 @@ const DIALOG_MESSAGES = {
 };
 
 function UploadVideoArticleForm() {
-  const defaultFormVars: FormVars = {
+  const defaultFormVars: CommunityForm = {
     title: "",
     description: "",
     author: "",
     email: "",
-    type: "VIDEO",
-    platform: "Youtube",
-    link: "",
+    platform: "YOUTUBE",
+    url: "",
+    thumbnail: "",
   };
 
   const [editorHtml, setEditorHtml] = useState("");
-  const [formVars, setFormVars] = React.useState<FormVars>(defaultFormVars);
+  const [type, setType] = useState<"VIDEO" | "ARTICLE">("VIDEO");
+  const [formVars, setFormVars] =
+    React.useState<CommunityForm>(defaultFormVars);
   const [submitLoading, setSubmitLoading] = React.useState(false);
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -69,16 +68,17 @@ function UploadVideoArticleForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData: FormVars = { ...formVars, description: editorHtml };
+    const formData = { ...formVars, description: editorHtml };
 
-    const { email, link } = formVars;
+    const { email, url } = formVars;
 
     // Add error handling here
     setError([]);
     const new_errors = [];
 
     if (!email?.includes("@")) new_errors.push("Provide a valid email");
-    if (!isValidUrl(link)) new_errors.push("Provide a valid url");
+    if (type === "VIDEO" && !isValidUrl(url))
+      new_errors.push("Provide a valid url");
     if (editorHtml === "") new_errors.push("Please enter the description");
 
     if (new_errors.length > 0) {
@@ -88,8 +88,7 @@ function UploadVideoArticleForm() {
 
     try {
       setSubmitLoading(true);
-      // Add post handler
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await addCommunityForm(formData, type);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
     } catch (error) {
       setDialogData(DIALOG_MESSAGES.FAILED);
@@ -131,36 +130,59 @@ function UploadVideoArticleForm() {
           <Select
             label="Type"
             name="type"
-            value={formVars.type}
-            onChange={handleForm}
+            value={type}
+            onChange={(e) => setType(e.target.value as "VIDEO" | "ARTICLE")}
             required
           >
             <MenuItem value="VIDEO">Video</MenuItem>
             <MenuItem value="ARTICLE">Article</MenuItem>
           </Select>
-          {formVars.type === "VIDEO" && (
+          {type === "VIDEO" && (
             <>
               <InputLabel>Platform</InputLabel>
               <Select
                 label="Platform"
                 defaultValue={"YOUTUBE"}
-                name="Platform"
-                onChange={handleForm}
+                name="platform"
+                onChange={(e) => {
+                  const thumbnail = new PlatFormThumbnailExtractor(
+                    formVars.url,
+                    e.target.value as typeof formVars.platform
+                  ).getThumbnailUrl();
+                  setFormVars({
+                    ...formVars,
+                    platform: e.target.value as typeof formVars.platform,
+                    thumbnail,
+                  });
+                }}
                 required
               >
                 <MenuItem value="YOUTUBE">Youtube</MenuItem>
                 <MenuItem value="REELS">Reels</MenuItem>
-                <MenuItem value="DAILY_MOTION">Daily Motion</MenuItem>
-                <MenuItem value="G_DRIVE">Google Drive</MenuItem>
+                <MenuItem value="DAILY-MOTION">Daily Motion</MenuItem>
+                <MenuItem value="GOOGLE-DRIVE">Google Drive</MenuItem>
               </Select>
 
               <TextField
                 label="Link"
                 variant="filled"
-                name="link"
-                onChange={handleForm}
+                name="url"
+                onBlur={(e) => {
+                  const thumbnail = new PlatFormThumbnailExtractor(
+                    e.target.value,
+                    formVars.platform
+                  ).getThumbnailUrl();
+                  setFormVars({ ...formVars, thumbnail, url: e.target.value });
+                }}
                 required
               />
+              {formVars.thumbnail !== "" && (
+                <img
+                  src={formVars.thumbnail}
+                  style={{ maxHeight: "400px" }}
+                  alt="Please Provide correct link to load thumbnail"
+                />
+              )}
             </>
           )}
 
