@@ -24,6 +24,8 @@ export interface GeneralVideo {
   url: string;
 }
 
+export type PlatFormOptions = GeneralVideo["platform"];
+
 export interface GeneralNews {
   id: string;
   title: string;
