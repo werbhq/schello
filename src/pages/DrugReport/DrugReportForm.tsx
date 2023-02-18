@@ -115,13 +115,13 @@ export default function DrugReportForm(props: any) {
       setSubmitLoading(true);
       await addReport(parsedFormVars as Report);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
-      setDialogOpen(true);
-      setSubmitLoading(false);
     } catch (error) {
       console.error(error);
       setDialogData(DIALOG_MESSAGES.FAILED);
-      setDialogOpen(true);
     }
+
+    setDialogOpen(true);
+    setSubmitLoading(false);
   };
 
   const handleChange = async (e: any) =>
