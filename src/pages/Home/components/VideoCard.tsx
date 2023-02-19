@@ -39,7 +39,8 @@ export default function VideoCard(props: GeneralVideo) {
     <Card
       sx={{
         minHeight: "400px",
-        width: "345px",
+        minWidth: "320px",
+        maxWidth: "320px",
         margin: "5px",
         whiteSpaceP: "nowrap",
       }}
