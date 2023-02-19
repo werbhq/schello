@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import stringToHtml from "html-react-parser";
 import { Collapse, Grid, Stack } from "@mui/material";
+import { GeneralVideo } from "../../../models/General Awarness";
 import {
   Error,
   Google,
@@ -16,10 +17,10 @@ import {
 } from "@mui/icons-material";
 import Expand from "../../../components/ui/Expand";
 
-export default function VideoCard(props: any) {
+export default function VideoCard(props: GeneralVideo) {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpand = () => setExpanded(!expanded);
-  let description: any = stringToHtml(props.details.description);
+  let description: any = stringToHtml(props.description);
 
   function renderSwitch(param: string): JSX.Element {
     switch (param) {
@@ -35,31 +36,40 @@ export default function VideoCard(props: any) {
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        height: 480,
+        width: 345,
+        maxWidth: 345,
+        minWidth: 345,
+        margin: "5px",
+        whiteSpaceP: "nowrap",
+      }}
+    >
       <CardMedia
         sx={{ height: 170 }}
-        image={props.details.thumbnail}
+        image={props.thumbnail}
         title="green iguana"
       />
       <CardContent>
         <Grid>
           <Typography gutterBottom variant="h6">
-            {props.details.title}
+            {props.title}
           </Typography>
         </Grid>
 
         <Grid container>
           <Typography style={{ left: "0px", padding: "0px 5px 0px 0px" }}>
-            {props.details.author}
+            {props.author}
           </Typography>
-          {renderSwitch(props.details.platform)}
+          {renderSwitch(props.platform)}
         </Grid>
 
         <Grid container alignItems="center" justifyContent="center">
           <Stack direction="row" alignItems="center" justifyContent="center">
             <Schedule />
             <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
-              {props.details.timestamp}
+              {new Date(props.timestamp).toDateString()}
             </p>
           </Stack>
 
@@ -73,7 +83,7 @@ export default function VideoCard(props: any) {
       </CardContent>
 
       <CardActions>
-        <Button size="small" href={props.details.url}>
+        <Button size="small" href={props.url} target="_blank">
           Watch
         </Button>
       </CardActions>

@@ -4,4 +4,8 @@ export const MAPPING = {
     ARTICLE: "community-article",
     VIDEO: "community-video",
   },
+  EXCISE: {
+    NEWS: "excise-news",
+    VIDEO: "excise-video",
+  },
 };

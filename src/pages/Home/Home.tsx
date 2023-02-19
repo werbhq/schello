@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Grid,
-  Box,
-  Container,
-  Divider,
-  Card,
-  List,
-  ListItem,
-} from "@mui/material";
+import { Grid, Container, Divider, List, ListItem } from "@mui/material";
 import EventCard from "./components/EventCard";
 import {
   Event,
@@ -20,14 +12,17 @@ import { newsList, videoList } from "../tempData";
 import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
+import { getExciseNews, getExciseVideos } from "../../api/excise";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [videos, setVideos] = useState<GeneralVideo[]>(videoList);
-  const [news, setNews] = useState<GeneralNews[]>(newsList);
+  const [videos, setVideos] = useState<GeneralVideo[]>([]);
+  const [news, setNews] = useState<GeneralNews[]>([]);
 
   useEffect(() => {
     getEvents().then(setEvents);
+    getExciseVideos().then(setVideos);
+    getExciseNews().then(setNews);
   }, []);
 
   return (
@@ -38,8 +33,8 @@ function HomePage() {
         sx={{ paddingTop: "50px !important", paddingBottom: "30px !important" }}
       >
         <Container component={"h2"} sx={{ textAlign: "center" }}>
-          Our mission is to catch drug selling people like Mr nithin.... ADD
-          MORE
+          Schello is a school monitoring system to track down and reduce
+          substance abuse
         </Container>
       </Grid>
       <Divider sx={{ width: "100%" }} />
@@ -51,12 +46,12 @@ function HomePage() {
             display: "flex",
             flexDirection: "row",
             padding: 0,
+            maxWidth: "100%",
+            overflow: "auto",
           }}
         >
           {videos.map((e, index) => (
-            <ListItem key={index}>
-              <VideoCard details={e} key={index} />
-            </ListItem>
+            <VideoCard {...e} key={index} />
           ))}
         </List>
 
@@ -66,12 +61,12 @@ function HomePage() {
             display: "flex",
             flexDirection: "row",
             padding: 0,
+            maxWidth: "100%",
+            overflow: "auto",
           }}
         >
           {news.map((e, index) => (
-            <ListItem key={index}>
-              <NewsCard {...e} key={index} />
-            </ListItem>
+            <NewsCard {...e} key={index} />
           ))}
         </List>
       </Grid>
