@@ -4,8 +4,8 @@ import { Event } from "../models/General Awarness";
 import { MAPPING } from "./mapping";
 
 export const getEvents = async () => {
-  const event = collection(fireStore, MAPPING.EVENTS);
-  const eventsSnapshot = await getDocs(event);
-  const events = eventsSnapshot.docs.map((doc) => doc.data());
-  return events as Event[];
+  const ref = collection(fireStore, MAPPING.EVENTS);
+  const snapshot = await getDocs(ref);
+  const data = snapshot.docs.map((doc) => doc.data());
+  return data as Event[];
 };

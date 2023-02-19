@@ -12,6 +12,7 @@ import { newsList, videoList } from "../tempData";
 import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
+import { getExciseNews, getExciseVideos } from "../../api/excise";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -20,6 +21,10 @@ function HomePage() {
 
   useEffect(() => {
     getEvents().then(setEvents);
+
+    // TODO: Enable these when data is ready in firebase
+    // getExciseVideos().then(setVideos);
+    // getExciseNews().then(setNews);
   }, []);
 
   return (
