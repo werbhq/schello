@@ -31,6 +31,8 @@ export const addCommunityForm = async (
           email: data.email,
           description: data.description,
           platform: data.platform,
+          url: data.url,
+          thumbnail: data.thumbnail,
         };
 
   await addDoc(communityRef, {
