@@ -1,7 +1,18 @@
 import { Grid, Box, Container, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { CommunityArticle, CommunityVideo } from "../../models/Community";
+import { useEffect, useState } from "react";
+import { getCommunityArticle, getCommunityVideos } from "../../api/community";
 
 function CommunityPage() {
+  const [videos, setVideos] = useState<CommunityVideo[]>([]);
+  const [articles, setArticles] = useState<CommunityArticle[]>([]);
+
+  useEffect(() => {
+    getCommunityVideos().then(setVideos);
+    getCommunityArticle().then(setArticles);
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid

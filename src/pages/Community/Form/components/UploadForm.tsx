@@ -14,7 +14,7 @@ import { LoadingButton } from "@mui/lab";
 import DialogBox from "../../../../components/ui/CustomDialogBox";
 import { CommunityArticle, CommunityVideo } from "../../../../models/Community";
 import { PlatForm } from "../../../../util/Platfrom";
-import { addCommunityForm } from "../../../../api/community_form";
+import { addCommunityForm } from "../../../../api/community";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,
