@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Grid,
-  Box,
-  Container,
-  Divider,
-  Card,
-  List,
-  ListItem,
-} from "@mui/material";
+import { Grid, Container, Divider, List, ListItem } from "@mui/material";
 import EventCard from "./components/EventCard";
 import {
   Event,
@@ -51,12 +43,12 @@ function HomePage() {
             display: "flex",
             flexDirection: "row",
             padding: 0,
+            maxWidth: "100%",
+            overflow: "auto",
           }}
         >
           {videos.map((e, index) => (
-            <ListItem key={index}>
-              <VideoCard details={e} key={index} />
-            </ListItem>
+            <VideoCard {...e} key={index} />
           ))}
         </List>
 
@@ -66,12 +58,12 @@ function HomePage() {
             display: "flex",
             flexDirection: "row",
             padding: 0,
+            maxWidth: "100%",
+            overflow: "auto",
           }}
         >
           {news.map((e, index) => (
-            <ListItem key={index}>
-              <NewsCard {...e} key={index} />
-            </ListItem>
+            <NewsCard {...e} key={index} />
           ))}
         </List>
       </Grid>
