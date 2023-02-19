@@ -1,6 +1,11 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
-import { DocumentData, QuerySnapshot, getFirestore } from "firebase/firestore";
+import {
+  DocumentData,
+  QuerySnapshot,
+  getFirestore,
+  connectFirestoreEmulator,
+} from "firebase/firestore";
 import { convertTimeStamp } from "../util/TimeStamp";
 
 const baseURL =
@@ -18,10 +23,16 @@ const firebaseConfig = {
   measurementId: "G-GHVRHTZN0E",
 };
 
+const emulate = false;
+
 export const baseApi = axios.create({
   baseURL,
   headers: {},
 });
+
+const app = initializeApp(firebaseConfig);
+export const fireStore = getFirestore(app);
+if (emulate) connectFirestoreEmulator(fireStore, "localhost", 8090);
 
 export const processSnapshot = (e: QuerySnapshot<DocumentData>) => {
   return e.docs
@@ -29,6 +40,3 @@ export const processSnapshot = (e: QuerySnapshot<DocumentData>) => {
     .filter((e) => e.visible)
     .map(convertTimeStamp);
 };
-
-const app = initializeApp(firebaseConfig);
-export const fireStore = getFirestore(app);

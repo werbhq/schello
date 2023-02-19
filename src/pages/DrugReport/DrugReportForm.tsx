@@ -92,8 +92,8 @@ export default function DrugReportForm(props: any) {
         "Incident <from time> cannot be after incident <to time>"
       );
 
-    if (formVars.description.split(" ").length < 10)
-      new_errors.push("Provide a <description> greater than 10 words");
+    if (formVars.description.split(" ").length < 5)
+      new_errors.push("Provide a <description> greater than 5 words");
 
     if (formVars.location == null)
       new_errors.push("Provide a <rough location>");
@@ -161,6 +161,7 @@ export default function DrugReportForm(props: any) {
                   dateIncident: newValue as dayjs.Dayjs,
                 });
               }}
+              inputFormat="DD/MM/YYYY"
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: 220 }} />
               )}
