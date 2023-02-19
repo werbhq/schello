@@ -45,13 +45,13 @@ export const addCommunityForm = async (
 export const getCommunityVideos = async () => {
   const videoRef = collection(fireStore, MAPPING.COMMUNITY.VIDEO);
   const snapshot = await getDocs(videoRef);
-  const data = snapshot.docs.map((doc) => doc.data());
+  const data = snapshot.docs.map((doc) => doc.data()).filter((e) => e.visible);
   return data as CommunityVideo[];
 };
 
 export const getCommunityArticle = async () => {
   const newsRef = collection(fireStore, MAPPING.COMMUNITY.ARTICLE);
   const snapshot = await getDocs(newsRef);
-  const data = snapshot.docs.map((doc) => doc.data());
+  const data = snapshot.docs.map((doc) => doc.data()).filter((e) => e.visible);
   return data as CommunityArticle[];
 };

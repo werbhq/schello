@@ -4,7 +4,7 @@ import EventCard from "./components/EventCard";
 import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
-import { getExciseNews, getExciseVideos } from "../../api/excise";
+import { getGeneralNews, getGeneralVideos } from "../../api/general";
 import {
   Event,
   GeneralNews,
@@ -19,8 +19,8 @@ function HomePage() {
 
   useEffect(() => {
     getEvents().then(setEvents);
-    getExciseVideos().then(setVideos);
-    getExciseNews().then(setNews);
+    getGeneralVideos().then(setVideos);
+    getGeneralNews().then(setNews);
   }, []);
 
   return (

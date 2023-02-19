@@ -6,6 +6,6 @@ import { MAPPING } from "./mapping";
 export const getEvents = async () => {
   const ref = collection(fireStore, MAPPING.EVENTS);
   const snapshot = await getDocs(ref);
-  const data = snapshot.docs.map((doc) => doc.data());
+  const data = snapshot.docs.map((doc) => doc.data()).filter((e) => e.visible);
   return data as Event[];
 };
