@@ -1,6 +1,6 @@
 export interface MapData {
+  id: string;
   title: string;
-  id: number;
-  lat: string;
-  lon: string;
+  lat: number;
+  lon: number;
 }

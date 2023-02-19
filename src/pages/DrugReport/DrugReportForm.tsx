@@ -1,42 +1,45 @@
-import * as React from "react";
-import {
-  MenuItem,
-  Select,
-  Typography,
-  FormLabel,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Alert,
-  TextField,
-  Stack,
-} from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers";
 import Textarea from "@mui/joy/Textarea";
+import {
+  Alert,
+  Autocomplete,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { TimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import * as React from "react";
+import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
 
-import DialogBox from "../../components/ui/CustomDialogBox";
-
-import type { MapData } from "../../models/MapData";
-import { addReport } from "../../api/report";
-import { Report } from "../../models/Report";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
+import { addReport } from "../../api/report";
+import { MapData } from "../../models/MapData";
+import { Report } from "../../models/Report";
 
-interface FormVars {
-  dateIncident: dayjs.Dayjs | null;
-  timeFrom: dayjs.Dayjs | null;
-  timeTo: dayjs.Dayjs | null;
-  category: string | null;
-  description: string;
-  image: string | null;
+import student_data from "../../constant/student_data.json";
+const studentData: { [index: string]: { id: string } } = student_data;
+
+type FormVars = Omit<
+  Report,
+  "dateIncident" | "timeFrom" | "timeTo" | "location"
+> & {
+  dateIncident: dayjs.Dayjs;
+  timeFrom: dayjs.Dayjs;
+  timeTo: dayjs.Dayjs;
   location: MapData | null;
-}
+};
 
 const DIALOG_MESSAGES = {
   SUCCESS: {
@@ -55,14 +58,16 @@ const DIALOG_MESSAGES = {
 
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
-  const defaultFormVars = {
+
+  const defaultFormVars: FormVars = {
     dateIncident: currentTime,
     timeFrom: currentTime,
     timeTo: currentTime.add(2, "hour"),
     category: "USAGE_SUSPECTED",
     description: "",
-    image: null,
     location: null,
+    studentId: null,
+    status: "NEW",
   };
 
   const [formVars, setFormVars] = React.useState<FormVars>(defaultFormVars);
@@ -77,43 +82,46 @@ export default function DrugReportForm(props: any) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    const {
-      timeFrom: time_from,
-      timeTo: time_to,
-      description,
-      location,
-    } = formVars;
-
+    console.log(formVars);
     // Handle Errors
     setError([]);
     const new_errors = [];
 
-    if (time_from?.isAfter(time_to))
+    if (formVars.timeFrom?.isAfter(formVars.timeTo))
       new_errors.push(
         "Incident <from time> cannot be after incident <to time>"
       );
 
-    if (description.split(" ").length < 10)
+    if (formVars.description.split(" ").length < 10)
       new_errors.push("Provide a <description> greater than 10 words");
 
-    if (location == null) new_errors.push("Provide a <rough location>");
+    if (formVars.location == null)
+      new_errors.push("Provide a <rough location>");
+
+    if (
+      (formVars.category === "USAGE_SUSPECTED" ||
+        formVars.category === "USAGE_CONFIRMED") &&
+      formVars.studentId === null
+    ) {
+      new_errors.push("Provide a <Student Name>");
+    }
 
     if (new_errors.length > 0) {
       setError(new_errors);
       return;
     }
 
-    const parsedFormVars = {
+    const parsedFormVars: Report = {
       ...formVars,
-      dateIncident: formVars.dateIncident?.toISOString(),
-      timeFrom: formVars.timeFrom?.toISOString(),
-      timeTo: formVars.timeTo?.toISOString(),
+      dateIncident: formVars.dateIncident.toISOString(),
+      timeFrom: formVars.timeFrom.toISOString(),
+      timeTo: formVars.timeTo.toISOString(),
+      location: formVars.location as Report["location"],
     };
 
     try {
       setSubmitLoading(true);
-      await addReport(parsedFormVars as Report);
+      await addReport(parsedFormVars);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
     } catch (error) {
       console.error(error);
@@ -148,7 +156,10 @@ export default function DrugReportForm(props: any) {
               views={["year", "month", "day"]}
               value={formVars.dateIncident}
               onChange={(newValue) => {
-                setFormVars({ ...formVars, dateIncident: newValue });
+                setFormVars({
+                  ...formVars,
+                  dateIncident: newValue as dayjs.Dayjs,
+                });
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: 220 }} />
@@ -163,7 +174,10 @@ export default function DrugReportForm(props: any) {
                 label="From"
                 value={formVars.timeFrom}
                 onChange={(newValue) => {
-                  setFormVars({ ...formVars, timeFrom: newValue });
+                  setFormVars({
+                    ...formVars,
+                    timeFrom: newValue as dayjs.Dayjs,
+                  });
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
@@ -174,7 +188,7 @@ export default function DrugReportForm(props: any) {
                 label="To"
                 value={formVars.timeTo}
                 onChange={(newValue) => {
-                  setFormVars({ ...formVars, timeTo: newValue });
+                  setFormVars({ ...formVars, timeTo: newValue as dayjs.Dayjs });
                 }}
                 renderInput={(params) => (
                   <TextField {...params} sx={{ width: 150 }} />
@@ -210,6 +224,33 @@ export default function DrugReportForm(props: any) {
             </Select>
           </Stack>
 
+          {["USAGE_SUSPECTED", "USAGE_CONFIRMED"].includes(
+            formVars.category
+          ) && (
+            <Stack spacing={2}>
+              <FormLabel id="student-select">Student Name*</FormLabel>
+              <Autocomplete
+                disableClearable
+                options={Object.keys(studentData)}
+                onChange={(e, value) => {
+                  setFormVars({
+                    ...formVars,
+                    studentId: studentData[value].id,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search input"
+                    InputProps={{
+                      ...params.InputProps,
+                      type: "search",
+                    }}
+                  />
+                )}
+              />
+            </Stack>
+          )}
           <Stack spacing={2}>
             <FormLabel>Description*</FormLabel>
             <Textarea
@@ -223,7 +264,7 @@ export default function DrugReportForm(props: any) {
           </Stack>
 
           <Stack spacing={2}>
-            <FormLabel>Rough Location*</FormLabel>
+            <FormLabel>Location*</FormLabel>
             <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
           </Stack>
 
