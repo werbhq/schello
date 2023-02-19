@@ -13,7 +13,7 @@ import Editor from "./Editor";
 import { LoadingButton } from "@mui/lab";
 import DialogBox from "../../../../components/ui/CustomDialogBox";
 import { CommunityArticle, CommunityVideo } from "../../../../models/Community";
-import { PlatFormThumbnailExtractor } from "../../../../util/PlatfromThumbnail";
+import { PlatForm } from "../../../../util/Platfrom";
 import { addCommunityForm } from "../../../../api/community_form";
 
 type CommunityForm = Omit<
@@ -143,10 +143,10 @@ function UploadVideoArticleForm() {
                 defaultValue={"YOUTUBE"}
                 name="platform"
                 onChange={(e) => {
-                  const thumbnail = new PlatFormThumbnailExtractor(
+                  const thumbnail = PlatForm.getThumbnailUrl(
                     formVars.url,
                     e.target.value as typeof formVars.platform
-                  ).getThumbnailUrl();
+                  );
                   setFormVars({
                     ...formVars,
                     platform: e.target.value as typeof formVars.platform,
@@ -166,10 +166,10 @@ function UploadVideoArticleForm() {
                 variant="filled"
                 name="url"
                 onBlur={(e) => {
-                  const thumbnail = new PlatFormThumbnailExtractor(
+                  const thumbnail = PlatForm.getThumbnailUrl(
                     e.target.value,
                     formVars.platform
-                  ).getThumbnailUrl();
+                  );
                   setFormVars({ ...formVars, thumbnail, url: e.target.value });
                 }}
                 required
