@@ -13,6 +13,8 @@ function CommunityPage() {
     getCommunityArticle().then(setArticles);
   }, []);
 
+  console.log({ videos, articles });
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid

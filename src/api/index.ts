@@ -1,6 +1,7 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { DocumentData, QuerySnapshot, getFirestore } from "firebase/firestore";
+import { convertTimeStamp } from "../util/TimeStamp";
 
 const baseURL =
   process.env.NODE_ENV === "production"
@@ -21,6 +22,13 @@ export const baseApi = axios.create({
   baseURL,
   headers: {},
 });
+
+export const processSnapshot = (e: QuerySnapshot<DocumentData>) => {
+  return e.docs
+    .map((doc) => doc.data())
+    .filter((e) => e.visible)
+    .map(convertTimeStamp);
+};
 
 const app = initializeApp(firebaseConfig);
 export const fireStore = getFirestore(app);
