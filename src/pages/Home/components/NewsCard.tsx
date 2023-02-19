@@ -16,8 +16,8 @@ export default function NewsCard(props: GeneralNews) {
         width: 345,
         height: 245,
         maxWidth: "345px",
-        minheight: "245px",
-        maxheight: "245px",
+        minHeight: "245px",
+        maxHeight: "245px",
         margin: "5px",
         whiteSpaceP: "nowrap",
       }}
