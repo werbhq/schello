@@ -18,7 +18,7 @@ import { addCommunityForm } from "../../../../api/community";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,
-  "id" | "timestamp" | "visible"
+  "id" | "timestamp" | "visible" | "redirect_url" | "news_type"
 >;
 const DIALOG_MESSAGES = {
   SUCCESS: {

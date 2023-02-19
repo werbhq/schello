@@ -11,11 +11,12 @@ import {
   GeneralVideo,
 } from "../../models/General Awarness";
 import NoDataCard from "./components/NoDataCard";
+import { CommunityArticle, CommunityVideo } from "../../models/Community";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [videos, setVideos] = useState<GeneralVideo[]>([]);
-  const [news, setNews] = useState<GeneralNews[]>([]);
+  const [videos, setVideos] = useState<CommunityVideo[]>([]);
+  const [news, setNews] = useState<CommunityArticle[]>([]);
 
   useEffect(() => {
     getEvents().then(setEvents);

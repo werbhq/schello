@@ -5,7 +5,7 @@ import { MAPPING } from "./mapping";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,
-  "id" | "timestamp" | "visible"
+  "id" | "timestamp" | "visible" | "redirect_url" | "news_type"
 >;
 
 export const addCommunityForm = async (

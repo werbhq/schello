@@ -16,8 +16,10 @@ import {
   YouTube,
 } from "@mui/icons-material";
 import Expand from "../../../components/ui/Expand";
+import { CommunityVideo } from "../../../models/Community";
 
-export default function VideoCard(props: GeneralVideo) {
+
+export default function VideoCard(props: CommunityVideo) {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpand = () => setExpanded(!expanded);
   let description: any = stringToHtml(props.description);
