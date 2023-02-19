@@ -1,14 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Autocomplete, TextField } from "@mui/material";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import type { MapData } from "../../../models/MapData";
-
-interface MapAPIResponse {
-  display_name: string;
-  place_id: string;
-  lat: string;
-  lon: string;
-}
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
 function AutocompleteCustom({
   options,
@@ -46,55 +41,55 @@ function AutocompleteCustom({
 
 export function PlaceSearch(props: any) {
   const { formVars, setFormVars } = props;
-  const [options, setOptions] = React.useState<MapData[]>([]);
-  const [loading, setLoading] = React.useState(false);
   const [input, setInput] = React.useState<string>("kerala");
-  const AbortControllerRef = React.useRef<null | AbortController>(null);
+  const [data, setData] = React.useState<MapData[]>([]);
 
-  const getData = async (searchTerm: string) => {
-    if (AbortControllerRef.current) AbortControllerRef.current.abort();
-    AbortControllerRef.current = new AbortController();
-    const signal = AbortControllerRef.current.signal;
-
-    const url = new URL("https://nominatim.openstreetmap.org/search.php");
-    url.searchParams.append("q", searchTerm);
-    url.searchParams.append("accept-language", "en");
-    url.searchParams.append("countrycodes", "IN");
-    url.searchParams.append("format", "jsonv2");
-
-    const data = await fetch(url.href, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      signal,
-    });
-
-    const json = await data.json();
-
-    const updatedOptions = json.map(
-      ({ display_name, place_id, lat, lon }: MapAPIResponse) => {
-        return { title: display_name, id: place_id, lat, lon };
-      }
-    );
-
-    setOptions(updatedOptions);
-  };
+  const {
+    placesService,
+    placePredictions,
+    getPlacePredictions,
+    isPlacePredictionsLoading,
+  } = usePlacesService({ apiKey: process.env.REACT_APP_API_KEY });
 
   React.useMemo(() => {
-    setLoading(true);
-    getData(input)
-      .then(() => setLoading(false))
-      .catch((e) => {});
+    const getPlaces = (
+      id: string
+    ): Promise<google.maps.places.PlaceResult | null> =>
+      new Promise((resolve) => {
+        placesService?.getDetails({ placeId: id }, (a, b) => resolve(a));
+      });
+
+    Promise.all(
+      placePredictions.map(async (e) => {
+        const location = await getPlaces(e.place_id);
+
+        return {
+          id: e.place_id,
+          title: e.description,
+          lat: location?.geometry?.location?.lat(),
+          lon: location?.geometry?.location?.lng(),
+        };
+      })
+    ).then((e) => {
+      setData(e as MapData[]);
+    });
+  }, [isPlacePredictionsLoading]);
+
+  React.useMemo(() => {
+    getPlacePredictions({
+      input,
+      componentRestrictions: { country: "in" },
+      types: ["geocode", "establishment"],
+    });
   }, [input]);
 
   return (
     <AutocompleteCustom
-      options={options}
+      options={data}
       setInput={setInput}
       formVars={formVars}
       setFormVars={setFormVars}
-      loading={loading}
+      loading={isPlacePredictionsLoading}
     />
   );
 }
