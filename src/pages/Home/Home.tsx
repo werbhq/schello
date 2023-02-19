@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import { Grid, Container, Divider, List, ListItem } from "@mui/material";
 import EventCard from "./components/EventCard";
+import { getEvents } from "../../api/events";
+import VideoCard from "./components/VideoCard";
+import NewsCard from "./components/NewsCard";
+import { getExciseNews, getExciseVideos } from "../../api/excise";
 import {
   Event,
   GeneralNews,
   GeneralVideo,
 } from "../../models/General Awarness";
-
-import { newsList, videoList } from "../tempData";
-
-import { getEvents } from "../../api/events";
-import VideoCard from "./components/VideoCard";
-import NewsCard from "./components/NewsCard";
-import { getExciseNews, getExciseVideos } from "../../api/excise";
+import NoDataCard from "./components/NoDataCard";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -53,6 +51,7 @@ function HomePage() {
           {videos.map((e, index) => (
             <VideoCard {...e} key={index} />
           ))}
+          {videos.length === 0 && <NoDataCard resource="videos" />}
         </List>
 
         <h3>News</h3>
@@ -68,6 +67,7 @@ function HomePage() {
           {news.map((e, index) => (
             <NewsCard {...e} key={index} />
           ))}
+          {news.length === 0 && <NoDataCard resource="news" />}
         </List>
       </Grid>
 
@@ -79,6 +79,7 @@ function HomePage() {
               <EventCard event={e} key={index} />
             </ListItem>
           ))}
+          {events.length === 0 && <NoDataCard resource="events" />}
         </List>
       </Grid>
     </Grid>
