@@ -5,7 +5,7 @@ export const MAPPING = {
     VIDEO: "community-video",
   },
   EXCISE: {
-    NEWS: "excise-news",
-    VIDEO: "excise-video",
+    NEWS: "general-news",
+    VIDEO: "general-video",
   },
 };

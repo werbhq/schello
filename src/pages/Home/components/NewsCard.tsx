@@ -12,12 +12,8 @@ export default function NewsCard(props: GeneralNews) {
   return (
     <Card
       sx={{
-        minWidth: "345px",
-        width: 345,
-        height: 245,
-        maxWidth: "345px",
+        width: "345px",
         minHeight: "245px",
-        maxHeight: "245px",
         margin: "5px",
         whiteSpaceP: "nowrap",
       }}
