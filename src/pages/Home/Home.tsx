@@ -16,15 +16,13 @@ import { getExciseNews, getExciseVideos } from "../../api/excise";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [videos, setVideos] = useState<GeneralVideo[]>(videoList);
-  const [news, setNews] = useState<GeneralNews[]>(newsList);
+  const [videos, setVideos] = useState<GeneralVideo[]>([]);
+  const [news, setNews] = useState<GeneralNews[]>([]);
 
   useEffect(() => {
     getEvents().then(setEvents);
-
-    // TODO: Enable these when data is ready in firebase
-    // getExciseVideos().then(setVideos);
-    // getExciseNews().then(setNews);
+    getExciseVideos().then(setVideos);
+    getExciseNews().then(setNews);
   }, []);
 
   return (
@@ -35,8 +33,8 @@ function HomePage() {
         sx={{ paddingTop: "50px !important", paddingBottom: "30px !important" }}
       >
         <Container component={"h2"} sx={{ textAlign: "center" }}>
-          Our mission is to catch drug selling people like Mr nithin.... ADD
-          MORE
+          Schello is a school monitoring system to track down and reduce
+          substance abuse
         </Container>
       </Grid>
       <Divider sx={{ width: "100%" }} />
