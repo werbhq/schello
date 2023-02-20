@@ -33,7 +33,6 @@ const columns: GridColDef<Report>[] = [
     width: 200,
     sortable: false,
   },
-
   {
     field: "description",
     headerName: "Description",
@@ -47,8 +46,8 @@ const columns: GridColDef<Report>[] = [
     sortable: false,
   },
   {
-    field: "image",
-    headerName: "Image",
+    field: "studentId",
+    headerName: "Student ID",
     width: 180,
     sortable: false,
   },
