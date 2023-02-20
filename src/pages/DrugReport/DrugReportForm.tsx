@@ -2,6 +2,7 @@ import Textarea from "@mui/joy/Textarea";
 import {
   Alert,
   Autocomplete,
+  Collapse,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -21,7 +22,7 @@ import dayjs from "dayjs";
 import * as React from "react";
 import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
-
+import  FeatureButton  from "./components/FeatureButton";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
@@ -301,6 +302,9 @@ export default function DrugReportForm(props: any) {
                   </Stack>
                 </RadioGroup>
               </FormControl>
+              <Collapse in={enableFaceOption}>
+                <FeatureButton />
+              </Collapse>
             </Stack>
           </Stack>
 

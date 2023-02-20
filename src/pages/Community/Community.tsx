@@ -1,13 +1,4 @@
-import {
-  Grid,
-  Box,
-  Button,
-  Typography,
-  CardMedia,
-  Card,
-  CardContent,
-  CardActions,
-} from "@mui/material";
+import { Grid, Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CommunityArticle, CommunityVideo } from "../../models/Community";
 import { useEffect, useState } from "react";
@@ -57,7 +48,7 @@ function CommunityPage() {
             to="/community/form"
             variant="contained"
           >
-            Submit Your Experience here
+            Share Your Experience here
           </Button>
         </Grid>
       </Grid>

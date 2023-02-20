@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { GeneralNews } from "../../../models/General Awarness";
 import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { useState } from "react";

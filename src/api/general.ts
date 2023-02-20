@@ -1,7 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
 import { CommunityArticle, CommunityVideo } from "../models/Community";
-import { GeneralNews, GeneralVideo } from "../models/General Awarness";
 import { MAPPING } from "./mapping";
 
 export const getGeneralVideos = async () => {

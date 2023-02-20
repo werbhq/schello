@@ -5,11 +5,7 @@ import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
 import { getGeneralNews, getGeneralVideos } from "../../api/general";
-import {
-  Event,
-  GeneralNews,
-  GeneralVideo,
-} from "../../models/General Awarness";
+import { Event } from "../../models/General Awarness";
 import NoDataCard from "./components/NoDataCard";
 import { CommunityArticle, CommunityVideo } from "../../models/Community";
 

@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import stringToHtml from "html-react-parser";
 import { Collapse, Grid, Stack } from "@mui/material";
-import { GeneralVideo } from "../../../models/General Awarness";
 import {
   Error,
   Google,
@@ -17,7 +16,6 @@ import {
 } from "@mui/icons-material";
 import Expand from "../../../components/ui/Expand";
 import { CommunityVideo } from "../../../models/Community";
-
 
 export default function VideoCard(props: CommunityVideo) {
   const [expanded, setExpanded] = React.useState(false);
