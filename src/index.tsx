@@ -4,12 +4,35 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import { ThemeProvider, createTheme } from "@mui/material";
+import { red } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#179F97",
+    },
+    secondary: {
+      main: "#F1C043",
+    },
+    error: red,
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+  typography: {
+    fontFamily: ["Poppins", "roboto"].join(","),
+  },
+});
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

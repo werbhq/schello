@@ -1,4 +1,3 @@
-import Textarea from "@mui/joy/Textarea";
 import {
   Alert,
   Autocomplete,
@@ -13,6 +12,7 @@ import {
   Stack,
   TextField,
   Typography,
+  TextareaAutosize,
 } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -165,15 +165,20 @@ export default function DrugReportForm(props: any) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form onSubmit={handleSubmit}>
         <Stack margin={4} spacing={4} direction="column">
-          <Typography variant="h3">Drug Report</Typography>
-
+          <Stack alignItems="center">
+            <Typography variant="h3" color="primary" fontWeight="bold">
+              Drug Report
+            </Typography>
+          </Stack>
           <Typography variant="h6">
             <span style={{ color: "red" }}>We guarantee your privacy</span>. All
             the data you submit is{" "}
             <span style={{ color: "red" }}>encrypted</span> and can only be seen
             by a authorized personnel from Excise Department.
             <br /> You can see the stored reports data in our database{" "}
-            <LinkRouter to="/visualize">here</LinkRouter>
+            <LinkRouter to="/visualize" color="primary">
+              here
+            </LinkRouter>
           </Typography>
 
           <Stack spacing={2}>
@@ -280,7 +285,7 @@ export default function DrugReportForm(props: any) {
           )}
           <Stack spacing={2}>
             <FormLabel>Description*</FormLabel>
-            <Textarea
+            <TextareaAutosize
               placeholder="Describe what happened. The more details you provide the better we can investigate your report."
               required
               minRows={5}
