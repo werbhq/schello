@@ -16,8 +16,6 @@ function CommunityPage() {
     getCommunityArticle().then(setArticles);
   }, []);
 
-  console.log({ videos, articles });
-
   return (
     <Stack margin={4} spacing={4} alignItems="center" justifyContent="center">
       <Typography variant="h3" color="primary" fontWeight="bold">
