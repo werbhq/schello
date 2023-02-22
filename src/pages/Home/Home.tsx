@@ -16,7 +16,7 @@ function HomePage() {
   const [news, setNews] = useState<CommunityArticle[]>([]);
 
   useEffect(() => {
-    getEvents().then((e) => setEvents([...e, ...e, ...e, ...e]));
+    getEvents().then(setEvents);
     getGeneralVideos().then(setVideos);
     getGeneralNews().then(setNews);
   }, []);
