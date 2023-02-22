@@ -1,10 +1,11 @@
-import { Grid, Box, Button, Typography } from "@mui/material";
+import { Button, Typography, List } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CommunityArticle, CommunityVideo } from "../../models/Community";
 import { useEffect, useState } from "react";
 import { getCommunityArticle, getCommunityVideos } from "../../api/community";
 import VideoCard from "../Home/components/VideoCard";
 import NewsCard from "../Home/components/NewsCard";
+import { Stack } from "@mui/system";
 
 function CommunityPage() {
   const [videos, setVideos] = useState<CommunityVideo[]>([]);
@@ -18,75 +19,54 @@ function CommunityPage() {
   console.log({ videos, articles });
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        display="flex"
-      >
-        <Box
-          component="img"
-          sx={{
-            height: "40vh",
-            width: "60vh",
-            maxHeight: { xs: "20vh", md: "40vh" },
-            maxWidth: { xs: "40vh", md: "60vh" },
-            borderRadius: "10px",
-            margin: "3vh",
-          }}
-          alt="Community"
-          src={require("./Public/Community.jpg")}
-        />
+    <Stack margin={4} spacing={4} alignItems="center" justifyContent="center">
+      <Typography variant="h3" color="primary" fontWeight="bold">
+        Community Page
+      </Typography>
 
-        <Grid>
-          <Button
-            color="success"
-            component={Link}
-            to="/community/form"
-            variant="contained"
-          >
-            Share Your Experience here
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid sx={{ fontFamily: "Poppins", margin: "5vh 20vh 10vh" }}>
-        <Typography variant="h4" align="center" margin="0px 0px 40px">
-          Community Videos
-        </Typography>
-        <Box
+      <Stack spacing={2}>
+        <Typography variant="h4">Videos</Typography>
+        <List
           sx={{
             display: "flex",
             flexDirection: "row",
             overflow: "auto",
-            margin: "15px",
+            maxWidth: "90vw",
+            minWidth: "90vw",
           }}
         >
           {videos.map((e, index) => (
             <VideoCard {...e} key={index} />
           ))}
-        </Box>
-      </Grid>
-      <Grid sx={{ fontFamily: "Poppins", margin: "20vh 20vh 10vh" }}>
-        <Typography variant="h4" align="center" margin="0px 0px 40px">
-          Community Articles
-        </Typography>
-        <Box
+        </List>
+      </Stack>
+
+      <Stack spacing={2}>
+        <Typography variant="h4">Articles</Typography>
+        <List
           sx={{
             display: "flex",
             flexDirection: "row",
             overflow: "auto",
-            margin: "15px",
+            maxWidth: "90vw",
+            minWidth: "90vw",
           }}
         >
           {articles.map((e, index) => (
             <NewsCard {...e} key={index} />
           ))}
-        </Box>
-      </Grid>
-    </Box>
+        </List>
+      </Stack>
+
+      <Button
+        color="secondary"
+        component={Link}
+        to="/community/form"
+        variant="contained"
+      >
+        Share Your Experience here
+      </Button>
+    </Stack>
   );
 }
 
