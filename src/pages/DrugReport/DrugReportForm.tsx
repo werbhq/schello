@@ -19,17 +19,28 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import FeatureSelector from "./components/FeatureSelector";
 import * as React from "react";
 import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
-import  FeatureButton  from "./components/FeatureButton";
+import FeatureButton from "./components/FeatureButton";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
 import { MapData } from "../../models/MapData";
 import { Report } from "../../models/Report";
+import straight from "./public/Straight.png";
+import wavy from "./public/Wavy.png";
+import curly from "./public/Curly.png";
+import kinky from "./public/Kinky.png";
+import brown from "./public/brown.png";
+import fair from "./public/fair.png";
+import darkbrown from "./public/dark-brown.png";
+import olive from "./public/olive.png";
+import lightbrown from "./public/light-brown.png";
 
 import student_data from "../../constant/student_data.json";
+
 const studentData: { [index: string]: { id: string } } = student_data;
 
 type FormVars = Omit<
@@ -135,7 +146,21 @@ export default function DrugReportForm(props: any) {
 
   const handleChange = async (e: any) =>
     setFormVars({ ...formVars, [e.target.name]: e.target.value });
-
+  const hairimages = [
+    { image: straight, label: "Straight" },
+    { image: wavy, label: "Wavy" },
+    { image: curly, label: "Curly" },
+    { image: kinky, label: "Kinky" },
+    //{ image: "../public/Wavy.png", label: "Wavy" },
+  ];
+  const skinimages = [
+    { image: fair, label: "Fair" },
+    { image: lightbrown, label: "Light-Brown" },
+    { image: olive, label: "Olive" },
+    { image: brown, label: "Brown" },
+    { image: darkbrown, label: "Dark-Brown" },
+    //{ image: "../public/Wavy.png", label: "Wavy" },
+  ];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form onSubmit={handleSubmit}>
@@ -303,7 +328,25 @@ export default function DrugReportForm(props: any) {
                 </RadioGroup>
               </FormControl>
               <Collapse in={enableFaceOption}>
-                <FeatureButton />
+                <FormLabel>Gender</FormLabel>
+                <Stack direction="row">
+                  <FormControlLabel
+                    value={true}
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label="Female"
+                  />
+                </Stack>
+                <FormLabel>Hair type</FormLabel>
+                <FeatureSelector data={hairimages} />
+                <FormLabel sx={{ margin: "20px 10px 20px 0px" }}>
+                  Skin color
+                </FormLabel>
+                <FeatureSelector data={skinimages} />
               </Collapse>
             </Stack>
           </Stack>
@@ -325,7 +368,7 @@ export default function DrugReportForm(props: any) {
             type="submit"
             loading={submitLoading}
             variant="contained"
-            sx={{ width: "8rem", marginTop: "20px" }}
+            sx={{ width: "8rem", marginTop: "80px" }}
           >
             Submit
           </LoadingButton>

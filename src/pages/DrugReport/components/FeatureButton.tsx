@@ -3,22 +3,31 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
+import straight from "../public/Straight.png";
+import wavy from "../public/Wavy.png";
+import curly from "../public/Curly.png";
+import kinky from "../public/Kinky.png";
 
 const images = [
   {
-    url: "/static/images/buttons/breakfast.jpg",
-    title: "Breakfast",
-    width: "40%",
+    url: `${straight}`,
+    title: "Straight",
+    width: "25%",
   },
   {
-    url: "/static/images/buttons/burgers.jpg",
-    title: "Burgers",
-    width: "30%",
+    url: `${wavy}`,
+    title: "Wavy",
+    width: "25%",
   },
   {
-    url: "/static/images/buttons/camera.jpg",
-    title: "Camera",
-    width: "30%",
+    url: `${curly}`,
+    title: "Curley",
+    width: "25%",
+  },
+  {
+    url: `${kinky}`,
+    title: "Kinky",
+    width: "25%",
   },
 ];
 
@@ -26,8 +35,8 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
   height: 200,
   [theme.breakpoints.down("sm")]: {
-    width: "100% !important", // Overrides inline-style
-    height: 100,
+    width: "20% !important", // Overrides inline-style
+    height: 150,
   },
   "&:hover, &.Mui-focusVisible": {
     zIndex: 1,
@@ -36,9 +45,6 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
     },
     "& .MuiImageMarked-root": {
       opacity: 0,
-    },
-    "& .MuiTypography-root": {
-      border: "4px solid currentColor",
     },
   },
 }));
@@ -78,7 +84,7 @@ const ImageBackdrop = styled("span")(({ theme }) => ({
 
 const ImageMarked = styled("span")(({ theme }) => ({
   height: 3,
-  width: 18,
+  width: 5,
   backgroundColor: theme.palette.common.white,
   position: "absolute",
   bottom: -2,
@@ -88,7 +94,15 @@ const ImageMarked = styled("span")(({ theme }) => ({
 
 export default function FeatureButton() {
   return (
-    <Box sx={{ display: "flex", minWidth: 300, width: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        minWidth: 30,
+        minHeight: 30,
+        width: "50%",
+        height: "40%",
+      }}
+    >
       {images.map((image) => (
         <ImageButton
           focusRipple
@@ -97,7 +111,13 @@ export default function FeatureButton() {
             width: image.width,
           }}
         >
-          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+          <ImageSrc
+            style={{
+              backgroundImage: `url(${image.url})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100% 100%",
+            }}
+          />
           <ImageBackdrop className="MuiImageBackdrop-root" />
           <Image>
             <Typography
