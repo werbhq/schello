@@ -23,21 +23,20 @@ import FeatureSelector from "./components/FeatureSelector";
 import * as React from "react";
 import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
-import FeatureButton from "./components/FeatureButton";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
 import { MapData } from "../../models/MapData";
-import { Report } from "../../models/Report";
-import straight from "./public/Straight.png";
-import wavy from "./public/Wavy.png";
-import curly from "./public/Curly.png";
-import kinky from "./public/Kinky.png";
-import brown from "./public/brown.png";
-import fair from "./public/fair.png";
-import darkbrown from "./public/dark-brown.png";
-import olive from "./public/olive.png";
-import lightbrown from "./public/light-brown.png";
+import { FacialData, Report } from "../../models/Report";
+import straight from "./assets/Straight.png";
+import wavy from "./assets/Wavy.png";
+import curly from "./assets/Curly.png";
+import kinky from "./assets/Kinky.png";
+import brown from "./assets/brown.png";
+import fair from "./assets/fair.png";
+import darkBrown from "./assets/dark-brown.png";
+import olive from "./assets/olive.png";
+import lightBrown from "./assets/light-brown.png";
 
 import student_data from "../../constant/student_data.json";
 
@@ -68,6 +67,29 @@ const DIALOG_MESSAGES = {
   },
 };
 
+const hairImages: {
+  image: string;
+  label: string;
+  value: FacialData["hairType"];
+}[] = [
+  { image: straight, label: "Straight", value: "STRAIGHT" },
+  { image: wavy, label: "Wavy", value: "WAVY" },
+  { image: curly, label: "Curly", value: "CURLY" },
+  { image: kinky, label: "Kinky", value: "KINKY" },
+];
+
+const skinImages: {
+  image: string;
+  label: string;
+  value: FacialData["skinColor"];
+}[] = [
+  { image: fair, label: "Fair", value: "FAIR" },
+  { image: olive, label: "Olive", value: "OLIVE" },
+  { image: lightBrown, label: "Light-Brown", value: "LIGHT-BROWN" },
+  { image: brown, label: "Brown", value: "BROWN" },
+  { image: darkBrown, label: "Dark-Brown", value: "DARK-BROWN" },
+];
+
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
 
@@ -80,6 +102,7 @@ export default function DrugReportForm(props: any) {
     location: null,
     studentId: null,
     status: "NEW",
+    facialData: null,
   };
 
   const [formVars, setFormVars] = React.useState<FormVars>(defaultFormVars);
@@ -146,21 +169,7 @@ export default function DrugReportForm(props: any) {
 
   const handleChange = async (e: any) =>
     setFormVars({ ...formVars, [e.target.name]: e.target.value });
-  const hairimages = [
-    { image: straight, label: "Straight" },
-    { image: wavy, label: "Wavy" },
-    { image: curly, label: "Curly" },
-    { image: kinky, label: "Kinky" },
-    //{ image: "../public/Wavy.png", label: "Wavy" },
-  ];
-  const skinimages = [
-    { image: fair, label: "Fair" },
-    { image: lightbrown, label: "Light-Brown" },
-    { image: olive, label: "Olive" },
-    { image: brown, label: "Brown" },
-    { image: darkbrown, label: "Dark-Brown" },
-    //{ image: "../public/Wavy.png", label: "Wavy" },
-  ];
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form onSubmit={handleSubmit}>
@@ -283,6 +292,7 @@ export default function DrugReportForm(props: any) {
               />
             </Stack>
           )}
+
           <Stack spacing={2}>
             <FormLabel>Description*</FormLabel>
             <TextareaAutosize
@@ -333,25 +343,37 @@ export default function DrugReportForm(props: any) {
                 </RadioGroup>
               </FormControl>
               <Collapse in={enableFaceOption}>
-                <FormLabel>Gender</FormLabel>
-                <Stack direction="row">
-                  <FormControlLabel
-                    value={true}
-                    control={<Radio />}
-                    label="Male"
+                <Stack spacing={2}>
+                  <Stack>
+                    <FormLabel id="gender">Gender</FormLabel>
+                    <RadioGroup name="gender-group" aria-labelledby="gender">
+                      <Stack direction="row">
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label="Male"
+                        />
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label="Female"
+                        />
+                      </Stack>
+                    </RadioGroup>
+                  </Stack>
+
+                  <FeatureSelector
+                    data={hairImages}
+                    label="Hair Type"
+                    id="hair-type"
                   />
-                  <FormControlLabel
-                    value={false}
-                    control={<Radio />}
-                    label="Female"
+
+                  <FeatureSelector
+                    data={skinImages}
+                    label="Skin Color"
+                    id="skin-color"
                   />
                 </Stack>
-                <FormLabel>Hair type</FormLabel>
-                <FeatureSelector data={hairimages} />
-                <FormLabel sx={{ margin: "20px 10px 20px 0px" }}>
-                  Skin color
-                </FormLabel>
-                <FeatureSelector data={skinimages} />
               </Collapse>
             </Stack>
           </Stack>
