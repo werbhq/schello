@@ -21,6 +21,15 @@ function CommunityPage() {
         Community Page
       </Typography>
 
+      <Button
+        color="secondary"
+        component={Link}
+        to="/community/form"
+        variant="contained"
+      >
+        Share Your Experience here
+      </Button>
+
       <Stack spacing={2}>
         <Typography variant="h4">Videos</Typography>
         <List
@@ -54,15 +63,6 @@ function CommunityPage() {
           ))}
         </List>
       </Stack>
-
-      <Button
-        color="secondary"
-        component={Link}
-        to="/community/form"
-        variant="contained"
-      >
-        Share Your Experience here
-      </Button>
     </Stack>
   );
 }
