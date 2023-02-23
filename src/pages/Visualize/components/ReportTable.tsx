@@ -51,6 +51,12 @@ const columns: GridColDef<Report>[] = [
     width: 180,
     sortable: false,
   },
+  {
+    field: "facialData",
+    headerName: "Face Data",
+    width: 180,
+    sortable: false,
+  },
 ];
 
 export default function ReportTable(props: { reports: Report[] }) {
