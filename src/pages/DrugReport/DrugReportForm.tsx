@@ -115,7 +115,7 @@ export default function DrugReportForm(props: any) {
       new_errors.push("Provide a <Student Name>");
     }
 
-    if (enableFaceOption && formVars.facialData === null) {
+    if (enableFaceOption && facialData === null) {
       new_errors.push("Provide <Facial Data>");
     }
 
@@ -131,7 +131,7 @@ export default function DrugReportForm(props: any) {
       timeTo: formVars.timeTo.toISOString(),
       location: formVars.location as Report["location"],
       studentId: enableStudentOption ? formVars.studentId : null,
-      facialData: enableFaceOption ? formVars.facialData : null,
+      facialData: enableFaceOption ? facialData : null,
     };
 
     try {
