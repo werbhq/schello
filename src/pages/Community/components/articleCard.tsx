@@ -1,18 +1,11 @@
-import {
-  Card,
-  CardContent,
-  Collapse,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Collapse, Stack, Typography } from "@mui/material";
 import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { useState } from "react";
 import { Schedule } from "@mui/icons-material";
-import { GeneralNews } from "../../../models/General Awarness";
+import { CommunityArticle } from "../../../models/Community";
 
-export default function NewsCard(props: GeneralNews) {
+export default function ArticleCard(props: CommunityArticle) {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => setExpanded(!expanded);
 
@@ -29,13 +22,7 @@ export default function NewsCard(props: GeneralNews) {
       <CardContent>
         <Stack>
           <Typography variant="h6" padding="5px 0px">
-            {props.news_type === "EXTERNAL" ? (
-              <Link target="_blank" rel="noopener" href={props.redirect_url}>
-                {props.title}
-              </Link>
-            ) : (
-              props.title
-            )}
+            {props.title}
           </Typography>
 
           <Stack direction="row" alignItems="center">

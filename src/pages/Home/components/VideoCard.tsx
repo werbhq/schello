@@ -17,10 +17,11 @@ import {
 } from "@mui/icons-material";
 import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
-import { CommunityVideo } from "../../../models/Community";
 import { useState } from "react";
+import { GeneralVideo } from "../../../models/General Awarness";
+import { CommunityVideo } from "../../../models/Community";
 
-export default function VideoCard(props: CommunityVideo) {
+export default function VideoCard(props: GeneralVideo | CommunityVideo) {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => setExpanded(!expanded);
   let description: any = stringToHtml(props.description);

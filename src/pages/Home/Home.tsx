@@ -1,19 +1,28 @@
 import { useState, useEffect } from "react";
-import { Grid, Divider, List, ListItem, Typography } from "@mui/material";
+import {
+  Grid,
+  Divider,
+  List,
+  ListItem,
+  Typography,
+  Stack,
+} from "@mui/material";
 import EventCard from "./components/EventCard";
 import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
-import { getGeneralNews, getGeneralVideos } from "../../api/general";
-import { Event } from "../../models/General Awarness";
+import {
+  Event,
+  GeneralVideo,
+  GeneralNews,
+} from "../../models/General Awarness";
 import NoDataCard from "./components/NoDataCard";
-import { CommunityArticle, CommunityVideo } from "../../models/Community";
-import { Stack } from "@mui/system";
+import { getGeneralNews, getGeneralVideos } from "../../api/general";
 
 function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [videos, setVideos] = useState<CommunityVideo[]>([]);
-  const [news, setNews] = useState<CommunityArticle[]>([]);
+  const [videos, setVideos] = useState<GeneralVideo[]>([]);
+  const [news, setNews] = useState<GeneralNews[]>([]);
 
   useEffect(() => {
     getEvents().then(setEvents);

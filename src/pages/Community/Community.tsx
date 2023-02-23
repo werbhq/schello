@@ -1,11 +1,10 @@
-import { Button, Typography, List } from "@mui/material";
+import { Button, Typography, List, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CommunityArticle, CommunityVideo } from "../../models/Community";
 import { useEffect, useState } from "react";
 import { getCommunityArticle, getCommunityVideos } from "../../api/community";
 import VideoCard from "../Home/components/VideoCard";
-import NewsCard from "../Home/components/NewsCard";
-import { Stack } from "@mui/system";
+import ArticleCard from "./components/articleCard";
 
 function CommunityPage() {
   const [videos, setVideos] = useState<CommunityVideo[]>([]);
@@ -51,7 +50,7 @@ function CommunityPage() {
           }}
         >
           {articles.map((e, index) => (
-            <NewsCard {...e} key={index} />
+            <ArticleCard {...e} key={index} />
           ))}
         </List>
       </Stack>
