@@ -36,6 +36,8 @@ import fair from "./assets/fair.png";
 import darkBrown from "./assets/dark-brown.png";
 import olive from "./assets/olive.png";
 import lightBrown from "./assets/light-brown.png";
+import black from "./assets/Black.png";
+import blue from "./assets/Blue.png";
 import student_data from "../../constant/student_data.json";
 import { useState } from "react";
 const studentData: { [index: string]: { id: string } } = student_data;
@@ -88,6 +90,15 @@ const skinImages: {
   { image: darkBrown, label: "Dark-Brown", value: "DARK-BROWN" },
 ];
 
+const eyecolorImages: {
+  image: string;
+  label: string;
+  value: FacialData["eyeColor"];
+}[] = [
+  { image: black, label: "Black", value: "BLACK" },
+  { image: blue, label: "Blue", value: "BLUE" },
+];
+
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
 
@@ -107,6 +118,7 @@ export default function DrugReportForm(props: any) {
     hairType: "CURLY",
     skinColor: "FAIR",
     gender: "MALE",
+    eyeColor: "BLACK",
   };
 
   const [formVars, setFormVars] = useState(defaultFormVars);
@@ -418,6 +430,13 @@ export default function DrugReportForm(props: any) {
                       data={skinImages}
                       label="Skin Color"
                       id="skinColor"
+                      value={facialData}
+                      setValue={setFacialData}
+                    />
+                    <FeatureSelector
+                      data={eyecolorImages}
+                      label="Eye Color"
+                      id="eyeColor"
                       value={facialData}
                       setValue={setFacialData}
                     />

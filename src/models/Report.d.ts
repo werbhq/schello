@@ -4,6 +4,7 @@ export interface FacialData {
   hairType: "STRAIGHT" | "WAVY" | "CURLY" | "KINKY";
   skinColor: "FAIR" | "OLIVE" | "BROWN" | "LIGHT-BROWN" | "DARK-BROWN";
   gender: "MALE" | "FEMALE";
+  eyeColor: "BLACK" | "BLUE" ;
 }
 export interface Report {
   dateIncident: string | null;
