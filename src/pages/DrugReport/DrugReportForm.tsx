@@ -377,7 +377,7 @@ export default function DrugReportForm(props: any) {
                 </FormControl>
 
                 <Collapse in={enableFaceOption}>
-                  <Stack spacing={2}>
+                  <Stack spacing={2} paddingBottom={2}>
                     <Stack>
                       <FormLabel id="gender">Gender</FormLabel>
                       <RadioGroup
