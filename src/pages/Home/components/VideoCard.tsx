@@ -1,12 +1,13 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import stringToHtml from "html-react-parser";
-import { Collapse, Grid, Stack } from "@mui/material";
+import {
+  Collapse,
+  Grid,
+  Link,
+  Stack,
+  Card,
+  CardMedia,
+  Typography,
+  CardContent,
+} from "@mui/material";
 import {
   Error,
   Google,
@@ -14,11 +15,13 @@ import {
   Schedule,
   YouTube,
 } from "@mui/icons-material";
+import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { CommunityVideo } from "../../../models/Community";
+import { useState } from "react";
 
 export default function VideoCard(props: CommunityVideo) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const handleExpand = () => setExpanded(!expanded);
   let description: any = stringToHtml(props.description);
 
@@ -38,23 +41,18 @@ export default function VideoCard(props: CommunityVideo) {
   return (
     <Card
       sx={{
-        minHeight: "400px",
         minWidth: "320px",
         maxWidth: "320px",
         margin: "5px",
         whiteSpaceP: "nowrap",
       }}
     >
-      <CardMedia
-        sx={{ height: 170 }}
-        image={props.thumbnail}
-        title="green iguana"
-      />
+      <CardMedia sx={{ height: 170 }} image={props.thumbnail} />
       <CardContent>
         <Grid>
-          <Typography gutterBottom variant="h6">
-            {props.title}
-          </Typography>
+          <Link href={props.url} target="_blank">
+            <Typography variant="h6">{props.title}</Typography>
+          </Link>
         </Grid>
 
         <Grid container>
@@ -64,28 +62,26 @@ export default function VideoCard(props: CommunityVideo) {
           {renderSwitch(props.platform)}
         </Grid>
 
-        <Grid container alignItems="center" justifyContent="center">
+        <Grid container>
           <Stack direction="row" alignItems="center" justifyContent="center">
             <Schedule />
             <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
               {new Date(props.timestamp).toDateString()}
             </p>
           </Stack>
-
-          <Expand expanded={expanded} handleExpand={handleExpand} />
+          {props.description !== "" && (
+            <Expand expanded={expanded} handleExpand={handleExpand} />
+          )}
         </Grid>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography>
-        </Collapse>
-      </CardContent>
 
-      <CardActions>
-        <Button size="small" href={props.url} target="_blank">
-          Watch
-        </Button>
-      </CardActions>
+        {props.description !== "" && (
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Typography variant="body2" color="text.secondary">
+              {description}
+            </Typography>
+          </Collapse>
+        )}
+      </CardContent>
     </Card>
   );
 }

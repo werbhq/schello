@@ -43,15 +43,18 @@ export default function NewsCard(props: CommunityArticle) {
             <p style={{ fontSize: "0.8em", margin: "0", padding: "0px 5px" }}>
               {new Date(props.timestamp).toDateString()}
             </p>
-
-            <Expand expanded={expanded} handleExpand={handleExpand} />
+            {props.description !== "" && (
+              <Expand expanded={expanded} handleExpand={handleExpand} />
+            )}
           </Stack>
 
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Stack marginBottom="10px">
-              {stringToHtml(props.description ?? "")}
-            </Stack>
-          </Collapse>
+          {props.description !== "" && (
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Stack marginBottom="10px">
+                {stringToHtml(props.description ?? "")}
+              </Stack>
+            </Collapse>
+          )}
         </Stack>
       </CardContent>
     </Card>
