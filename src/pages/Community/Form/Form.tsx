@@ -1,12 +1,7 @@
-import { useEffect } from "react";
 import { Grid, Box, Typography } from "@mui/material";
 import UploadVideoArticleForm from "./components/UploadForm";
 
 function CommunityForm() {
-  useEffect(() => {
-    // Fetches Data here
-  }, []);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
