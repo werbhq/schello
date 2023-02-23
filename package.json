@@ -1,6 +1,6 @@
 {
-  "name": "schello",
-  "version": "0.2.0",
+  "name": "schello-public",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -14,7 +14,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/googlemaps": "^3.43.3",
+    "@types/google.maps": "^3.43.3",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.26",

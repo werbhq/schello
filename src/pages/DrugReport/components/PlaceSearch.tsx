@@ -65,7 +65,7 @@ export function PlaceSearch(props: any) {
     isPlacePredictionsLoading,
   } = usePlacesService({ apiKey: process.env.REACT_APP_API_KEY });
 
-  const { geocode } = new google.maps.Geocoder();
+  const { geocode: geoCode } = new google.maps.Geocoder();
 
   React.useMemo(() => {
     const getPlaces = (
@@ -112,19 +112,23 @@ export function PlaceSearch(props: any) {
           lng: coords.longitude,
         };
 
-        geocode({ location }, (res) => {
-          setData(
-            res.length === 0
-              ? []
-              : [
-                  {
-                    id: res[0].place_id,
-                    title: res[0].formatted_address,
-                    lat: location.lat,
-                    lon: location.lng,
-                  },
-                ]
-          );
+        geoCode({ location }, (res) => {
+          if (!res) {
+            setData([]);
+          } else {
+            setData(
+              res.length === 0
+                ? []
+                : [
+                    {
+                      id: res[0].place_id,
+                      title: res[0].formatted_address,
+                      lat: location.lat,
+                      lon: location.lng,
+                    },
+                  ]
+            );
+          }
           setLocationUsed(true);
         });
       },
