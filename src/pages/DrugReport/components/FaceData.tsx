@@ -22,7 +22,25 @@ import shapeTriangle from "../assets/shape/triangle.png";
 import shapeSquare from "../assets/shape/square.png";
 import shapeRound from "../assets/shape/round.png";
 
+import genderMale from "../assets/gender/male.svg";
+import genderFemale from "../assets/gender/female.svg";
+
 import { FacialData } from "../../../models/Report";
+
+interface FeatureData {
+  image: string;
+  label: string;
+  value: string;
+}
+
+const GENDER: {
+  image: string;
+  label: string;
+  value: FacialData["gender"];
+}[] = [
+  { image: genderMale, label: "Male", value: "MALE" },
+  { image: genderFemale, label: "Female", value: "FEMALE" },
+];
 
 const HAIR: {
   image: string;
@@ -76,11 +94,15 @@ const SHAPE: {
   },
 ];
 
-const FACE_DATA = {
-  HAIR,
-  SKIN,
-  EYE,
-  SHAPE,
-};
+const FACE_DATA = new Map<
+  keyof FacialData,
+  { data: FeatureData[]; label: string }
+>([
+  ["gender", { data: GENDER, label: "Gender" }],
+  ["skinColor", { data: SKIN, label: "Skin Color" }],
+  ["hairType", { data: HAIR, label: "Hair Type" }],
+  ["eyeColor", { data: EYE, label: "Eye Color" }],
+  ["faceShape", { data: SHAPE, label: "Face Type" }],
+]);
 
 export default FACE_DATA;

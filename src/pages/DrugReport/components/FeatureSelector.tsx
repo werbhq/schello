@@ -19,14 +19,12 @@ export default function FeatureSelector({
   label,
   value,
   setValue,
-  imageProps,
 }: {
-  data: FeatureData[];
+  data: FeatureData[] | undefined;
   id: keyof FacialData;
-  label: string;
+  label: string | undefined;
   value: FacialData;
   setValue: React.Dispatch<React.SetStateAction<FacialData>>;
-  imageProps?: { width: string; height: string };
 }) {
   return (
     <Stack>
@@ -39,7 +37,7 @@ export default function FeatureSelector({
       >
         <Stack direction="column" spacing={2}>
           <Stack direction="row" spacing={4} alignItems="center">
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
               <Stack direction="column" alignItems="center" key={index}>
                 <Stack direction="row" alignItems="center">
                   <FormControlLabel
@@ -48,12 +46,7 @@ export default function FeatureSelector({
                     label={item.label}
                   />
                 </Stack>
-                <img
-                  src={item.image}
-                  alt={item.label}
-                  width={imageProps ? imageProps.width : "100px"}
-                  height={imageProps ? imageProps.height : "150px"}
-                />
+                <img src={item.image} alt={item.label} width={"100px"} />
               </Stack>
             ))}
           </Stack>

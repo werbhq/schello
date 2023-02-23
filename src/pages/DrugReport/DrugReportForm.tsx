@@ -95,7 +95,6 @@ export default function DrugReportForm(props: any) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(formVars);
     // Handle Errors
     setError([]);
     const new_errors = [];
@@ -133,6 +132,8 @@ export default function DrugReportForm(props: any) {
       studentId: enableStudentOption ? formVars.studentId : null,
       facialData: enableFaceOption ? facialData : null,
     };
+
+    console.log(parsedFormVars);
 
     try {
       setSubmitLoading(true);
@@ -350,68 +351,15 @@ export default function DrugReportForm(props: any) {
 
                 <Collapse in={enableFaceOption}>
                   <Stack spacing={2} paddingBottom={2}>
-                    <Stack>
-                      <FormLabel id="gender">Gender</FormLabel>
-                      <RadioGroup
-                        name="gender-group"
-                        aria-labelledby="gender"
-                        value={facialData.gender}
-                        onChange={(e, value) =>
-                          setFacialData({
-                            ...facialData,
-                            gender: value as FacialData["gender"],
-                          })
-                        }
-                      >
-                        <Stack direction="row">
-                          <FormControlLabel
-                            value="MALE"
-                            control={<Radio />}
-                            label="Male"
-                          />
-                          <FormControlLabel
-                            value="FEMALE"
-                            control={<Radio />}
-                            label="Female"
-                          />
-                        </Stack>
-                      </RadioGroup>
-                    </Stack>
-
-                    <FeatureSelector
-                      data={FACE_DATA.HAIR}
-                      label="Hair Type"
-                      id="hairType"
-                      value={facialData}
-                      setValue={setFacialData}
-                    />
-
-                    <FeatureSelector
-                      data={FACE_DATA.SKIN}
-                      label="Skin Color"
-                      id="skinColor"
-                      value={facialData}
-                      setValue={setFacialData}
-                      imageProps={{ width: "80px", height: "80px" }}
-                    />
-
-                    <FeatureSelector
-                      data={FACE_DATA.EYE}
-                      label="Eye Color"
-                      id="eyeColor"
-                      value={facialData}
-                      setValue={setFacialData}
-                      imageProps={{ width: "120px", height: "100px" }}
-                    />
-
-                    <FeatureSelector
-                      data={FACE_DATA.SHAPE}
-                      label="Face Shape"
-                      id="faceShape"
-                      value={facialData}
-                      setValue={setFacialData}
-                      imageProps={{ width: "100px", height: "100px" }}
-                    />
+                    {Array.from(FACE_DATA.keys()).map((e) => (
+                      <FeatureSelector
+                        data={FACE_DATA.get(e as keyof FacialData)?.data}
+                        label={FACE_DATA.get(e as keyof FacialData)?.label}
+                        id={e as keyof FacialData}
+                        value={facialData}
+                        setValue={setFacialData}
+                      />
+                    ))}
                   </Stack>
                 </Collapse>
               </Stack>
