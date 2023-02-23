@@ -31,7 +31,7 @@ import straight from "./assets/Straight.png";
 import wavy from "./assets/Wavy.png";
 import curly from "./assets/Curly.png";
 import kinky from "./assets/Kinky.png";
-import brown from "./assets/brown.png";
+import skinBrown from "./assets/brown.png";
 import fair from "./assets/fair.png";
 import darkBrown from "./assets/dark-brown.png";
 import olive from "./assets/olive.png";
@@ -40,10 +40,10 @@ import black from "./assets/Black.png";
 import blue from "./assets/Blue.png";
 import green from "./assets/Green.png";
 import silver from "./assets/Silver.png";
-import browneye from "./assets/Browneye.png";
+import eyeBrown from "./assets/Browneye.png";
 import diamond from "./assets/Diamond.png";
 import oval from "./assets/Oval.png";
-import invtriangle from "./assets/Invertedtriangle.png";
+import invertedTriangle from "./assets/Invertedtriangle.png";
 import square from "./assets/Square.png";
 import round from "./assets/Round.png";
 import triangle from "./assets/Triangle.png";
@@ -95,11 +95,11 @@ const skinImages: {
   { image: fair, label: "Fair", value: "FAIR" },
   { image: olive, label: "Olive", value: "OLIVE" },
   { image: lightBrown, label: "Light-Brown", value: "LIGHT-BROWN" },
-  { image: brown, label: "Brown", value: "BROWN" },
+  { image: skinBrown, label: "Brown", value: "BROWN" },
   { image: darkBrown, label: "Dark-Brown", value: "DARK-BROWN" },
 ];
 
-const eyecolorImages: {
+const eyeColorImages: {
   image: string;
   label: string;
   value: FacialData["eyeColor"];
@@ -108,7 +108,7 @@ const eyecolorImages: {
   { image: blue, label: "Blue", value: "BLUE" },
   { image: green, label: "Green", value: "GREEN" },
   { image: silver, label: "Silver", value: "SILVER" },
-  { image: browneye, label: "BROWN", value: "BROWNEYE" },
+  { image: eyeBrown, label: "Brown", value: "BROWN" },
 ];
 const faceImages: {
   image: string;
@@ -118,7 +118,7 @@ const faceImages: {
   { image: diamond, label: "Diamond", value: "DIAMOND" },
   { image: oval, label: "Oval", value: "OVAL" },
   {
-    image: invtriangle,
+    image: invertedTriangle,
     label: "Inverted Triangle",
     value: "INVERTED_TRIANGLE",
   },
@@ -461,17 +461,18 @@ export default function DrugReportForm(props: any) {
                       id="skinColor"
                       value={facialData}
                       setValue={setFacialData}
-                      imageProps={{ width: "120px", height: "120px" }}
+                      imageProps={{ width: "80px", height: "80px" }}
                     />
 
                     <FeatureSelector
-                      data={eyecolorImages}
+                      data={eyeColorImages}
                       label="Eye Color"
                       id="eyeColor"
                       value={facialData}
                       setValue={setFacialData}
-                      imageProps={{ width: "124px", height: "100px" }}
+                      imageProps={{ width: "120px", height: "100px" }}
                     />
+
                     <FeatureSelector
                       data={faceImages}
                       label="Face Shape"
