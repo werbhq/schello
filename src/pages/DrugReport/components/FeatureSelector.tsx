@@ -5,6 +5,7 @@ import {
   RadioGroup,
   Stack,
 } from "@mui/material";
+import { FacialData } from "../../../models/Report";
 
 interface FeatureData {
   image: string;
@@ -16,15 +17,26 @@ export default function FeatureSelector({
   data,
   id,
   label,
+  value,
+  setValue,
+  imageProps,
 }: {
   data: FeatureData[];
-  id: string;
+  id: keyof FacialData;
   label: string;
+  value: FacialData;
+  setValue: React.Dispatch<React.SetStateAction<FacialData>>;
+  imageProps?: { width: string; height: string };
 }) {
   return (
     <Stack>
       <FormLabel id={id}>{label}</FormLabel>
-      <RadioGroup aria-labelledby={id} name={id + "-group"}>
+      <RadioGroup
+        aria-labelledby={id}
+        name={id + "-group"}
+        value={value[id]}
+        onChange={(_, e) => setValue({ ...value, [id]: e })}
+      >
         <Stack direction="column" spacing={2}>
           <Stack direction="row" spacing={4} alignItems="center">
             {data.map((item, index) => (
@@ -39,8 +51,8 @@ export default function FeatureSelector({
                 <img
                   src={item.image}
                   alt={item.label}
-                  width="100px"
-                  height="150px"
+                  width={imageProps ? imageProps.width : "100px"}
+                  height={imageProps ? imageProps.height : "150px"}
                 />
               </Stack>
             ))}

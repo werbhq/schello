@@ -20,7 +20,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import FeatureSelector from "./components/FeatureSelector";
-import * as React from "react";
 import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
 import { LoadingButton } from "@mui/lab";
@@ -37,9 +36,8 @@ import fair from "./assets/fair.png";
 import darkBrown from "./assets/dark-brown.png";
 import olive from "./assets/olive.png";
 import lightBrown from "./assets/light-brown.png";
-
 import student_data from "../../constant/student_data.json";
-
+import { useState } from "react";
 const studentData: { [index: string]: { id: string } } = student_data;
 
 type FormVars = Omit<
@@ -105,15 +103,23 @@ export default function DrugReportForm(props: any) {
     facialData: null,
   };
 
-  const [formVars, setFormVars] = React.useState<FormVars>(defaultFormVars);
+  const defaultFacialVars: FacialData = {
+    hairType: "CURLY",
+    skinColor: "FAIR",
+    gender: "MALE",
+  };
 
-  const [enableFaceOption, setEnableFaceOption] = React.useState(false);
-  const [submitLoading, setSubmitLoading] = React.useState(false);
+  const [formVars, setFormVars] = useState(defaultFormVars);
+  const [facialData, setFacialData] = useState(defaultFacialVars);
 
-  const [error, setError] = React.useState<string[]>([]);
+  const [enableFaceOption, setEnableFaceOption] = useState(false);
+  const [enableStudentOption, setEnableStudentOption] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [dialogData, setDialogData] = React.useState(DIALOG_MESSAGES.SUCCESS);
+  const [error, setError] = useState<string[]>([]);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogData, setDialogData] = useState(DIALOG_MESSAGES.SUCCESS);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -133,12 +139,12 @@ export default function DrugReportForm(props: any) {
     if (formVars.location == null)
       new_errors.push("Provide a <rough location>");
 
-    if (
-      (formVars.category === "USAGE_SUSPECTED" ||
-        formVars.category === "USAGE_CONFIRMED") &&
-      formVars.studentId === null
-    ) {
+    if (enableStudentOption && formVars.studentId === null) {
       new_errors.push("Provide a <Student Name>");
+    }
+
+    if (enableFaceOption && formVars.facialData === null) {
+      new_errors.push("Provide <Facial Data>");
     }
 
     if (new_errors.length > 0) {
@@ -152,6 +158,8 @@ export default function DrugReportForm(props: any) {
       timeFrom: formVars.timeFrom.toISOString(),
       timeTo: formVars.timeTo.toISOString(),
       location: formVars.location as Report["location"],
+      studentId: enableStudentOption ? formVars.studentId : null,
+      facialData: enableFaceOption ? formVars.facialData : null,
     };
 
     try {
@@ -265,9 +273,52 @@ export default function DrugReportForm(props: any) {
             </Select>
           </Stack>
 
-          {["USAGE_SUSPECTED", "USAGE_CONFIRMED"].includes(
-            formVars.category
-          ) && (
+          <Stack spacing={2}>
+            <FormLabel>Description*</FormLabel>
+            <TextareaAutosize
+              placeholder="Describe what happened. The more details you provide the better we can investigate your report."
+              required
+              minRows={5}
+              maxRows={12}
+              name="description"
+              onBlur={handleChange}
+            />
+          </Stack>
+
+          <Stack spacing={2}>
+            <FormLabel>Location*</FormLabel>
+            <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+          </Stack>
+
+          <Stack spacing={2}>
+            <FormControl>
+              <FormLabel id="student-flag">Is the person a student?</FormLabel>
+              <RadioGroup
+                aria-labelledby="student-flag"
+                value={enableStudentOption}
+                name="student-flag-group"
+                onChange={(e, value) => {
+                  const currentVal = value === "true";
+                  setEnableStudentOption(currentVal);
+                }}
+              >
+                <Stack direction="row">
+                  <FormControlLabel
+                    value={true}
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label="No"
+                  />
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+          </Stack>
+
+          {enableStudentOption ? (
             <Stack spacing={2}>
               <FormLabel id="student-select">Student Name*</FormLabel>
               <Autocomplete
@@ -291,92 +342,90 @@ export default function DrugReportForm(props: any) {
                 )}
               />
             </Stack>
-          )}
+          ) : (
+            <Stack spacing={2}>
+              <FormLabel>Facial Features</FormLabel>
+              <Stack spacing={2} paddingLeft={2}>
+                <Typography variant="body1">
+                  This is optional. But helps us identify the person better.
+                  Select all the information you see fit
+                </Typography>
+                <FormControl>
+                  <FormLabel id="face-flag">Have you seen the face?</FormLabel>
+                  <RadioGroup
+                    aria-labelledby="face-flag"
+                    value={enableFaceOption}
+                    name="face-flag-group"
+                    onChange={(e, value) => {
+                      const currentVal = value === "true";
+                      setEnableFaceOption(currentVal);
+                    }}
+                  >
+                    <Stack direction="row">
+                      <FormControlLabel
+                        value={true}
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value={false}
+                        control={<Radio />}
+                        label="No"
+                      />
+                    </Stack>
+                  </RadioGroup>
+                </FormControl>
 
-          <Stack spacing={2}>
-            <FormLabel>Description*</FormLabel>
-            <TextareaAutosize
-              placeholder="Describe what happened. The more details you provide the better we can investigate your report."
-              required
-              minRows={5}
-              maxRows={12}
-              name="description"
-              onBlur={handleChange}
-            />
-          </Stack>
+                <Collapse in={enableFaceOption}>
+                  <Stack spacing={2}>
+                    <Stack>
+                      <FormLabel id="gender">Gender</FormLabel>
+                      <RadioGroup
+                        name="gender-group"
+                        aria-labelledby="gender"
+                        value={facialData.gender}
+                        onChange={(e, value) =>
+                          setFacialData({
+                            ...facialData,
+                            gender: value as FacialData["gender"],
+                          })
+                        }
+                      >
+                        <Stack direction="row">
+                          <FormControlLabel
+                            value="MALE"
+                            control={<Radio />}
+                            label="Male"
+                          />
+                          <FormControlLabel
+                            value="FEMALE"
+                            control={<Radio />}
+                            label="Female"
+                          />
+                        </Stack>
+                      </RadioGroup>
+                    </Stack>
 
-          <Stack spacing={2}>
-            <FormLabel>Location*</FormLabel>
-            <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
-          </Stack>
-
-          <Stack spacing={2}>
-            <FormLabel>Facial Features</FormLabel>
-            <Stack spacing={2} paddingLeft={2}>
-              <Typography variant="body1">
-                This is optional. But helps us identify the person better.
-                Select all the information you see fit
-              </Typography>
-              <FormControl>
-                <FormLabel id="face-flag">Have you seen the face?</FormLabel>
-                <RadioGroup
-                  aria-labelledby="face-flag"
-                  value={enableFaceOption}
-                  name="face-flag-group"
-                  onChange={(e, value) => {
-                    if (value === "true") setEnableFaceOption(true);
-                    else setEnableFaceOption(false);
-                  }}
-                >
-                  <Stack direction="row">
-                    <FormControlLabel
-                      value={true}
-                      control={<Radio />}
-                      label="Yes"
+                    <FeatureSelector
+                      data={hairImages}
+                      label="Hair Type"
+                      id="hairType"
+                      value={facialData}
+                      setValue={setFacialData}
                     />
-                    <FormControlLabel
-                      value={false}
-                      control={<Radio />}
-                      label="No"
+
+                    <FeatureSelector
+                      data={skinImages}
+                      label="Skin Color"
+                      id="skinColor"
+                      value={facialData}
+                      setValue={setFacialData}
                     />
                   </Stack>
-                </RadioGroup>
-              </FormControl>
-              <Collapse in={enableFaceOption}>
-                <Stack spacing={2}>
-                  <Stack>
-                    <FormLabel id="gender">Gender</FormLabel>
-                    <RadioGroup name="gender-group" aria-labelledby="gender">
-                      <Stack direction="row">
-                        <FormControlLabel
-                          value={true}
-                          control={<Radio />}
-                          label="Male"
-                        />
-                        <FormControlLabel
-                          value={false}
-                          control={<Radio />}
-                          label="Female"
-                        />
-                      </Stack>
-                    </RadioGroup>
-                  </Stack>
-
-                  <FeatureSelector
-                    data={hairImages}
-                    label="Hair Type"
-                    id="hair-type"
-                  />
-
-                  <FeatureSelector
-                    data={skinImages}
-                    label="Skin Color"
-                    id="skin-color"
-                  />
-                </Stack>
-              </Collapse>
+                </Collapse>
+              </Stack>
             </Stack>
-          </Stack>
+          )}
 
           {error.length > 0 && (
             <Alert severity="error">

@@ -3,6 +3,7 @@ import type { MapData } from "./MapData";
 export interface FacialData {
   hairType: "STRAIGHT" | "WAVY" | "CURLY" | "KINKY";
   skinColor: "FAIR" | "OLIVE" | "BROWN" | "LIGHT-BROWN" | "DARK-BROWN";
+  gender: "MALE" | "FEMALE";
 }
 export interface Report {
   dateIncident: string | null;
