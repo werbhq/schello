@@ -38,6 +38,15 @@ import olive from "./assets/olive.png";
 import lightBrown from "./assets/light-brown.png";
 import black from "./assets/Black.png";
 import blue from "./assets/Blue.png";
+import green from "./assets/Green.png";
+import silver from "./assets/Silver.png";
+import browneye from "./assets/Browneye.png";
+import diamond from "./assets/Diamond.png";
+import oval from "./assets/Oval.png";
+import invtriangle from "./assets/Invertedtriangle.png";
+import square from "./assets/Square.png";
+import round from "./assets/Round.png";
+import triangle from "./assets/Triangle.png";
 import student_data from "../../constant/student_data.json";
 import { useState } from "react";
 const studentData: { [index: string]: { id: string } } = student_data;
@@ -97,6 +106,25 @@ const eyecolorImages: {
 }[] = [
   { image: black, label: "Black", value: "BLACK" },
   { image: blue, label: "Blue", value: "BLUE" },
+  { image: green, label: "Green", value: "GREEN" },
+  { image: silver, label: "Silver", value: "SILVER" },
+  { image: browneye, label: "BROWN", value: "BROWNEYE" },
+];
+const faceImages: {
+  image: string;
+  label: string;
+  value: FacialData["faceShape"];
+}[] = [
+  { image: diamond, label: "Diamond", value: "DIAMOND" },
+  { image: oval, label: "Oval", value: "OVAL" },
+  {
+    image: invtriangle,
+    label: "Inverted Triangle",
+    value: "INVERTED_TRIANGLE",
+  },
+  { image: round, label: "Round", value: "ROUND" },
+  { image: triangle, label: "Triangle", value: "TRIANGLE" },
+  { image: square, label: "Square", value: "SQUARE" },
 ];
 
 export default function DrugReportForm(props: any) {
@@ -119,6 +147,7 @@ export default function DrugReportForm(props: any) {
     skinColor: "FAIR",
     gender: "MALE",
     eyeColor: "BLACK",
+    faceShape: "DIAMOND",
   };
 
   const [formVars, setFormVars] = useState(defaultFormVars);
@@ -432,13 +461,24 @@ export default function DrugReportForm(props: any) {
                       id="skinColor"
                       value={facialData}
                       setValue={setFacialData}
+                      imageProps={{ width: "120px", height: "120px" }}
                     />
+
                     <FeatureSelector
                       data={eyecolorImages}
                       label="Eye Color"
                       id="eyeColor"
                       value={facialData}
                       setValue={setFacialData}
+                      imageProps={{ width: "124px", height: "100px" }}
+                    />
+                    <FeatureSelector
+                      data={faceImages}
+                      label="Face Shape"
+                      id="faceShape"
+                      value={facialData}
+                      setValue={setFacialData}
+                      imageProps={{ width: "100px", height: "100px" }}
                     />
                   </Stack>
                 </Collapse>
