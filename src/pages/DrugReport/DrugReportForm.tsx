@@ -14,6 +14,7 @@ import {
   Typography,
   TextareaAutosize,
 } from "@mui/material";
+import { useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -27,17 +28,9 @@ import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
 import { MapData } from "../../models/MapData";
 import { FacialData, Report } from "../../models/Report";
-import straight from "./assets/Straight.png";
-import wavy from "./assets/Wavy.png";
-import curly from "./assets/Curly.png";
-import kinky from "./assets/Kinky.png";
-import brown from "./assets/brown.png";
-import fair from "./assets/fair.png";
-import darkBrown from "./assets/dark-brown.png";
-import olive from "./assets/olive.png";
-import lightBrown from "./assets/light-brown.png";
+import FACE_DATA from "./components/FaceData";
 import student_data from "../../constant/student_data.json";
-import { useState } from "react";
+
 const studentData: { [index: string]: { id: string } } = student_data;
 
 type FormVars = Omit<
@@ -65,29 +58,6 @@ const DIALOG_MESSAGES = {
   },
 };
 
-const hairImages: {
-  image: string;
-  label: string;
-  value: FacialData["hairType"];
-}[] = [
-  { image: straight, label: "Straight", value: "STRAIGHT" },
-  { image: wavy, label: "Wavy", value: "WAVY" },
-  { image: curly, label: "Curly", value: "CURLY" },
-  { image: kinky, label: "Kinky", value: "KINKY" },
-];
-
-const skinImages: {
-  image: string;
-  label: string;
-  value: FacialData["skinColor"];
-}[] = [
-  { image: fair, label: "Fair", value: "FAIR" },
-  { image: olive, label: "Olive", value: "OLIVE" },
-  { image: lightBrown, label: "Light-Brown", value: "LIGHT-BROWN" },
-  { image: brown, label: "Brown", value: "BROWN" },
-  { image: darkBrown, label: "Dark-Brown", value: "DARK-BROWN" },
-];
-
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
 
@@ -107,6 +77,8 @@ export default function DrugReportForm(props: any) {
     hairType: "CURLY",
     skinColor: "FAIR",
     gender: "MALE",
+    eyeColor: "BLACK",
+    faceShape: "DIAMOND",
   };
 
   const [formVars, setFormVars] = useState(defaultFormVars);
@@ -407,7 +379,7 @@ export default function DrugReportForm(props: any) {
                     </Stack>
 
                     <FeatureSelector
-                      data={hairImages}
+                      data={FACE_DATA.HAIR}
                       label="Hair Type"
                       id="hairType"
                       value={facialData}
@@ -415,11 +387,30 @@ export default function DrugReportForm(props: any) {
                     />
 
                     <FeatureSelector
-                      data={skinImages}
+                      data={FACE_DATA.SKIN}
                       label="Skin Color"
                       id="skinColor"
                       value={facialData}
                       setValue={setFacialData}
+                      imageProps={{ width: "80px", height: "80px" }}
+                    />
+
+                    <FeatureSelector
+                      data={FACE_DATA.EYE}
+                      label="Eye Color"
+                      id="eyeColor"
+                      value={facialData}
+                      setValue={setFacialData}
+                      imageProps={{ width: "120px", height: "100px" }}
+                    />
+
+                    <FeatureSelector
+                      data={FACE_DATA.SHAPE}
+                      label="Face Shape"
+                      id="faceShape"
+                      value={facialData}
+                      setValue={setFacialData}
+                      imageProps={{ width: "100px", height: "100px" }}
                     />
                   </Stack>
                 </Collapse>

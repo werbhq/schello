@@ -4,6 +4,14 @@ export interface FacialData {
   hairType: "STRAIGHT" | "WAVY" | "CURLY" | "KINKY";
   skinColor: "FAIR" | "OLIVE" | "BROWN" | "LIGHT-BROWN" | "DARK-BROWN";
   gender: "MALE" | "FEMALE";
+  eyeColor: "BLACK" | "BLUE" | "GREEN" | "SILVER" | "BROWN";
+  faceShape:
+    | "DIAMOND"
+    | "OVAL"
+    | "INVERTED_TRIANGLE"
+    | "SQUARE"
+    | "TRIANGLE"
+    | "ROUND";
 }
 export interface Report {
   dateIncident: string | null;
