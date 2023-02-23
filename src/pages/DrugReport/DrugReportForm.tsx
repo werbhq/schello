@@ -14,6 +14,7 @@ import {
   Typography,
   TextareaAutosize,
 } from "@mui/material";
+import { useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -27,28 +28,9 @@ import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
 import { MapData } from "../../models/MapData";
 import { FacialData, Report } from "../../models/Report";
-import straight from "./assets/Straight.png";
-import wavy from "./assets/Wavy.png";
-import curly from "./assets/Curly.png";
-import kinky from "./assets/Kinky.png";
-import skinBrown from "./assets/brown.png";
-import fair from "./assets/fair.png";
-import darkBrown from "./assets/dark-brown.png";
-import olive from "./assets/olive.png";
-import lightBrown from "./assets/light-brown.png";
-import black from "./assets/Black.png";
-import blue from "./assets/Blue.png";
-import green from "./assets/Green.png";
-import silver from "./assets/Silver.png";
-import eyeBrown from "./assets/Browneye.png";
-import diamond from "./assets/Diamond.png";
-import oval from "./assets/Oval.png";
-import invertedTriangle from "./assets/Invertedtriangle.png";
-import square from "./assets/Square.png";
-import round from "./assets/Round.png";
-import triangle from "./assets/Triangle.png";
+import FACE_DATA from "./components/FaceData";
 import student_data from "../../constant/student_data.json";
-import { useState } from "react";
+
 const studentData: { [index: string]: { id: string } } = student_data;
 
 type FormVars = Omit<
@@ -75,57 +57,6 @@ const DIALOG_MESSAGES = {
     description: "Your report has not been submitted",
   },
 };
-
-const hairImages: {
-  image: string;
-  label: string;
-  value: FacialData["hairType"];
-}[] = [
-  { image: straight, label: "Straight", value: "STRAIGHT" },
-  { image: wavy, label: "Wavy", value: "WAVY" },
-  { image: curly, label: "Curly", value: "CURLY" },
-  { image: kinky, label: "Kinky", value: "KINKY" },
-];
-
-const skinImages: {
-  image: string;
-  label: string;
-  value: FacialData["skinColor"];
-}[] = [
-  { image: fair, label: "Fair", value: "FAIR" },
-  { image: olive, label: "Olive", value: "OLIVE" },
-  { image: lightBrown, label: "Light-Brown", value: "LIGHT-BROWN" },
-  { image: skinBrown, label: "Brown", value: "BROWN" },
-  { image: darkBrown, label: "Dark-Brown", value: "DARK-BROWN" },
-];
-
-const eyeColorImages: {
-  image: string;
-  label: string;
-  value: FacialData["eyeColor"];
-}[] = [
-  { image: black, label: "Black", value: "BLACK" },
-  { image: blue, label: "Blue", value: "BLUE" },
-  { image: green, label: "Green", value: "GREEN" },
-  { image: silver, label: "Silver", value: "SILVER" },
-  { image: eyeBrown, label: "Brown", value: "BROWN" },
-];
-const faceImages: {
-  image: string;
-  label: string;
-  value: FacialData["faceShape"];
-}[] = [
-  { image: diamond, label: "Diamond", value: "DIAMOND" },
-  { image: oval, label: "Oval", value: "OVAL" },
-  {
-    image: invertedTriangle,
-    label: "Inverted Triangle",
-    value: "INVERTED_TRIANGLE",
-  },
-  { image: round, label: "Round", value: "ROUND" },
-  { image: triangle, label: "Triangle", value: "TRIANGLE" },
-  { image: square, label: "Square", value: "SQUARE" },
-];
 
 export default function DrugReportForm(props: any) {
   const currentTime = dayjs();
@@ -448,7 +379,7 @@ export default function DrugReportForm(props: any) {
                     </Stack>
 
                     <FeatureSelector
-                      data={hairImages}
+                      data={FACE_DATA.HAIR}
                       label="Hair Type"
                       id="hairType"
                       value={facialData}
@@ -456,7 +387,7 @@ export default function DrugReportForm(props: any) {
                     />
 
                     <FeatureSelector
-                      data={skinImages}
+                      data={FACE_DATA.SKIN}
                       label="Skin Color"
                       id="skinColor"
                       value={facialData}
@@ -465,7 +396,7 @@ export default function DrugReportForm(props: any) {
                     />
 
                     <FeatureSelector
-                      data={eyeColorImages}
+                      data={FACE_DATA.EYE}
                       label="Eye Color"
                       id="eyeColor"
                       value={facialData}
@@ -474,7 +405,7 @@ export default function DrugReportForm(props: any) {
                     />
 
                     <FeatureSelector
-                      data={faceImages}
+                      data={FACE_DATA.SHAPE}
                       label="Face Shape"
                       id="faceShape"
                       value={facialData}
