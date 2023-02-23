@@ -351,13 +351,14 @@ export default function DrugReportForm(props: any) {
 
                 <Collapse in={enableFaceOption}>
                   <Stack spacing={2} paddingBottom={2}>
-                    {Array.from(FACE_DATA.keys()).map((e) => (
+                    {Array.from(FACE_DATA.keys()).map((e, index) => (
                       <FeatureSelector
                         data={FACE_DATA.get(e as keyof FacialData)?.data}
                         label={FACE_DATA.get(e as keyof FacialData)?.label}
                         id={e as keyof FacialData}
                         value={facialData}
                         setValue={setFacialData}
+                        key={index}
                       />
                     ))}
                   </Stack>
