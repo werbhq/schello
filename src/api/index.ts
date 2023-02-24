@@ -10,8 +10,8 @@ import { convertTimeStamp } from "../util/TimeStamp";
 
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://us-central1-merit-werb.cloudfunctions.net/serverCall"
-    : "http://localhost:5001/merit-werb/us-central1/serverCall";
+    ? "https://us-central1-merit-werb.cloudfunctions.net/api"
+    : "http://localhost:5001/merit-werb/us-central1/api";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsV-3C_U3ksRXdsZorW9RXy7PifGTR52w",
