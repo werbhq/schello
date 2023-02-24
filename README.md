@@ -1,6 +1,8 @@
 # Schello
 
-A project for anti drug campaigns
+A project for anti drug campaigns.
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fe225eb1-e54c-481e-84db-2d042c493841/deploy-status)](https://app.netlify.com/sites/schello-werb/deploys)
 
 ## Available Scripts
 
