@@ -22,8 +22,8 @@ import shapeTriangle from "../assets/shape/triangle.png";
 import shapeSquare from "../assets/shape/square.png";
 import shapeRound from "../assets/shape/round.png";
 
-import genderMale from "../assets/gender/male.svg";
-import genderFemale from "../assets/gender/female.svg";
+import genderMale from "../assets/gender/male.png";
+import genderFemale from "../assets/gender/female.png";
 
 import { FacialData } from "../../../models/Report";
 
