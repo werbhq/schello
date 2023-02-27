@@ -5,7 +5,7 @@ import {
   RadioGroup,
   Stack,
 } from "@mui/material";
-import { FacialData } from "../../../models/Report";
+import { FacialData } from "../../../types/Report";
 
 interface FeatureData {
   image: string;

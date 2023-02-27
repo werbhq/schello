@@ -3,7 +3,7 @@ import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { useState } from "react";
 import { Schedule } from "@mui/icons-material";
-import { CommunityArticle } from "../../../models/Community";
+import { CommunityArticle } from "../../../types/Community";
 
 export default function ArticleCard(props: CommunityArticle) {
   const [expanded, setExpanded] = useState(false);

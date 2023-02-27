@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Typography, Stack } from "@mui/material";
 import { getEncryptedReports } from "../../api/report";
-import { Report } from "../../models/Report";
+import { Report } from "../../types/Report";
 import { CircularProgress } from "@mui/joy";
 import ReportTable from "./components/ReportTable";
 

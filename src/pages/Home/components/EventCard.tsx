@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { LocationOnSharp, Schedule } from "@mui/icons-material";
 import stringToHtml from "html-react-parser";
-import type { Event } from "../../../models/General Awarness";
+import type { Event } from "../../../types/General Awarness";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import dayjs from "dayjs";
 import { useState } from "react";

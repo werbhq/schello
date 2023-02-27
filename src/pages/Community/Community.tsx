@@ -1,6 +1,6 @@
 import { Button, Typography, List, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CommunityArticle, CommunityVideo } from "../../models/Community";
+import { CommunityArticle, CommunityVideo } from "../../types/Community";
 import { useEffect, useState } from "react";
 import { getCommunityArticle, getCommunityVideos } from "../../api/community";
 import VideoCard from "../Home/components/VideoCard";

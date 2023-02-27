@@ -26,8 +26,8 @@ import { PlaceSearch } from "./components/PlaceSearch";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
-import { MapData } from "../../models/MapData";
-import { FacialData, Report } from "../../models/Report";
+import { MapData } from "../../types/MapData";
+import { FacialData, Report } from "../../types/Report";
 import FACE_DATA from "./components/FaceData";
 import student_data from "../../constant/student_data.json";
 

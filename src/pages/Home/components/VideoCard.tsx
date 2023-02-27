@@ -18,8 +18,8 @@ import {
 import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { useState } from "react";
-import { GeneralVideo } from "../../../models/General Awarness";
-import { CommunityVideo } from "../../../models/Community";
+import { GeneralVideo } from "../../../types/General Awarness";
+import { CommunityVideo } from "../../../types/Community";
 
 export default function VideoCard(props: GeneralVideo | CommunityVideo) {
   const [expanded, setExpanded] = useState(false);

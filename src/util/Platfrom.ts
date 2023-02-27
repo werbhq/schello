@@ -1,4 +1,4 @@
-import { PlatFormOptions } from "../models/General Awarness";
+import { PlatFormOptions } from "../types/General Awarness";
 
 export class PlatForm {
   static options = ["YOUTUBE", "DAILY-MOTION", "GOOGLE-DRIVE", "REEL"];

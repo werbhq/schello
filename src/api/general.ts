@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
 import { MAPPING } from "./mapping";
-import { GeneralNews, GeneralVideo } from "../models/General Awarness";
+import { GeneralNews, GeneralVideo } from "../types/General Awarness";
 
 export const getGeneralVideos = async () => {
   const videoRef = collection(fireStore, MAPPING.EXCISE.VIDEO);

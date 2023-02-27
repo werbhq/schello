@@ -11,11 +11,7 @@ import EventCard from "./components/EventCard";
 import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
-import {
-  Event,
-  GeneralVideo,
-  GeneralNews,
-} from "../../models/General Awarness";
+import { Event, GeneralVideo, GeneralNews } from "../../types/General Awarness";
 import NoDataCard from "./components/NoDataCard";
 import { getGeneralNews, getGeneralVideos } from "../../api/general";
 

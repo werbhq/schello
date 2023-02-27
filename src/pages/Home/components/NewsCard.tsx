@@ -10,7 +10,7 @@ import stringToHtml from "html-react-parser";
 import Expand from "../../../components/ui/Expand";
 import { useState } from "react";
 import { Schedule } from "@mui/icons-material";
-import { GeneralNews } from "../../../models/General Awarness";
+import { GeneralNews } from "../../../types/General Awarness";
 
 export default function NewsCard(props: GeneralNews) {
   const [expanded, setExpanded] = useState(false);
