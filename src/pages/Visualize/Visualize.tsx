@@ -1,19 +1,12 @@
-import { useState, useEffect } from "react";
 import { Typography, Stack } from "@mui/material";
-import { getEncryptedReports } from "../../api/report";
-import { Report } from "../../types/Report";
-import { CircularProgress } from "@mui/joy";
 import ReportTable from "./components/ReportTable";
+import { useReportsData } from "../../hooks/useVisualizeData";
+import PageLoader from "../../components/ui/PageLoader";
 
 function VisualizePage() {
-  const [reports, setReports] = useState<Report[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { data: reports, isLoading } = useReportsData();
 
-  useEffect(() => {
-    setLoading(true);
-    getEncryptedReports().then(setReports);
-    setLoading(false);
-  }, []);
+  if (isLoading) return <PageLoader loading={isLoading} />;
 
   return (
     <Stack spacing={4} margin={4}>
@@ -24,7 +17,7 @@ function VisualizePage() {
           We guarantee your privacy.
         </Typography>
 
-        {loading ? <CircularProgress /> : <ReportTable reports={reports} />}
+        <ReportTable reports={reports ?? []} />
       </Stack>
     </Stack>
   );

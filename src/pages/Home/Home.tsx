@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Grid,
   Divider,
@@ -8,23 +7,16 @@ import {
   Stack,
 } from "@mui/material";
 import EventCard from "./components/EventCard";
-import { getEvents } from "../../api/events";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
-import { Event, GeneralVideo, GeneralNews } from "../../types/General Awarness";
 import NoDataCard from "./components/NoDataCard";
-import { getGeneralNews, getGeneralVideos } from "../../api/general";
+import { useGeneralData } from "../../hooks/useGeneralData";
+import PageLoader from "../../components/ui/PageLoader";
 
 function HomePage() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [videos, setVideos] = useState<GeneralVideo[]>([]);
-  const [news, setNews] = useState<GeneralNews[]>([]);
+  const { events, videos, news, isLoading } = useGeneralData();
 
-  useEffect(() => {
-    getEvents().then(setEvents);
-    getGeneralVideos().then(setVideos);
-    getGeneralNews().then(setNews);
-  }, []);
+  if (isLoading) return <PageLoader loading={isLoading} />;
 
   return (
     <Grid container spacing={2}>
@@ -56,10 +48,10 @@ function HomePage() {
               overflow: "auto",
             }}
           >
-            {videos.map((e, index) => (
+            {videos?.map((e, index) => (
               <VideoCard {...e} key={index} />
             ))}
-            {videos.length === 0 && <NoDataCard resource="videos" />}
+            {videos?.length === 0 && <NoDataCard resource="videos" />}
           </List>
         </Stack>
 
@@ -74,10 +66,10 @@ function HomePage() {
               overflow: "auto",
             }}
           >
-            {news.map((e, index) => (
+            {news?.map((e, index) => (
               <NewsCard {...e} key={index} />
             ))}
-            {news.length === 0 && <NoDataCard resource="news" />}
+            {news?.length === 0 && <NoDataCard resource="news" />}
           </List>
         </Stack>
       </Grid>
@@ -88,12 +80,12 @@ function HomePage() {
           <List
             style={{ overflow: "auto", padding: "0px", maxHeight: "350px" }}
           >
-            {events.map((e, index) => (
+            {events?.map((e, index) => (
               <ListItem key={index} style={{ padding: "5px 0px" }}>
                 <EventCard event={e} key={index} />
               </ListItem>
             ))}
-            {events.length === 0 && <NoDataCard resource="events" />}
+            {events?.length === 0 && <NoDataCard resource="events" />}
           </List>
         </Stack>
       </Grid>

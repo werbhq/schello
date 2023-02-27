@@ -1,19 +1,15 @@
 import { Button, Typography, List, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CommunityArticle, CommunityVideo } from "../../types/Community";
-import { useEffect, useState } from "react";
-import { getCommunityArticle, getCommunityVideos } from "../../api/community";
+
 import VideoCard from "../Home/components/VideoCard";
 import ArticleCard from "./components/articleCard";
+import PageLoader from "../../components/ui/PageLoader";
+import { useCommunityData } from "../../hooks/useCommunityData";
 
 function CommunityPage() {
-  const [videos, setVideos] = useState<CommunityVideo[]>([]);
-  const [articles, setArticles] = useState<CommunityArticle[]>([]);
+  const { videos, articles, isLoading } = useCommunityData();
 
-  useEffect(() => {
-    getCommunityVideos().then(setVideos);
-    getCommunityArticle().then(setArticles);
-  }, []);
+  if (isLoading) return <PageLoader loading={isLoading} />;
 
   return (
     <Stack margin={4} spacing={4} alignItems="center" justifyContent="center">
@@ -41,7 +37,7 @@ function CommunityPage() {
             minWidth: "90vw",
           }}
         >
-          {videos.map((e, index) => (
+          {videos?.map((e, index) => (
             <VideoCard {...e} key={index} />
           ))}
         </List>
@@ -58,7 +54,7 @@ function CommunityPage() {
             minWidth: "90vw",
           }}
         >
-          {articles.map((e, index) => (
+          {articles?.map((e, index) => (
             <ArticleCard {...e} key={index} />
           ))}
         </List>
