@@ -39,7 +39,7 @@ function AutocompleteCustom({
         onInputChange={(e, value: any) => setInput(value)}
         isOptionEqualToValue={(option: MapData, value: MapData) => true}
         getOptionLabel={(option: MapData) => option.title}
-        style={{ width: 300 }}
+        style={{ width: "15rem" }}
         noOptionsText="No Place Found"
         onChange={(e, value) => setFormVars({ ...formVars, location: value })}
         renderInput={(params) => <TextField {...params} />}

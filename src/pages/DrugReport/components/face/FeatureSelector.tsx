@@ -5,13 +5,9 @@ import {
   RadioGroup,
   Stack,
 } from "@mui/material";
-import { FacialData } from "../../../types/Report";
-
-interface FeatureData {
-  image: string;
-  label: string;
-  value: string;
-}
+import { useRef } from "react";
+import { FacialData } from "../../../../types/Report";
+import { FeatureData } from "./FaceData";
 
 export default function FeatureSelector({
   data,
@@ -20,12 +16,14 @@ export default function FeatureSelector({
   value,
   setValue,
 }: {
-  data: FeatureData[] | undefined;
+  data: FeatureData[] | undefined | null;
   id: keyof FacialData;
   label: string | undefined;
   value: FacialData;
   setValue: React.Dispatch<React.SetStateAction<FacialData>>;
 }) {
+  const imageRef = useRef<HTMLImageElement>(null);
+
   return (
     <Stack>
       <FormLabel id={id}>{label}</FormLabel>
@@ -36,7 +34,12 @@ export default function FeatureSelector({
         onChange={(_, e) => setValue({ ...value, [id]: e })}
       >
         <Stack direction="column" spacing={2}>
-          <Stack direction="row" spacing={4} alignItems="center">
+          <Stack
+            direction="row"
+            spacing={4}
+            alignItems="center"
+            style={{ maxWidth: "80vw", overflow: "auto" }}
+          >
             {data?.map((item, index) => (
               <Stack direction="column" alignItems="center" key={index}>
                 <Stack direction="row" alignItems="center">
@@ -46,7 +49,22 @@ export default function FeatureSelector({
                     label={item.label}
                   />
                 </Stack>
-                <img src={item.image} alt={item.label} width={"100px"} />
+                {item.image && (
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    width={"100px"}
+                    ref={imageRef}
+                  />
+                )}
+                {!item.image && (
+                  <div
+                    style={{
+                      height: imageRef.current?.height ?? "100px",
+                      width: imageRef.current?.width ?? "100px",
+                    }}
+                  ></div>
+                )}
               </Stack>
             ))}
           </Stack>

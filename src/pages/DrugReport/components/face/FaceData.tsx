@@ -1,49 +1,50 @@
-import hairStraight from "../assets/hair/straight.png";
-import hairWavy from "../assets/hair/wavy.png";
-import hairCurly from "../assets/hair/curly.png";
-import hairKinky from "../assets/hair/kinky.png";
+import hairStraight from "../../assets/hair/straight.png";
+import hairWavy from "../../assets/hair/wavy.png";
+import hairCurly from "../../assets/hair/curly.png";
+import hairKinky from "../../assets/hair/kinky.png";
 
-import skinBrown from "../assets/skin/brown.png";
-import skinFair from "../assets/skin/fair.png";
-import skinDarkBrown from "../assets/skin/dark-brown.png";
-import skinOlive from "../assets/skin/olive.png";
-import skinLightBrown from "../assets/skin/light-brown.png";
+import skinBrown from "../../assets/skin/brown.png";
+import skinFair from "../../assets/skin/fair.png";
+import skinDarkBrown from "../../assets/skin/dark-brown.png";
+import skinOlive from "../../assets/skin/olive.png";
+import skinLightBrown from "../../assets/skin/light-brown.png";
 
-import eyeBlack from "../assets/eye/black.png";
-import eyeBlue from "../assets/eye/blue.png";
-import eyeGreen from "../assets/eye/green.png";
-import eyeSilver from "../assets/eye/silver.png";
-import eyeBrown from "../assets/eye/brown.png";
+import eyeBlack from "../../assets/eye/black.png";
+import eyeBlue from "../../assets/eye/blue.png";
+import eyeGreen from "../../assets/eye/green.png";
+import eyeSilver from "../../assets/eye/silver.png";
+import eyeBrown from "../../assets/eye/brown.png";
 
-import shapeDiamond from "../assets/shape/diamond.png";
-import shapeOval from "../assets/shape/oval.png";
-import shapeInvertedTriangle from "../assets/shape/inverted-triangle.png";
-import shapeTriangle from "../assets/shape/triangle.png";
-import shapeSquare from "../assets/shape/square.png";
-import shapeRound from "../assets/shape/round.png";
+import shapeDiamond from "../../assets/shape/diamond.png";
+import shapeOval from "../../assets/shape/oval.png";
+import shapeInvertedTriangle from "../../assets/shape/inverted-triangle.png";
+import shapeTriangle from "../../assets/shape/triangle.png";
+import shapeSquare from "../../assets/shape/square.png";
+import shapeRound from "../../assets/shape/round.png";
 
-import genderMale from "../assets/gender/male.png";
-import genderFemale from "../assets/gender/female.png";
+import genderMale from "../../assets/gender/male.png";
+import genderFemale from "../../assets/gender/female.png";
 
-import { FacialData } from "../../../types/Report";
+import { FacialData } from "../../../../types/Report";
 
-interface FeatureData {
-  image: string;
+export interface FeatureData {
+  image: string | null;
   label: string;
   value: string;
 }
 
 const GENDER: {
-  image: string;
+  image: string | null;
   label: string;
   value: FacialData["gender"];
 }[] = [
   { image: genderMale, label: "Male", value: "MALE" },
   { image: genderFemale, label: "Female", value: "FEMALE" },
+  { image: null, label: "None", value: "NONE" },
 ];
 
 const HAIR: {
-  image: string;
+  image: string | null;
   label: string;
   value: FacialData["hairType"];
 }[] = [
@@ -51,10 +52,11 @@ const HAIR: {
   { image: hairWavy, label: "Wavy", value: "WAVY" },
   { image: hairCurly, label: "Curly", value: "CURLY" },
   { image: hairKinky, label: "Kinky", value: "KINKY" },
+  { image: null, label: "None", value: "NONE" },
 ];
 
 const SKIN: {
-  image: string;
+  image: string | null;
   label: string;
   value: FacialData["skinColor"];
 }[] = [
@@ -63,10 +65,11 @@ const SKIN: {
   { image: skinLightBrown, label: "Light Brown", value: "LIGHT-BROWN" },
   { image: skinBrown, label: "Brown", value: "BROWN" },
   { image: skinDarkBrown, label: "Dark Brown", value: "DARK-BROWN" },
+  { image: null, label: "None", value: "NONE" },
 ];
 
 const EYE: {
-  image: string;
+  image: string | null;
   label: string;
   value: FacialData["eyeColor"];
 }[] = [
@@ -75,10 +78,11 @@ const EYE: {
   { image: eyeGreen, label: "Green", value: "GREEN" },
   { image: eyeSilver, label: "Silver", value: "SILVER" },
   { image: eyeBrown, label: "Brown", value: "BROWN" },
+  { image: null, label: "None", value: "NONE" },
 ];
 
 const SHAPE: {
-  image: string;
+  image: string | null;
   label: string;
   value: FacialData["faceShape"];
 }[] = [
@@ -92,6 +96,7 @@ const SHAPE: {
     label: "Inverted Triangle",
     value: "INVERTED_TRIANGLE",
   },
+  { image: null, label: "None", value: "NONE" },
 ];
 
 const FACE_DATA = new Map<

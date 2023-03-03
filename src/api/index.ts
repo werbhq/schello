@@ -34,9 +34,11 @@ const app = initializeApp(firebaseConfig);
 export const fireStore = getFirestore(app);
 if (emulate) connectFirestoreEmulator(fireStore, "localhost", 8090);
 
-export const processSnapshot = (e: QuerySnapshot<DocumentData>) => {
-  return e.docs
-    .map((doc) => doc.data())
-    .filter((e) => e.visible)
-    .map(convertTimeStamp);
+export const processSnapshot = (
+  e: QuerySnapshot<DocumentData>,
+  disableFilterVisible: boolean = false
+) => {
+  const data = e.docs.map((doc) => doc.data()).map(convertTimeStamp);
+  if (disableFilterVisible) return data;
+  return data.filter((e) => e.visible);
 };
