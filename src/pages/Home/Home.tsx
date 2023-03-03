@@ -25,7 +25,12 @@ function HomePage() {
         xs={12}
         sx={{ paddingTop: "50px !important", paddingBottom: "30px !important" }}
       >
-        <Stack spacing={2} alignItems="center" justifyContent="center">
+        <Stack
+          spacing={2}
+          padding={2}
+          alignItems="center"
+          justifyContent="center"
+        >
           <Typography variant="h3" color="primary" fontWeight="bold">
             Schello
           </Typography>

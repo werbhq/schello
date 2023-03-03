@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
   TextareaAutosize,
+  Grid,
 } from "@mui/material";
 import { useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
@@ -152,250 +153,259 @@ export default function DrugReportForm(props: any) {
     setFormVars({ ...formVars, [e.target.name]: e.target.value });
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <form onSubmit={handleSubmit}>
-        <Stack margin={4} spacing={4} direction="column">
-          <Stack alignItems="center">
-            <Typography variant="h3" color="primary" fontWeight="bold">
-              Drug Report
+    <Grid container>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <form onSubmit={handleSubmit}>
+          <Stack margin={3} spacing={4} direction="column">
+            <Stack alignItems="center">
+              <Typography variant="h3" color="primary" fontWeight="bold">
+                Drug Report
+              </Typography>
+            </Stack>
+            <Typography variant="h6">
+              <span style={{ color: "red" }}>We guarantee your privacy</span>.
+              All the data you submit is{" "}
+              <span style={{ color: "red" }}>encrypted</span> and can only be
+              seen by a authorized personnel from Excise Department.
+              <br /> You can see the stored reports data in our database{" "}
+              <LinkRouter to="/visualize" color="primary">
+                here
+              </LinkRouter>
             </Typography>
-          </Stack>
-          <Typography variant="h6">
-            <span style={{ color: "red" }}>We guarantee your privacy</span>. All
-            the data you submit is{" "}
-            <span style={{ color: "red" }}>encrypted</span> and can only be seen
-            by a authorized personnel from Excise Department.
-            <br /> You can see the stored reports data in our database{" "}
-            <LinkRouter to="/visualize" color="primary">
-              here
-            </LinkRouter>
-          </Typography>
 
-          <Stack spacing={2}>
-            <FormLabel>Date Of Incident*</FormLabel>
-            <DatePicker
-              views={["year", "month", "day"]}
-              value={formVars.dateIncident}
-              onChange={(newValue) => {
-                setFormVars({
-                  ...formVars,
-                  dateIncident: newValue as dayjs.Dayjs,
-                });
-              }}
-              inputFormat="DD/MM/YYYY"
-              renderInput={(params) => (
-                <TextField {...params} sx={{ width: 220 }} />
-              )}
-            />
-          </Stack>
-
-          <Stack spacing={2}>
-            <FormLabel id="incident-time">Incident Time*</FormLabel>
-            <Stack spacing={2} direction="row">
-              <TimePicker
-                label="From"
-                value={formVars.timeFrom}
+            <Stack spacing={2}>
+              <FormLabel>Date Of Incident*</FormLabel>
+              <DatePicker
+                views={["year", "month", "day"]}
+                value={formVars.dateIncident}
                 onChange={(newValue) => {
                   setFormVars({
                     ...formVars,
-                    timeFrom: newValue as dayjs.Dayjs,
+                    dateIncident: newValue as dayjs.Dayjs,
                   });
                 }}
+                inputFormat="DD/MM/YYYY"
                 renderInput={(params) => (
-                  <TextField {...params} sx={{ width: 150 }} />
-                )}
-              />
-
-              <TimePicker
-                label="To"
-                value={formVars.timeTo}
-                onChange={(newValue) => {
-                  setFormVars({ ...formVars, timeTo: newValue as dayjs.Dayjs });
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} sx={{ width: 150 }} />
+                  <TextField {...params} sx={{ width: 220 }} />
                 )}
               />
             </Stack>
-          </Stack>
 
-          <Stack spacing={2}>
-            <FormLabel id="category-select">Category*</FormLabel>
-            <Select
-              required
-              labelId="category-select"
-              value={formVars.category}
-              label="Category"
-              variant="standard"
-              sx={{ width: 300 }}
-              name="category"
-              onChange={handleChange}
-            >
-              <MenuItem value={"USAGE_SUSPECTED"}>
-                Suspected Usage of drugs
-              </MenuItem>
-              <MenuItem value={"USAGE_CONFIRMED"}>
-                Confirmed Usage of drugs
-              </MenuItem>
-              <MenuItem value={"TRADING_SUSPECTED"}>
-                Suspected Trading of drugs
-              </MenuItem>
-              <MenuItem value={"TRADING_CONFIRMED"}>
-                Confirmed Trading of drugs
-              </MenuItem>
-            </Select>
-          </Stack>
-
-          <Stack spacing={2}>
-            <FormLabel>Description*</FormLabel>
-            <TextareaAutosize
-              placeholder="Describe what happened. The more details you provide the better we can investigate your report."
-              required
-              minRows={5}
-              maxRows={12}
-              name="description"
-              onBlur={handleChange}
-            />
-          </Stack>
-
-          <Stack spacing={2}>
-            <FormLabel>Location*</FormLabel>
-            <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
-          </Stack>
-
-          <Stack spacing={2}>
-            <FormControl>
-              <FormLabel id="student-flag">Is the person a student?</FormLabel>
-              <RadioGroup
-                aria-labelledby="student-flag"
-                value={enableStudentOption}
-                name="student-flag-group"
-                onChange={(e, value) => {
-                  const currentVal = value === "true";
-                  setEnableStudentOption(currentVal);
-                }}
-              >
-                <Stack direction="row">
-                  <FormControlLabel
-                    value={true}
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel
-                    value={false}
-                    control={<Radio />}
-                    label="No"
-                  />
-                </Stack>
-              </RadioGroup>
-            </FormControl>
-          </Stack>
-
-          {enableStudentOption ? (
             <Stack spacing={2}>
-              <FormLabel id="student-select">Student Name*</FormLabel>
-              <Autocomplete
-                disableClearable
-                options={Object.keys(studentData)}
-                onChange={(e, value) => {
-                  setFormVars({
-                    ...formVars,
-                    studentId: studentData[value].id,
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search input"
-                    InputProps={{
-                      ...params.InputProps,
-                      type: "search",
-                    }}
-                  />
-                )}
-              />
-            </Stack>
-          ) : (
-            <Stack spacing={2}>
-              <FormLabel>Facial Features</FormLabel>
-              <Stack spacing={2} paddingLeft={2}>
-                <Typography variant="body1">
-                  This is optional. But helps us identify the person better.
-                  Select all the information you see fit
-                </Typography>
-                <FormControl>
-                  <FormLabel id="face-flag">Have you seen the face?</FormLabel>
-                  <RadioGroup
-                    aria-labelledby="face-flag"
-                    value={enableFaceOption}
-                    name="face-flag-group"
-                    onChange={(e, value) => {
-                      const currentVal = value === "true";
-                      setEnableFaceOption(currentVal);
-                    }}
-                  >
-                    <Stack direction="row">
-                      <FormControlLabel
-                        value={true}
-                        control={<Radio />}
-                        label="Yes"
-                      />
-                      <FormControlLabel
-                        value={false}
-                        control={<Radio />}
-                        label="No"
-                      />
-                    </Stack>
-                  </RadioGroup>
-                </FormControl>
+              <FormLabel id="incident-time">Incident Time*</FormLabel>
+              <Stack spacing={2} direction="row">
+                <TimePicker
+                  label="From"
+                  value={formVars.timeFrom}
+                  onChange={(newValue) => {
+                    setFormVars({
+                      ...formVars,
+                      timeFrom: newValue as dayjs.Dayjs,
+                    });
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} sx={{ width: 150 }} />
+                  )}
+                />
 
-                <Collapse in={enableFaceOption}>
-                  <Stack spacing={2} paddingBottom={2}>
-                    {Array.from(FACE_DATA.keys()).map((e, index) => (
-                      <FeatureSelector
-                        data={FACE_DATA.get(e as keyof FacialData)?.data}
-                        label={FACE_DATA.get(e as keyof FacialData)?.label}
-                        id={e as keyof FacialData}
-                        value={facialData}
-                        setValue={setFacialData}
-                        key={index}
-                      />
-                    ))}
-                  </Stack>
-                </Collapse>
+                <TimePicker
+                  label="To"
+                  value={formVars.timeTo}
+                  onChange={(newValue) => {
+                    setFormVars({
+                      ...formVars,
+                      timeTo: newValue as dayjs.Dayjs,
+                    });
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} sx={{ width: 150 }} />
+                  )}
+                />
               </Stack>
             </Stack>
-          )}
 
-          {error.length > 0 && (
-            <Alert severity="error">
-              {error.map((e) => {
-                return (
-                  <>
-                    {e}
-                    <br />
-                  </>
-                );
-              })}
-            </Alert>
-          )}
+            <Stack spacing={2}>
+              <FormLabel id="category-select">Category*</FormLabel>
+              <Select
+                required
+                labelId="category-select"
+                value={formVars.category}
+                label="Category"
+                variant="standard"
+                sx={{ width: 300 }}
+                name="category"
+                onChange={handleChange}
+              >
+                <MenuItem value={"USAGE_SUSPECTED"}>
+                  Suspected Usage of drugs
+                </MenuItem>
+                <MenuItem value={"USAGE_CONFIRMED"}>
+                  Confirmed Usage of drugs
+                </MenuItem>
+                <MenuItem value={"TRADING_SUSPECTED"}>
+                  Suspected Trading of drugs
+                </MenuItem>
+                <MenuItem value={"TRADING_CONFIRMED"}>
+                  Confirmed Trading of drugs
+                </MenuItem>
+              </Select>
+            </Stack>
 
-          <LoadingButton
-            type="submit"
-            loading={submitLoading}
-            variant="contained"
-            sx={{ width: "8rem", marginTop: "80px" }}
-          >
-            Submit
-          </LoadingButton>
-        </Stack>
-      </form>
-      <DialogBox
-        title={dialogData.title}
-        description={dialogData.description}
-        openFlag={dialogOpen}
-        handleOpen={setDialogOpen}
-      />
-    </LocalizationProvider>
+            <Stack spacing={2}>
+              <FormLabel>Description*</FormLabel>
+              <TextareaAutosize
+                placeholder="Describe what happened. The more details you provide the better we can investigate your report."
+                required
+                minRows={5}
+                maxRows={12}
+                name="description"
+                onBlur={handleChange}
+              />
+            </Stack>
+
+            <Stack spacing={2}>
+              <FormLabel>Location*</FormLabel>
+              <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+            </Stack>
+
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel id="student-flag">
+                  Is the person a student?
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="student-flag"
+                  value={enableStudentOption}
+                  name="student-flag-group"
+                  onChange={(e, value) => {
+                    const currentVal = value === "true";
+                    setEnableStudentOption(currentVal);
+                  }}
+                >
+                  <Stack direction="row">
+                    <FormControlLabel
+                      value={true}
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value={false}
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </Stack>
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+
+            {enableStudentOption ? (
+              <Stack spacing={2}>
+                <FormLabel id="student-select">Student Name*</FormLabel>
+                <Autocomplete
+                  disableClearable
+                  options={Object.keys(studentData)}
+                  onChange={(e, value) => {
+                    setFormVars({
+                      ...formVars,
+                      studentId: studentData[value].id,
+                    });
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search input"
+                      InputProps={{
+                        ...params.InputProps,
+                        type: "search",
+                      }}
+                    />
+                  )}
+                />
+              </Stack>
+            ) : (
+              <Stack spacing={2}>
+                <FormLabel>Facial Features</FormLabel>
+                <Stack spacing={2} paddingLeft={2}>
+                  <Typography variant="body1">
+                    This is optional. But helps us identify the person better.
+                    Select all the information you see fit
+                  </Typography>
+                  <FormControl>
+                    <FormLabel id="face-flag">
+                      Have you seen the face?
+                    </FormLabel>
+                    <RadioGroup
+                      aria-labelledby="face-flag"
+                      value={enableFaceOption}
+                      name="face-flag-group"
+                      onChange={(e, value) => {
+                        const currentVal = value === "true";
+                        setEnableFaceOption(currentVal);
+                      }}
+                    >
+                      <Stack direction="row">
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label="Yes"
+                        />
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label="No"
+                        />
+                      </Stack>
+                    </RadioGroup>
+                  </FormControl>
+
+                  <Collapse in={enableFaceOption}>
+                    <Stack spacing={2} paddingBottom={2}>
+                      {Array.from(FACE_DATA.keys()).map((e, index) => (
+                        <FeatureSelector
+                          data={FACE_DATA.get(e as keyof FacialData)?.data}
+                          label={FACE_DATA.get(e as keyof FacialData)?.label}
+                          id={e as keyof FacialData}
+                          value={facialData}
+                          setValue={setFacialData}
+                          key={index}
+                        />
+                      ))}
+                    </Stack>
+                  </Collapse>
+                </Stack>
+              </Stack>
+            )}
+
+            {error.length > 0 && (
+              <Alert severity="error">
+                {error.map((e) => {
+                  return (
+                    <>
+                      {e}
+                      <br />
+                    </>
+                  );
+                })}
+              </Alert>
+            )}
+
+            <LoadingButton
+              type="submit"
+              loading={submitLoading}
+              variant="contained"
+              sx={{ width: "8rem", marginTop: "80px" }}
+            >
+              Submit
+            </LoadingButton>
+          </Stack>
+        </form>
+        <DialogBox
+          title={dialogData.title}
+          description={dialogData.description}
+          openFlag={dialogOpen}
+          handleOpen={setDialogOpen}
+        />
+      </LocalizationProvider>
+    </Grid>
   );
 }

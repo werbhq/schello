@@ -34,7 +34,12 @@ export default function FeatureSelector({
         onChange={(_, e) => setValue({ ...value, [id]: e })}
       >
         <Stack direction="column" spacing={2}>
-          <Stack direction="row" spacing={4} alignItems="center">
+          <Stack
+            direction="row"
+            spacing={4}
+            alignItems="center"
+            style={{ maxWidth: "80vw", overflow: "auto" }}
+          >
             {data?.map((item, index) => (
               <Stack direction="column" alignItems="center" key={index}>
                 <Stack direction="row" alignItems="center">
