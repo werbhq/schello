@@ -1,17 +1,18 @@
 import type { MapData } from "./MapData";
 
 export interface FacialData {
-  hairType: "STRAIGHT" | "WAVY" | "CURLY" | "KINKY";
-  skinColor: "FAIR" | "OLIVE" | "BROWN" | "LIGHT-BROWN" | "DARK-BROWN";
-  gender: "MALE" | "FEMALE";
-  eyeColor: "BLACK" | "BLUE" | "GREEN" | "SILVER" | "BROWN";
+  hairType: "STRAIGHT" | "WAVY" | "CURLY" | "KINKY"|"NONE";
+  skinColor: "FAIR" | "OLIVE" | "BROWN" | "LIGHT-BROWN" | "DARK-BROWN"|"NONE";
+  gender: "MALE" | "FEMALE"|"NONE";
+  eyeColor: "BLACK" | "BLUE" | "GREEN" | "SILVER" | "BROWN"|"NONE";
   faceShape:
     | "DIAMOND"
     | "OVAL"
     | "INVERTED_TRIANGLE"
     | "SQUARE"
     | "TRIANGLE"
-    | "ROUND";
+    | "ROUND"
+    |"NONE";
 }
 export interface Report {
   dateIncident: string | null;
