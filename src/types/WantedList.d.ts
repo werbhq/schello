@@ -6,5 +6,5 @@ export interface WantedList {
   photoUrl: string;
   photoId: string; // Bucket path. Only for internal use
   facialData: FacialData;
-  reports: string[];
+  reported: string[];
 }
