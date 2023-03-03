@@ -138,7 +138,7 @@ export function PlaceSearch(props: any) {
   };
 
   return (
-    <Stack direction="row" spacing={1} {...props}>
+    <Stack direction="row" spacing={1}>
       <AutocompleteCustom
         options={data}
         setInput={setInput}

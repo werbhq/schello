@@ -1,7 +1,6 @@
 import {
   Alert,
   Autocomplete,
-  Collapse,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -21,7 +20,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import FeatureSelector from "./components/FeatureSelector";
 import DialogBox from "../../components/ui/CustomDialogBox";
 import { PlaceSearch } from "./components/PlaceSearch";
 import { LoadingButton } from "@mui/lab";
@@ -29,8 +27,8 @@ import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "../../api/report";
 import { MapData } from "../../types/MapData";
 import { FacialData, Report } from "../../types/Report";
-import FACE_DATA from "./components/FaceData";
 import student_data from "../../constant/student_data.json";
+import { FacialField } from "./components/FacialField";
 
 const studentData: { [index: string]: { id: string } } = student_data;
 
@@ -72,6 +70,7 @@ export default function DrugReportForm(props: any) {
     studentId: null,
     status: "NEW",
     facialData: null,
+    wantedPersonId: null,
   };
 
   const defaultFacialVars: FacialData = {
@@ -84,8 +83,11 @@ export default function DrugReportForm(props: any) {
 
   const [formVars, setFormVars] = useState(defaultFormVars);
   const [facialData, setFacialData] = useState(defaultFacialVars);
+  const [wantedPersonId, setWantedPersonId] =
+    useState<Report["wantedPersonId"]>(null);
 
   const [enableFaceOption, setEnableFaceOption] = useState(false);
+  const [enableWantedOption, setEnableWantedOption] = useState(true);
   const [enableStudentOption, setEnableStudentOption] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -115,8 +117,12 @@ export default function DrugReportForm(props: any) {
       new_errors.push("Provide a <Student Name>");
     }
 
-    if (enableFaceOption && facialData === null) {
+    if (enableFaceOption && !enableWantedOption && facialData === null) {
       new_errors.push("Provide <Facial Data>");
+    }
+
+    if (enableFaceOption && enableWantedOption && wantedPersonId === null) {
+      new_errors.push("Select a person from wanted list");
     }
 
     if (new_errors.length > 0) {
@@ -131,7 +137,9 @@ export default function DrugReportForm(props: any) {
       timeTo: formVars.timeTo.toISOString(),
       location: formVars.location as Report["location"],
       studentId: enableStudentOption ? formVars.studentId : null,
-      facialData: enableFaceOption ? facialData : null,
+      facialData: enableFaceOption && !enableWantedOption ? facialData : null,
+      wantedPersonId:
+        enableFaceOption && enableWantedOption ? wantedPersonId : null,
     };
 
     console.log(parsedFormVars);
@@ -323,67 +331,26 @@ export default function DrugReportForm(props: any) {
                 />
               </Stack>
             ) : (
-              <Stack spacing={2}>
-                <FormLabel>Facial Features</FormLabel>
-                <Stack spacing={2} paddingLeft={2}>
-                  <Typography variant="body1">
-                    This is optional. But helps us identify the person better.
-                    Select all the information you see fit
-                  </Typography>
-                  <FormControl>
-                    <FormLabel id="face-flag">
-                      Have you seen the face?
-                    </FormLabel>
-                    <RadioGroup
-                      aria-labelledby="face-flag"
-                      value={enableFaceOption}
-                      name="face-flag-group"
-                      onChange={(e, value) => {
-                        const currentVal = value === "true";
-                        setEnableFaceOption(currentVal);
-                      }}
-                    >
-                      <Stack direction="row">
-                        <FormControlLabel
-                          value={true}
-                          control={<Radio />}
-                          label="Yes"
-                        />
-                        <FormControlLabel
-                          value={false}
-                          control={<Radio />}
-                          label="No"
-                        />
-                      </Stack>
-                    </RadioGroup>
-                  </FormControl>
-
-                  <Collapse in={enableFaceOption}>
-                    <Stack spacing={2} paddingBottom={2}>
-                      {Array.from(FACE_DATA.keys()).map((e, index) => (
-                        <FeatureSelector
-                          data={FACE_DATA.get(e as keyof FacialData)?.data}
-                          label={FACE_DATA.get(e as keyof FacialData)?.label}
-                          id={e as keyof FacialData}
-                          value={facialData}
-                          setValue={setFacialData}
-                          key={index}
-                        />
-                      ))}
-                    </Stack>
-                  </Collapse>
-                </Stack>
-              </Stack>
+              <FacialField
+                enableFacialFeatures={enableFaceOption}
+                setEnableFacialFeatures={setEnableFaceOption}
+                enableWantedList={enableWantedOption}
+                setEnableWantedList={setEnableWantedOption}
+                facialData={facialData}
+                setFacialData={setFacialData}
+                wantedPersonId={wantedPersonId}
+                setWantedPersonId={setWantedPersonId}
+              />
             )}
 
             {error.length > 0 && (
               <Alert severity="error">
-                {error.map((e) => {
+                {error.map((e, index) => {
                   return (
-                    <>
+                    <div key={index}>
                       {e}
                       <br />
-                    </>
+                    </div>
                   );
                 })}
               </Alert>
