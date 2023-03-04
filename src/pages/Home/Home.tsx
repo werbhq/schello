@@ -39,9 +39,15 @@ function HomePage() {
           </Typography>
         </Stack>
       </Grid>
+
       <Divider sx={{ width: "100%" }} />
 
-      <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
+      <Grid
+        item
+        xs={12}
+        lg={8}
+        sx={{ display: "flex", flexDirection: "column" }}
+      >
         <Stack spacing={2} margin={2}>
           <Typography variant="h6">Videos</Typography>
           <List
@@ -79,14 +85,29 @@ function HomePage() {
         </Stack>
       </Grid>
 
-      <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
+      <Grid
+        item
+        xs={12}
+        lg={4}
+        sx={{ display: "flex", flexDirection: "column" }}
+      >
         <Stack spacing={2} margin={2}>
           <Typography variant="h6">Events</Typography>
           <List
-            style={{ overflow: "auto", padding: "0px", maxHeight: "350px" }}
+            style={{
+              overflow: "auto",
+              padding: "0px",
+              maxHeight: "350px",
+            }}
           >
             {events?.map((e, index) => (
-              <ListItem key={index} style={{ padding: "5px 0px" }}>
+              <ListItem
+                key={index}
+                style={{
+                  padding: "5px 0px",
+                
+                }}
+              >
                 <EventCard event={e} key={index} />
               </ListItem>
             ))}
