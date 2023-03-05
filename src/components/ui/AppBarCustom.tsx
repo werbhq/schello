@@ -1,31 +1,40 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  useTheme,
+} from "@mui/material";
 import { Outlet, NavLink } from "react-router-dom";
 
 export default function AppBarCustom() {
-  const activeLink = {
+  const theme = useTheme();
+
+  const activeLink: React.CSSProperties = {
     backgroundColor: "#f9f9f9",
     borderRadius: "2px",
     textDecoration: "none",
-    color: "#4374f1",
+    color: theme.palette.primary.main,
   };
-  const inActiveLink = {
+
+  const inActiveLink: React.CSSProperties = {
     backgroundColor: "inherit",
     borderRadius: "2px",
     textDecoration: "none",
     color: "inherit",
   };
+
+  const applyNavStyle = ({ isActive }: { isActive: boolean }) =>
+    isActive ? activeLink : inActiveLink;
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ background: "#F1C043" }}>
+      <AppBar
+        position="static"
+        style={{ background: theme.palette.secondary.main }}
+      >
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography
             variant="h6"
             color="inherit"
@@ -34,25 +43,13 @@ export default function AppBarCustom() {
           >
             Schello
           </Typography>
-          <NavLink
-            style={({ isActive }) => (isActive ? activeLink : inActiveLink)}
-            to="/"
-            end
-          >
+          <NavLink style={applyNavStyle} to="/" end>
             <Button color="inherit">Home</Button>
           </NavLink>
-          <NavLink
-            style={({ isActive }) => (isActive ? activeLink : inActiveLink)}
-            to="form"
-            end
-          >
+          <NavLink style={applyNavStyle} to="form" end>
             <Button color="inherit">Form</Button>
           </NavLink>
-          <NavLink
-            style={({ isActive }) => (isActive ? activeLink : inActiveLink)}
-            to="community"
-            end
-          >
+          <NavLink style={applyNavStyle} to="community" end>
             <Button color="inherit">Community</Button>
           </NavLink>
         </Toolbar>
