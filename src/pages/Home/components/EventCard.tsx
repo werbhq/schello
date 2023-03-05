@@ -34,7 +34,7 @@ function EventCard({ event, ...rest }: { event: Event }) {
   return (
     <Card
       variant="outlined"
-      sx={{ padding: "10px", maxWidth: "30rem" }}
+      sx={{ padding: "10px", maxWidth: "90%", minWidth: "90%" }}
       onClick={handleExpand}
       {...rest}
     >
