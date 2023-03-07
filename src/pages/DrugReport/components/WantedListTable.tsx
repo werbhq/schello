@@ -1,10 +1,10 @@
-import { useWantedData } from "../../../../hooks/useWantedList";
-import FACE_DATA from "./FaceData";
-import { Table, Image, Input, Space, Button } from "antd";
+import { useWantedData } from "../../../hooks/useWantedList";
+import FACE_DATA from "./face/FaceData";
+import { Table, Image, Input, Space, Button, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { WantedListCustom } from "../../../../api/wanted_list";
-import { Report } from "../../../../types/Report";
+import { WantedListCustom } from "../../../api/wanted_list";
+import { Report } from "../../../types/Report";
 import { CheckOutlined } from "@ant-design/icons";
 
 export default function WantedListTable({
@@ -55,7 +55,7 @@ export default function WantedListTable({
     {
       dataIndex: "name",
       title: FilterByNameInput,
-      width: 150,
+      width: 100,
       render: (value, record) => {
         const selected = record.id === wantedPersonId;
         return (
@@ -83,7 +83,7 @@ export default function WantedListTable({
     {
       dataIndex: "age",
       title: "Age",
-      width: 100,
+      width: 40,
       sorter: (a, b) => a["age"] - b["age"],
     },
     ...Array.from(FACE_DATA.keys()).map((e) => ({
@@ -98,6 +98,22 @@ export default function WantedListTable({
           }))
           .filter((e) => e.value !== "NONE") ?? [],
       onFilter: (value: any, record: any) => record[e] === value,
+      render: (value: string) => (
+        <Space direction="horizontal" align="center">
+          <Image
+            height={55}
+            preview={false}
+            src={
+              FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.image ??
+              ""
+            }
+            alt="-"
+          />
+          <Tag>
+            {FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.label}
+          </Tag>
+        </Space>
+      ),
     })),
   ];
 
