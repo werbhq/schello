@@ -1,5 +1,5 @@
 import { baseApi, fireStore } from ".";
-import { Report } from "../types/Report";
+import { Report } from "types/Report";
 import { Timestamp, collection, getDocs } from "firebase/firestore";
 
 export const firebaseToDate = (date: Timestamp) => date.toDate().toISOString();

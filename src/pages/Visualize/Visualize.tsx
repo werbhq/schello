@@ -1,7 +1,7 @@
 import { Typography, Stack } from "@mui/material";
 import ReportTable from "./components/ReportTable";
-import { useReportsData } from "../../hooks/useVisualizeData";
-import PageLoader from "../../components/ui/PageLoader";
+import { useReportsData } from "hooks/useVisualizeData";
+import PageLoader from "components/ui/PageLoader";
 
 function VisualizePage() {
   const { data: reports, isLoading } = useReportsData();

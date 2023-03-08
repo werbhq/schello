@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import FeatureSelector from "./face/FeatureSelector";
 import FACE_DATA from "./face/FaceData";
-import { FacialData, Report } from "../../../types/Report";
+import { FacialData, Report } from "types/Report";
 import WantedListTable from "./WantedListTable";
 
 type Props = {

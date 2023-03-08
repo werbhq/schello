@@ -2,10 +2,10 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-import type { MapData } from "../../../types/MapData";
+import type { MapData } from "types/MapData";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { MyLocation } from "@mui/icons-material";
-import Notification from "../../../components/Notification";
+import Notification from "components/Notification";
 
 function AutocompleteCustom({
   options,

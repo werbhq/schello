@@ -25,7 +25,7 @@ import shapeRound from "../../assets/shape/round.png";
 import genderMale from "../../assets/gender/male.png";
 import genderFemale from "../../assets/gender/female.png";
 
-import { FacialData } from "../../../../types/Report";
+import { FacialData } from "types/Report";
 
 export interface FeatureData {
   image: string | null;

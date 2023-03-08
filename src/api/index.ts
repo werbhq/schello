@@ -6,7 +6,7 @@ import {
   getFirestore,
   connectFirestoreEmulator,
 } from "firebase/firestore";
-import { convertTimeStamp } from "../util/TimeStamp";
+import { convertTimeStamp } from "util/TimeStamp";
 
 const baseURL =
   process.env.NODE_ENV === "production"

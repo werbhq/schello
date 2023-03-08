@@ -11,10 +11,10 @@ import {
 import { useState } from "react";
 import Editor from "./Editor";
 import { LoadingButton } from "@mui/lab";
-import DialogBox from "../../../../components/ui/CustomDialogBox";
-import { CommunityArticle, CommunityVideo } from "../../../../types/Community";
-import { PlatForm } from "../../../../util/Platfrom";
-import { addCommunityForm } from "../../../../api/community";
+import DialogBox from "components/ui/CustomDialogBox";
+import { CommunityArticle, CommunityVideo } from "types/Community";
+import { PlatForm } from "util/Platfrom";
+import { addCommunityForm } from "api/community";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,

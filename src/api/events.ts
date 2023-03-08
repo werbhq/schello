@@ -1,6 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
-import { Event } from "../types/General Awarness";
+import { Event } from "types/General Awarness";
 import { MAPPING } from "./mapping";
 
 export const getEvents = async () => {

@@ -1,10 +1,10 @@
-import { useWantedData } from "../../../hooks/useWantedList";
+import { useWantedData } from "hooks/useWantedList";
 import FACE_DATA from "./face/FaceData";
 import { Table, Image, Input, Space, Button, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { WantedListCustom } from "../../../api/wanted_list";
-import { Report } from "../../../types/Report";
+import { WantedListCustom } from "api/wanted_list";
+import { Report } from "types/Report";
 import { CheckOutlined } from "@ant-design/icons";
 
 export default function WantedListTable({

@@ -6,7 +6,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useRef } from "react";
-import { FacialData } from "../../../../types/Report";
+import { FacialData } from "types/Report";
 import { FeatureData } from "./FaceData";
 
 export default function FeatureSelector({

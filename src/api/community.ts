@@ -1,6 +1,6 @@
 import { collection, Timestamp, addDoc, getDocs } from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
-import { CommunityVideo, CommunityArticle } from "../types/Community";
+import { CommunityVideo, CommunityArticle } from "types/Community";
 import { MAPPING } from "./mapping";
 
 type CommunityForm = Omit<

@@ -1,10 +1,9 @@
 import { Button, Typography, List, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-
-import VideoCard from "../Home/components/VideoCard";
+import VideoCard from "pages/Home/components/VideoCard";
 import ArticleCard from "./components/articleCard";
-import PageLoader from "../../components/ui/PageLoader";
-import { useCommunityData } from "../../hooks/useCommunityData";
+import PageLoader from "components/ui/PageLoader";
+import { useCommunityData } from "hooks/useCommunityData";
 
 function CommunityPage() {
   const { videos, articles, isLoading } = useCommunityData();

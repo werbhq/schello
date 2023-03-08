@@ -1,6 +1,6 @@
-import { getEvents } from "../api/events";
-import { getGeneralNews, getGeneralVideos } from "../api/general";
-import { MAPPING } from "../api/mapping";
+import { getEvents } from "api/events";
+import { getGeneralNews, getGeneralVideos } from "api/general";
+import { MAPPING } from "api/mapping";
 import { useQuery } from "react-query";
 
 export const useGeneralData = () => {

@@ -9,11 +9,11 @@ import {
 } from "@mui/material";
 import { LocationOnSharp, Schedule } from "@mui/icons-material";
 import stringToHtml from "html-react-parser";
-import type { Event } from "../../../types/General Awarness";
+import type { Event } from "types/General Awarness";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import dayjs from "dayjs";
 import { useState } from "react";
-import Expand from "../../../components/ui/Expand";
+import Expand from "components/ui/Expand";
 
 function EventCard({ event, ...rest }: { event: Event }) {
   const displayTime = {

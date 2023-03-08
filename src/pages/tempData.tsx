@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Event, GeneralNews, GeneralVideo } from "../types/General Awarness";
+import { Event, GeneralNews, GeneralVideo } from "types/General Awarness";
 
 let events: Event[] = [
   {

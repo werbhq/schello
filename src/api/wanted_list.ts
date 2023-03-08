@@ -1,8 +1,8 @@
 import { MAPPING } from "./mapping";
 import { fireStore, processSnapshot } from ".";
 import { collection, getDocs } from "firebase/firestore";
-import { WantedList } from "../types/WantedList";
-import { FacialData } from "../types/Report";
+import { WantedList } from "types/WantedList";
+import { FacialData } from "types/Report";
 
 export interface WantedListCustom extends WantedList, FacialData {
   id: string;

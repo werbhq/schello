@@ -1,5 +1,5 @@
-import { getCommunityArticle, getCommunityVideos } from "../api/community";
-import { MAPPING } from "../api/mapping";
+import { getCommunityArticle, getCommunityVideos } from "api/community";
+import { MAPPING } from "api/mapping";
 import { useQuery } from "react-query";
 
 export const useCommunityData = () => {

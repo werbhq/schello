@@ -10,8 +10,8 @@ import EventCard from "./components/EventCard";
 import VideoCard from "./components/VideoCard";
 import NewsCard from "./components/NewsCard";
 import NoDataCard from "./components/NoDataCard";
-import { useGeneralData } from "../../hooks/useGeneralData";
-import PageLoader from "../../components/ui/PageLoader";
+import { useGeneralData } from "hooks/useGeneralData";
+import PageLoader from "components/ui/PageLoader";
 
 function HomePage() {
   const { events, videos, news, isLoading } = useGeneralData();
@@ -105,7 +105,6 @@ function HomePage() {
                 key={index}
                 style={{
                   padding: "5px 0px",
-                
                 }}
               >
                 <EventCard event={e} key={index} />
