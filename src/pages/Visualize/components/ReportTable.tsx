@@ -4,14 +4,9 @@ import dayjs from "dayjs";
 
 const columns: GridColDef<Report>[] = [
   {
-    field: "id",
-    headerName: "ID",
-    width: 50,
-  },
-  {
     field: "dateIncident",
     headerName: "Incident Date",
-    width: 100,
+    width: 120,
     valueGetter: (params) => dayjs(params.value).format("D MMM YYYY"),
   },
   {
@@ -41,13 +36,19 @@ const columns: GridColDef<Report>[] = [
   {
     field: "location",
     headerName: "Location",
-    width: 200,
+    width: 180,
     sortable: false,
   },
   {
     field: "studentId",
     headerName: "Student ID",
-    width: 180,
+    width: 100,
+    sortable: false,
+  },
+  {
+    field: "wantedPersonId",
+    headerName: "Wanted Person ID",
+    width: 100,
     sortable: false,
   },
   {
