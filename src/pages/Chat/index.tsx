@@ -11,28 +11,37 @@ import {
   Typography,
 } from "@mui/material";
 import stringToHtml from "html-react-parser";
+import Notification from "components/Notification";
 type MessageData = { user: string; message: string };
+
+const USER = {
+  AI: "AI",
+  HUMAN: "USER",
+};
+
+const BASE_MESSAGE = `The following is a conversation with an AI Substance Abuse Counselor and a ${USER.HUMAN}. The ${USER.AI} is helpful, creative, clever, empathetic and very friendly. ${USER.AI}'s objective is counsel the ${USER.HUMAN}.`;
 
 const ChatMessage = ({ message }: { message: MessageData }) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => setExpanded(!expanded);
 
+  const isAi = message.user === USER.AI;
+
   return (
     <Card
       variant="outlined"
       onClick={handleExpand}
-      sx={{
-        p: "10px",
-        m: "20px",
+      style={{
+        padding: "10px",
+        margin: "20px",
+        maxWidth: "400px",
         minHeight: "max-content",
-        float: message.user === "AI" ? "left" : "right",
+        float: isAi ? "left" : "right",
         clear: "both",
       }}
-      className={`centered-chatmsg ${
-        message.user === "AI" ? "bg-blue" : "bg-usercolor"
-      }`}
+      className={isAi ? "bg-blue" : "bg-user-color"}
     >
-      <CardContent>
+      <CardContent style={{ padding: "8px" }}>
         {stringToHtml(message.message.replace("\n", "<br>"))}
       </CardContent>
     </Card>
@@ -40,42 +49,54 @@ const ChatMessage = ({ message }: { message: MessageData }) => {
 };
 
 function ChatPage() {
-  const BOT_NAME = "AI";
-  const USER_NAME = "USER";
   const [input, setInput] = useState("");
   const [showChat, setShowChat] = useState(false);
-  const [showWelcomeMsg, setshowWelcomeMsg] = useState(true);
-  const chatRef = useRef<HTMLOListElement>(null);
-
-  const BASE = `The following is a conversation with an AI Substance Abuse Counselor and a ${USER_NAME}. The ${BOT_NAME} is helpful, creative, clever, empathetic and very friendly. ${BOT_NAME}'s objective is counsel the ${USER_NAME}.`;
+  const [showWelcomeMsg, setShowWelcomeMsg] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState({
+    message: "",
+    show: false,
+  });
   const [chatLog, setChatLog] = useState([
     {
-      user: BOT_NAME,
-      message: `Hello, I am your AI Substance Abuse Counselor. How can I help you?`,
+      user: USER.AI,
+      message:
+        "Hello, I am your AI Substance Abuse Counselor. How can I help you?",
     },
   ]);
+  const chatRef = useRef<HTMLOListElement>(null);
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-
     if (input === "") return;
 
-    const messageData = [...chatLog, { user: USER_NAME, message: input }];
+    const messageData = [...chatLog, { user: USER.HUMAN, message: input }];
+
     setInput("");
     setChatLog(messageData);
 
-    const { data } = await sendUserChat({
-      message: [
-        BASE,
-        ...messageData.map((e) => `${e.user}:${e.message}`),
-        `${BOT_NAME}:`,
-      ].join(" "),
-    });
-    setChatLog([...messageData, { user: BOT_NAME, message: data }]);
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await sendUserChat({
+        message: [
+          BASE_MESSAGE,
+          ...messageData.map((e) => `${e.user}:${e.message}`),
+          `${USER.AI}:`,
+        ].join(" "),
+      });
+
+      if (error) throw new Error(data);
+      setChatLog([...messageData, { user: USER.AI, message: data }]);
+    } catch (error: any) {
+      setNotification({ message: error.message, show: true });
+    }
+
+    setIsLoading(false);
   }
 
   function handleClick() {
-    setshowWelcomeMsg(false);
+    setShowWelcomeMsg(false);
     setShowChat(true);
   }
 
@@ -91,45 +112,39 @@ function ChatPage() {
   return (
     <Stack>
       {showWelcomeMsg && (
-        <Card
-          className="centered-card"
-          variant="outlined"
-          style={{ border: "none" }}
-        >
-          <CardContent>
-            <Typography variant="h5" style={{ margin: "20px" }}>
+        <Stack alignItems="center" justifyContent="center" margin={3}>
+          <Stack alignItems="center" marginBottom={4}>
+            <Typography variant="h3" color="primary" fontWeight="bold">
               Substance Abuse Counseling Bot
             </Typography>
-            <Typography variant="h6">
-              This is a personalised health app designed specially for
-              clarifying your doubts regarding your substance abuse related
-              queries.
-            </Typography>
-            <Typography variant="h6" style={{ color: "red" }}>
-              We respect your privacy. The chats wont be saved and you dont need
-              to reveal your personal details to use this personalised app.
-            </Typography>
-            <Button
-              variant="contained"
-              style={{ width: "400px", margin: "30px" }}
-              onClick={() => {
-                handleClick();
-              }}
-            >
-              Click here to start a conversation
-            </Button>
-          </CardContent>
-        </Card>
+          </Stack>
+          <Typography variant="h6">
+            This is a personalized health app designed specially for clarifying
+            your doubts regarding your substance abuse related queries.
+          </Typography>
+          <Typography variant="h6" style={{ color: "red" }}>
+            We respect your privacy. The chats wont be saved and you don't need
+            to reveal your personal details to use this personalized app.
+          </Typography>
+          <Button
+            variant="contained"
+            style={{ minWidth: "40vw", margin: "30px" }}
+            onClick={() => handleClick()}
+          >
+            Click here to start a conversation
+          </Button>
+        </Stack>
       )}
+
       {showChat && (
         <Stack>
           <List
             style={{
               overflow: "auto",
               padding: "0px",
-              maxHeight: "70vh",
+              maxHeight: "75vh",
+              minHeight: "20px",
             }}
-            sx={{ minHeight: "20px", maxHeight: "500px" }}
             ref={chatRef}
           >
             {chatLog.map((message, index) => (
@@ -138,33 +153,41 @@ function ChatPage() {
           </List>
 
           <Card
-            sx={{
+            style={{
               padding: "10px",
-              maxWidth: "90rem",
-              maxHeight: "20rem",
-              position: "fixed",
+              margin: 0,
               bottom: 0,
+              minHeight: "4rem",
+              position: "fixed",
+              width: "100%",
+              borderRadius: 0,
+              backgroundColor: notification.show ? "#f04d38" : "#f1c043",
             }}
-            className="input-chat"
           >
             <form onSubmit={handleSubmit}>
               <InputBase
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Type Here"
+                placeholder="Provide your query message here"
                 fullWidth
                 multiline
+                style={{ padding: "10px" }}
                 onKeyDown={(e: any) => {
                   if (e.keyCode === 13 && !e.shiftKey) {
                     e.preventDefault();
                     handleSubmit(e);
                   }
                 }}
+                disabled={isLoading}
               />
             </form>
           </Card>
         </Stack>
       )}
+      <Notification
+        showMessage={notification}
+        setShowMessage={setNotification}
+      />
     </Stack>
   );
 }
