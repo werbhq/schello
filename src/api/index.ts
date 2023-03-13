@@ -1,4 +1,6 @@
 import axios from "axios";
+import BASE_URL from "constant/api";
+import firebaseConfig from "constant/firebase.config";
 import { initializeApp } from "firebase/app";
 import {
   DocumentData,
@@ -8,20 +10,8 @@ import {
 } from "firebase/firestore";
 import { convertTimeStamp } from "util/TimeStamp";
 
-const baseURL =
-  process.env.NODE_ENV === "production"
-    ? "https://us-central1-merit-werb.cloudfunctions.net/api"
-    : "http://localhost:5001/merit-werb/us-central1/api";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCsV-3C_U3ksRXdsZorW9RXy7PifGTR52w",
-  authDomain: "merit-werb.firebaseapp.com",
-  projectId: "merit-werb",
-  storageBucket: "merit-werb.appspot.com",
-  messagingSenderId: "1023193104645",
-  appId: "1:1023193104645:web:c569ccf902442e2402f76c",
-  measurementId: "G-GHVRHTZN0E",
-};
+export const isProd = process.env.NODE_ENV === "production";
+const baseURL = isProd ? BASE_URL.PROD : BASE_URL.EMULATOR;
 
 const emulate = false;
 
@@ -32,7 +22,7 @@ export const baseApi = axios.create({
 
 const app = initializeApp(firebaseConfig);
 export const fireStore = getFirestore(app);
-if (emulate) connectFirestoreEmulator(fireStore, "localhost", 8090);
+if (emulate && !isProd) connectFirestoreEmulator(fireStore, "localhost", 8090);
 
 export const processSnapshot = (
   e: QuerySnapshot<DocumentData>,
