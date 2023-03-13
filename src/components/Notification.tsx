@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar, SnackbarOrigin } from "@mui/material";
 
 function Notification({
   showMessage,
   setShowMessage,
+  severity = "error",
+  anchorOrigin = { vertical: "top", horizontal: "center" },
 }: {
   showMessage: {
     show: boolean;
@@ -15,17 +17,19 @@ function Notification({
       message: string;
     }>
   >;
+  severity?: AlertColor;
+  anchorOrigin?: SnackbarOrigin;
 }) {
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={anchorOrigin}
       open={showMessage.show}
       autoHideDuration={2000}
       onClose={() => setShowMessage({ ...showMessage, show: false })}
     >
       <Alert
         onClose={() => setShowMessage({ ...showMessage, show: false })}
-        severity="error"
+        severity={severity}
         sx={{ width: "100%" }}
       >
         {showMessage.message}
