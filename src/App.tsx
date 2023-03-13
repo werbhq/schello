@@ -8,6 +8,7 @@ import VisualizePage from "./pages/Visualize/Visualize";
 import CommunityForm from "./pages/Community/Form/Form";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import ChatPage from "./pages/Chat";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ function App() {
             <Route path="community" element={<Community />} />
             <Route path="community/form" element={<CommunityForm />} />
             <Route path="visualize" element={<VisualizePage />} />
+            <Route path="chat" element={<ChatPage />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>
