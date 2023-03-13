@@ -1,0 +1,26 @@
+.centered-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.centered-chatmsg {
+  max-width: 400px;
+}
+
+.bg-blue {
+  background-color: #179f97 !important;
+  color: white !important;
+}
+.bg-usercolor {
+  background-color: #cbcbcb !important;
+  text-align: right;
+}
+
+.input-chat {
+  background-color: #f1c043 !important;
+  color: white !important;
+  width: 100%;
+  margin: 30px;
+}
