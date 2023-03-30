@@ -32,7 +32,7 @@ const ChatMessage = ({ message }: { message: MessageData }) => {
         clear: "both",
       }}
       sx={
-        isAi ? { backgroundColor: "#179f97" } : { backgroundColor: "#cbcbcb" }
+        isAi ? { backgroundColor: "#179f97",color:"white" } : { backgroundColor: "#cbcbcb" }
       }
     >
       <CardContent style={{ padding: "8px" }}>

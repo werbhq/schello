@@ -146,9 +146,19 @@ function ChatPage() {
                 disabled={isLoading}
               />
               <Button
-                sx={{ float: "right", right: "30px", bottom: "17px" }}
-                size="medium"
-                endIcon={<SendIcon style={{color:"white"}}/>}
+                sx={{
+                  float: "right",
+                  right: "60px",
+                  bottom: "20px",
+                }}
+                endIcon={
+                  <SendIcon
+                    style={{
+                      color: "white",
+                      fontSize: "30px",
+                    }}
+                  />
+                }
                 onClick={handleSubmit}
                 type="submit"
               />
