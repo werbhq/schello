@@ -1,18 +1,10 @@
-import "./index.css";
 import { useState, useRef, useEffect } from "react";
 import { sendUserChat } from "../../api/chat";
 import { Stack } from "@mui/system";
-import {
-  Button,
-  Card,
-  CardContent,
-  InputBase,
-  List,
-  Typography,
-} from "@mui/material";
-import stringToHtml from "html-react-parser";
+import { Button, Card, InputBase, List, Typography } from "@mui/material";
 import Notification from "components/Notification";
-type MessageData = { user: string; message: string };
+import SendIcon from "@mui/icons-material/Send";
+import ChatMessage from "./components/ChatMessage";
 
 const USER = {
   AI: "AI",
@@ -20,33 +12,6 @@ const USER = {
 };
 
 const BASE_MESSAGE = `The following is a conversation with an AI Substance Abuse Counselor and a ${USER.HUMAN}. The ${USER.AI} is helpful, creative, clever, empathetic and very friendly. ${USER.AI}'s objective is counsel the ${USER.HUMAN}.`;
-
-const ChatMessage = ({ message }: { message: MessageData }) => {
-  const [expanded, setExpanded] = useState(false);
-  const handleExpand = () => setExpanded(!expanded);
-
-  const isAi = message.user === USER.AI;
-
-  return (
-    <Card
-      variant="outlined"
-      onClick={handleExpand}
-      style={{
-        padding: "10px",
-        margin: "20px",
-        maxWidth: "400px",
-        minHeight: "max-content",
-        float: isAi ? "left" : "right",
-        clear: "both",
-      }}
-      className={isAi ? "bg-blue" : "bg-user-color"}
-    >
-      <CardContent style={{ padding: "8px" }}>
-        {stringToHtml(message.message.replace("\n", "<br>"))}
-      </CardContent>
-    </Card>
-  );
-};
 
 function ChatPage() {
   const [input, setInput] = useState("");
@@ -179,6 +144,23 @@ function ChatPage() {
                   }
                 }}
                 disabled={isLoading}
+              />
+              <Button
+                sx={{
+                  float: "right",
+                  right: "60px",
+                  bottom: "20px",
+                }}
+                endIcon={
+                  <SendIcon
+                    style={{
+                      color: "white",
+                      fontSize: "30px",
+                    }}
+                  />
+                }
+                onClick={handleSubmit}
+                type="submit"
               />
             </form>
           </Card>
