@@ -9,5 +9,6 @@ export const MAPPING = {
   GENERAL: {
     NEWS: "general-news",
     VIDEO: "general-video",
+    GOOGLE_NEWS: "general-google-news",
   },
 };

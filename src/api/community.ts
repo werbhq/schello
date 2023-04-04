@@ -1,4 +1,11 @@
-import { collection, Timestamp, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  Timestamp,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
 import { CommunityVideo, CommunityArticle } from "types/Community";
 import { MAPPING } from "./mapping";
@@ -44,14 +51,16 @@ export const addCommunityForm = async (
 
 export const getCommunityVideos = async () => {
   const videoRef = collection(fireStore, MAPPING.COMMUNITY.VIDEO);
-  const snapshot = await getDocs(videoRef);
+  const communityvideoQuery = query(videoRef, where("visible", "==", true));
+  const snapshot = await getDocs(communityvideoQuery);
   const data = processSnapshot(snapshot);
   return data as CommunityVideo[];
 };
 
 export const getCommunityArticle = async () => {
-  const newsRef = collection(fireStore, MAPPING.COMMUNITY.ARTICLE);
-  const snapshot = await getDocs(newsRef);
+  const articleRef = collection(fireStore, MAPPING.COMMUNITY.ARTICLE);
+  const communityarticleQuery = query(articleRef, where("visible", "==", true));
+  const snapshot = await getDocs(communityarticleQuery);
   const data = processSnapshot(snapshot);
   return data as CommunityArticle[];
 };
