@@ -8,7 +8,7 @@ import {
   getFirestore,
   connectFirestoreEmulator,
 } from "firebase/firestore";
-import { convertTimeStamp } from "util/TimeStamp";
+import { convertTimeStamp, sortByTimeStamp } from "util/TimeStamp";
 
 export const isProd = process.env.NODE_ENV === "production";
 const baseURL = isProd ? BASE_URL.PROD : BASE_URL.EMULATOR;
@@ -28,7 +28,10 @@ export const processSnapshot = (
   e: QuerySnapshot<DocumentData>,
   disableFilterVisible: boolean = false
 ) => {
-  const data = e.docs.map((doc) => doc.data()).map(convertTimeStamp);
+  const data = e.docs
+    .map((doc) => doc.data())
+    .map(convertTimeStamp)
+    .sort(sortByTimeStamp);
   if (disableFilterVisible) return data;
   return data.filter((e) => e.visible);
 };
