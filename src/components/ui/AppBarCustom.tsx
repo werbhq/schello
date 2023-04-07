@@ -14,6 +14,39 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
+const MenuItems = ({
+  navStyle,
+  handleClose = () => {},
+}: {
+  navStyle: ({ isActive }: { isActive: boolean }) => React.CSSProperties;
+  handleClose?: () => void;
+}) => {
+  return (
+    <>
+      <NavLink style={navStyle} to={ROUTES.DEFAULT} end>
+        <Button color="inherit" onClick={handleClose} fullWidth>
+          Home
+        </Button>
+      </NavLink>
+      <NavLink style={navStyle} to={ROUTES.DRUG_FORM} end>
+        <Button color="inherit" onClick={handleClose} fullWidth>
+          Form
+        </Button>
+      </NavLink>
+      <NavLink style={navStyle} to={ROUTES.COMMUNITY} end>
+        <Button color="inherit" onClick={handleClose} fullWidth>
+          Community
+        </Button>
+      </NavLink>
+      <NavLink style={navStyle} to={ROUTES.CHAT} end>
+        <Button color="inherit" onClick={handleClose} fullWidth>
+          Helpline
+        </Button>
+      </NavLink>
+    </>
+  );
+};
+
 export default function AppBarCustom() {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -36,17 +69,11 @@ export default function AppBarCustom() {
     isActive ? activeLink : inActiveLink;
 
   const getDeviceConfig = (width: number) => {
-    if (width < 320) {
-      return true;
-    } else if (width >= 320 && width < 720) {
-      return true;
-    } else if (width >= 720 && width < 1024) {
-      return false;
-    } else if (width >= 1024) {
-      return false;
-    } else {
-      return false;
-    }
+    if (width < 320) return true;
+    if (width >= 320 && width < 720) return true;
+    if (width >= 720 && width < 1024) return false;
+    if (width >= 1024) return false;
+    return false;
   };
 
   const [width, setWidth] = useState<Boolean>(() =>
@@ -95,44 +122,15 @@ export default function AppBarCustom() {
                   flexDirection="column"
                   sx={{ backgroundColor: "inherit", width: "200px" }}
                 >
-                  <NavLink style={applyNavStyle} to={ROUTES.DEFAULT} end>
-                    <Button color="inherit" onClick={handleClose} fullWidth>
-                      Home
-                    </Button>
-                  </NavLink>
-                  <NavLink style={applyNavStyle} to={ROUTES.DRUG_FORM} end>
-                    <Button color="inherit" onClick={handleClose} fullWidth>
-                      Form
-                    </Button>
-                  </NavLink>
-                  <NavLink style={applyNavStyle} to={ROUTES.COMMUNITY} end>
-                    <Button color="inherit" onClick={handleClose} fullWidth>
-                      Community
-                    </Button>
-                  </NavLink>
-                  <NavLink style={applyNavStyle} to={ROUTES.CHAT} end>
-                    <Button color="inherit" onClick={handleClose} fullWidth>
-                      Helpline
-                    </Button>
-                  </NavLink>
+                  <MenuItems
+                    navStyle={applyNavStyle}
+                    handleClose={handleClose}
+                  />
                 </Box>
               </Drawer>
             </>
           ) : (
-            <>
-              <NavLink style={applyNavStyle} to={ROUTES.DEFAULT} end>
-                <Button color="inherit">Home</Button>
-              </NavLink>
-              <NavLink style={applyNavStyle} to={ROUTES.DRUG_FORM} end>
-                <Button color="inherit">Form</Button>
-              </NavLink>
-              <NavLink style={applyNavStyle} to={ROUTES.COMMUNITY} end>
-                <Button color="inherit">Community</Button>
-              </NavLink>
-              <NavLink style={applyNavStyle} to={ROUTES.CHAT} end>
-                <Button color="inherit">Helpline</Button>
-              </NavLink>
-            </>
+            <MenuItems navStyle={applyNavStyle} />
           )}
         </Toolbar>
       </AppBar>
