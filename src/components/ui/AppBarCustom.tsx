@@ -58,6 +58,7 @@ export default function AppBarCustom() {
   );
 
   const handleClose = () => setIsOpen(false);
+  const handleOpen = () => setIsOpen(true);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -76,8 +77,8 @@ export default function AppBarCustom() {
           </Typography>
           {width ? (
             <>
-              <IconButton onClick={() => setIsOpen(true)}>
-                <MenuIcon />
+              <IconButton onClick={handleOpen}>
+                <MenuIcon sx={{ color: "#ffffff" }} fontSize="large" />
               </IconButton>
               <Drawer
                 anchor="right"
@@ -85,8 +86,8 @@ export default function AppBarCustom() {
                 onClose={handleClose}
                 PaperProps={{ sx: { backgroundColor: "#F1C043" } }}
               >
-                <IconButton sx={{ mb: 2 }} disableRipple>
-                  <CloseIcon onClick={handleClose} />
+                <IconButton sx={{ mb: 2 }} disableRipple onClick={handleClose}>
+                  <CloseIcon />
                 </IconButton>
 
                 <Box
@@ -95,22 +96,22 @@ export default function AppBarCustom() {
                   sx={{ backgroundColor: "inherit", width: "200px" }}
                 >
                   <NavLink style={applyNavStyle} to={ROUTES.DEFAULT} end>
-                    <Button color="inherit" onClick={handleClose}>
+                    <Button color="inherit" onClick={handleClose} fullWidth>
                       Home
                     </Button>
                   </NavLink>
                   <NavLink style={applyNavStyle} to={ROUTES.DRUG_FORM} end>
-                    <Button color="inherit" onClick={handleClose}>
+                    <Button color="inherit" onClick={handleClose} fullWidth>
                       Form
                     </Button>
                   </NavLink>
                   <NavLink style={applyNavStyle} to={ROUTES.COMMUNITY} end>
-                    <Button color="inherit" onClick={handleClose}>
+                    <Button color="inherit" onClick={handleClose} fullWidth>
                       Community
                     </Button>
                   </NavLink>
                   <NavLink style={applyNavStyle} to={ROUTES.CHAT} end>
-                    <Button color="inherit" onClick={handleClose}>
+                    <Button color="inherit" onClick={handleClose} fullWidth>
                       Helpline
                     </Button>
                   </NavLink>
