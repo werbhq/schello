@@ -51,16 +51,16 @@ export const addCommunityForm = async (
 
 export const getCommunityVideos = async () => {
   const videoRef = collection(fireStore, MAPPING.COMMUNITY.VIDEO);
-  const communityvideoQuery = query(videoRef, where("visible", "==", true));
-  const snapshot = await getDocs(communityvideoQuery);
+  const communityVideoQuery = query(videoRef, where("visible", "==", true));
+  const snapshot = await getDocs(communityVideoQuery);
   const data = processSnapshot(snapshot);
   return data as CommunityVideo[];
 };
 
 export const getCommunityArticle = async () => {
   const articleRef = collection(fireStore, MAPPING.COMMUNITY.ARTICLE);
-  const communityarticleQuery = query(articleRef, where("visible", "==", true));
-  const snapshot = await getDocs(communityarticleQuery);
+  const communityArticleQuery = query(articleRef, where("visible", "==", true));
+  const snapshot = await getDocs(communityArticleQuery);
   const data = processSnapshot(snapshot);
   return data as CommunityArticle[];
 };

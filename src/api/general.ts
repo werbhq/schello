@@ -2,6 +2,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { fireStore, processSnapshot } from ".";
 import { MAPPING } from "./mapping";
 import { GeneralNews, GeneralVideo } from "types/General Awarness";
+import { sortByTimeStamp } from "util/TimeStamp";
 
 export const getGeneralVideos = async () => {
   const videoRef = collection(fireStore, MAPPING.GENERAL.VIDEO);
@@ -22,5 +23,6 @@ export const getGeneralNews = async () => {
   const googleNewsSnapshot = await getDocs(googleNewsQuery);
   const googleNewsData = processSnapshot(googleNewsSnapshot);
 
-  return [...newsData, ...googleNewsData] as GeneralNews[];
+  const data = [...newsData, ...googleNewsData];
+  return data.sort(sortByTimeStamp) as GeneralNews[];
 };
