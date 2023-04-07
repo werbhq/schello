@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { Outlet, NavLink } from "react-router-dom";
 import ROUTES from "routes";
-import "./AppBar.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
