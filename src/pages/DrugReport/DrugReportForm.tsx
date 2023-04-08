@@ -13,6 +13,7 @@ import {
   Typography,
   TextareaAutosize,
   Grid,
+  CardMedia,
 } from "@mui/material";
 import { useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
@@ -29,6 +30,7 @@ import { MapData } from "types/MapData";
 import { FacialData, Report } from "types/Report";
 import student_data from "constant/student_data.json";
 import { FacialField } from "./components/FacialField";
+import ReportVideo from "assets/video/visualization.mp4";
 
 const studentData: { [index: string]: { id: string } } = student_data;
 
@@ -180,6 +182,8 @@ export default function DrugReportForm(props: any) {
                 here
               </LinkRouter>
             </Typography>
+
+            <CardMedia component="video" image={ReportVideo} autoPlay />
 
             <Stack spacing={2}>
               <FormLabel>Date Of Incident*</FormLabel>
