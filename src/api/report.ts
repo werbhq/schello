@@ -5,7 +5,8 @@ import { Timestamp, collection, getDocs } from "firebase/firestore";
 export const firebaseToDate = (date: Timestamp) => date.toDate().toISOString();
 
 export const addReport = async (data: Report) => {
-  await baseApi.post("/report", data);
+  const response = await baseApi.post("/report", data);
+  if (response.data === "SPAM") throw Error("SPAM");
 };
 
 export const getEncryptedReports = async () => {

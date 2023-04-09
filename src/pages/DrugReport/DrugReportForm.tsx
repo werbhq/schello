@@ -51,6 +51,10 @@ const DIALOG_MESSAGES = {
     title: "Please wait",
     description: "Facial features image is still loading",
   },
+  SPAM: {
+    title: "SPAM DETECTED",
+    description: "Your report has not been submitted due to suspected spamming",
+  },
   FAILED: {
     title: "Failed",
     description: "Your report has not been submitted",
@@ -142,15 +146,17 @@ export default function DrugReportForm(props: any) {
         enableFaceOption && enableWantedOption ? wantedPersonId : null,
     };
 
-    console.log(parsedFormVars);
-
     try {
       setSubmitLoading(true);
       await addReport(parsedFormVars);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      setDialogData(DIALOG_MESSAGES.FAILED);
+      if (error?.message === "SPAM") {
+        setDialogData(DIALOG_MESSAGES.SPAM);
+      } else {
+        setDialogData(DIALOG_MESSAGES.FAILED);
+      }
     }
 
     setDialogOpen(true);
