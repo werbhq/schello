@@ -13,6 +13,7 @@ import {
   Typography,
   TextareaAutosize,
   Grid,
+  CardMedia,
 } from "@mui/material";
 import { useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
@@ -29,6 +30,7 @@ import { MapData } from "types/MapData";
 import { FacialData, Report } from "types/Report";
 import student_data from "constant/student_data.json";
 import { FacialField } from "./components/FacialField";
+import ReportVideo from "assets/video/visualization.mp4";
 
 const studentData: { [index: string]: { id: string } } = student_data;
 
@@ -181,11 +183,31 @@ export default function DrugReportForm(props: any) {
               All the data you submit is{" "}
               <span style={{ color: "red" }}>encrypted</span> and can only be
               seen by a authorized personnel from Excise Department.
-              <br /> You can see the stored reports data in our database{" "}
-              <LinkRouter to="/visualize" color="primary">
-                here
-              </LinkRouter>
             </Typography>
+
+            <Stack>
+              <CardMedia
+                component="video"
+                style={{
+                  minWidth: "20vw",
+                  maxWidth: 700,
+                  border: "5px solid black",
+                  display: "block",
+                  margin: "10px  auto",
+                }}
+                image={ReportVideo}
+                autoPlay
+                loop
+                controls
+              />
+
+              <Typography variant="h6" align="center">
+                <br /> You can see the stored reports data in our database{" "}
+                <LinkRouter to="/visualize" color="primary">
+                  here
+                </LinkRouter>
+              </Typography>
+            </Stack>
 
             <Stack spacing={2}>
               <FormLabel>Date Of Incident*</FormLabel>
