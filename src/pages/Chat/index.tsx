@@ -124,9 +124,8 @@ function ChatPage() {
             {chatLog.map((message, index) => (
               <ChatMessage key={index} message={message} />
             ))}
+            {isLoading && <LoadingMessage />}
           </List>
-
-          {isLoading && <LoadingMessage />}
 
           <Card
             style={{
