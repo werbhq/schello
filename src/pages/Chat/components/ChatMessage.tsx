@@ -35,7 +35,7 @@ const ChatMessage = ({ message }: { message: MessageData }) => {
       }
     >
       <CardContent style={{ padding: "8px" }}>
-        {stringToHtml(message.content.replace(/\n/g, "<br>"))}
+        {stringToHtml(message.message.replace(/\n/g, "<br>"))}
       </CardContent>
     </Card>
   );
