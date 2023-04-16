@@ -5,22 +5,11 @@ import { Button, Card, InputBase, List, Typography } from "@mui/material";
 import Notification from "components/Notification";
 import SendIcon from "@mui/icons-material/Send";
 import ChatMessage from "./components/ChatMessage";
+import {
+  ChatCompletionRequestMessage,
+  ChatCompletionRoleEnum,
+} from "types/OpenAi";
 import LoadingMessage from "./components/LoadingMessage";
-
-const USER = {
-  AI: "AI",
-  HUMAN: "USER",
-};
-
-const BASE_MESSAGE = [
-  `The following is a conversation with an AI Substance Abuse Counselor and a ${USER.HUMAN}`,
-  `The ${USER.AI} is helpful, creative, clever, empathetic and very friendly`,
-  `${USER.AI}'s objective is counsel the ${USER.HUMAN}`,
-  `This bot is developed by Werb Cooperation`,
-  `This bot's informal name is wellness bot`,
-  `The bot should provide answers that are correct with respect to India`,
-  `The kerala helpline numbers are Nairmalya De Addiction(Peyad, Phone:08281406000), Prateeksha I.R.C.A. Deaddiction Centre(Thiruvananthapuram, 0471 2504266),SNEHAM Deaddiction Centre & Psychiatry Hospital(Changanassery, 9633100011)`,
-].join(". ");
 
 function ChatPage() {
   const [input, setInput] = useState("");
@@ -31,10 +20,10 @@ function ChatPage() {
     message: "",
     show: false,
   });
-  const [chatLog, setChatLog] = useState([
+  const [chatLog, setChatLog] = useState<ChatCompletionRequestMessage[]>([
     {
-      user: USER.AI,
-      message:
+      role: ChatCompletionRoleEnum.Assistant,
+      content:
         "Hello, I am your AI Substance Abuse Counselor. How can I help you?",
     },
   ]);
@@ -44,7 +33,10 @@ function ChatPage() {
     e.preventDefault();
     if (input === "") return;
 
-    const messageData = [...chatLog, { user: USER.HUMAN, message: input }];
+    const messageData = [
+      ...chatLog,
+      { role: ChatCompletionRoleEnum.User, content: input },
+    ];
 
     setInput("");
     setChatLog(messageData);
@@ -52,16 +44,13 @@ function ChatPage() {
     setIsLoading(true);
 
     try {
-      const { data, error } = await sendUserChat({
-        message: [
-          BASE_MESSAGE,
-          ...messageData.map((e) => `${e.user}:${e.message}`),
-          `${USER.AI}:`,
-        ].join(" "),
-      });
+      const { data, error } = await sendUserChat(messageData);
 
       if (error) throw new Error(data);
-      setChatLog([...messageData, { user: USER.AI, message: data }]);
+      setChatLog([
+        ...messageData,
+        { role: ChatCompletionRoleEnum.Assistant, content: data },
+      ]);
     } catch (error: any) {
       setNotification({ message: error.message, show: true });
     }

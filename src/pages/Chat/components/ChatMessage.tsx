@@ -1,20 +1,20 @@
 import { useState } from "react";
 import stringToHtml from "html-react-parser";
-
 import { Card, CardContent } from "@mui/material";
+import {
+  ChatCompletionRequestMessage,
+  ChatCompletionRoleEnum,
+} from "types/OpenAi";
 
-type MessageData = { user: string; message: string };
-
-const USER = {
-  AI: "AI",
-  HUMAN: "USER",
-};
-
-const ChatMessage = ({ message }: { message: MessageData }) => {
+const ChatMessage = ({
+  message,
+}: {
+  message: ChatCompletionRequestMessage;
+}) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => setExpanded(!expanded);
 
-  const isAi = message.user === USER.AI;
+  const isAi = message.role === ChatCompletionRoleEnum.Assistant;
 
   return (
     <Card
@@ -35,7 +35,7 @@ const ChatMessage = ({ message }: { message: MessageData }) => {
       }
     >
       <CardContent style={{ padding: "8px" }}>
-        {stringToHtml(message.message.replace(/\n/g, "<br>"))}
+        {stringToHtml(message.content.replace(/\n/g, "<br>"))}
       </CardContent>
     </Card>
   );
