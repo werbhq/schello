@@ -5,6 +5,7 @@ import { Button, Card, InputBase, List, Typography } from "@mui/material";
 import Notification from "components/Notification";
 import SendIcon from "@mui/icons-material/Send";
 import ChatMessage from "./components/ChatMessage";
+import LoadingMessage from "./components/LoadingMessage";
 
 const USER = {
   AI: "AI",
@@ -124,6 +125,8 @@ function ChatPage() {
               <ChatMessage key={index} message={message} />
             ))}
           </List>
+
+          {isLoading && <LoadingMessage />}
 
           <Card
             style={{
