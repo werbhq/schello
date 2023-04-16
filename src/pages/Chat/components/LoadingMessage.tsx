@@ -16,7 +16,7 @@ const LoadingMessage = () => {
       sx={{ backgroundColor: "#179f97", color: "white" }}
     >
       <CardContent style={{ padding: "8px" }}>
-        <div style={{ paddingLeft: "5px" }}>
+        <div style={{ padding: "8px" }}>
           <div className="dot-flashing" />
         </div>
       </CardContent>
