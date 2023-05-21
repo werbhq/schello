@@ -1,6 +1,6 @@
 import { useWantedData } from "hooks/useWantedList";
 import FACE_DATA from "./face/FaceData";
-import { Table, Image, Input, Space, Button, Tag } from "antd";
+import { Table, Image, Input, Space, Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { WantedListCustom } from "api/wanted_list";
@@ -49,13 +49,13 @@ export default function WantedListTable({
     {
       dataIndex: "photoUrl",
       title: "Photo",
-      width: 80,
+      width: 50,
       render: (value) => <Image height={60} width={60} src={value} />,
     },
     {
       dataIndex: "name",
       title: FilterByNameInput,
-      width: 100,
+      width: 50,
       render: (value, record) => {
         const selected = record.id === wantedPersonId;
         return (
@@ -83,13 +83,13 @@ export default function WantedListTable({
     {
       dataIndex: "age",
       title: "Age",
-      width: 40,
+      width: 30,
       sorter: (a, b) => a["age"] - b["age"],
     },
     ...Array.from(FACE_DATA.keys()).map((e) => ({
       dataIndex: e,
       title: FACE_DATA.get(e)?.label,
-      width: 80,
+      width: 40,
       filters:
         FACE_DATA.get(e)
           ?.data.map((_e) => ({
@@ -99,38 +99,31 @@ export default function WantedListTable({
           .filter((e) => e.value !== "NONE") ?? [],
       onFilter: (value: any, record: any) => record[e] === value,
       render: (value: string) => (
-        <Space direction="horizontal" align="center">
-          <Image
-            height={55}
-            preview={false}
-            src={
-              FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.image ??
-              ""
-            }
-            alt="-"
-          />
-          <Tag>
-            {FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.label}
-          </Tag>
-        </Space>
+        <Image
+          height={55}
+          preview={false}
+          title={FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.label}
+          src={
+            FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.image ?? ""
+          }
+          alt={FACE_DATA.get(e)?.data.find((_e) => _e.value === value)?.label}
+        />
       ),
     })),
   ];
 
   return (
-    <div style={{ width: "80vw" }}>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        bordered={true}
-        size="small"
-        loading={isLoading}
-        scroll={{ y: 300 }}
-        pagination={{
-          pageSizeOptions: [10, 20, 50, 100],
-          showSizeChanger: true,
-        }}
-      />
-    </div>
+    <Table
+      dataSource={dataSource}
+      columns={columns}
+      bordered={true}
+      size="small"
+      loading={isLoading}
+      scroll={{ y: 300 }}
+      pagination={{
+        pageSizeOptions: [10, 20, 50, 100],
+        showSizeChanger: true,
+      }}
+    />
   );
 }

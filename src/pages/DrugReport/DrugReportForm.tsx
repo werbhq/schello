@@ -12,7 +12,6 @@ import {
   TextField,
   Typography,
   TextareaAutosize,
-  Grid,
   CardMedia,
 } from "@mui/material";
 import { useState } from "react";
@@ -169,94 +168,103 @@ export default function DrugReportForm(props: any) {
     setFormVars({ ...formVars, [e.target.name]: e.target.value });
 
   return (
-    <Grid container>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Stack margin={3} spacing={4} direction="column">
+        <Stack alignItems="center">
+          <Typography variant="h3" color="primary" fontWeight="bold">
+            Drug Report
+          </Typography>
+        </Stack>
+        <Typography variant="h6">
+          <span style={{ color: "red" }}>We guarantee your privacy</span>. All
+          the data you submit is <span style={{ color: "red" }}>encrypted</span>{" "}
+          and can only be seen by a authorized personnel from Excise Department.
+        </Typography>
+
+        <Stack>
+          <CardMedia
+            component="video"
+            style={{
+              minWidth: "20vw",
+              maxWidth: 700,
+              border: "5px solid black",
+              display: "block",
+              margin: "10px  auto",
+            }}
+            image={ReportVideo}
+            autoPlay
+            loop
+            controls
+          />
+
+          <Typography variant="h6" align="center">
+            <br /> You can see the stored reports data in our database{" "}
+            <LinkRouter to="/visualize" color="primary">
+              here
+            </LinkRouter>
+          </Typography>
+        </Stack>
+
+        <hr />
+
         <form onSubmit={handleSubmit}>
-          <Stack margin={3} spacing={4} direction="column">
-            <Stack alignItems="center">
-              <Typography variant="h3" color="primary" fontWeight="bold">
-                Drug Report
-              </Typography>
-            </Stack>
-            <Typography variant="h6">
-              <span style={{ color: "red" }}>We guarantee your privacy</span>.
-              All the data you submit is{" "}
-              <span style={{ color: "red" }}>encrypted</span> and can only be
-              seen by a authorized personnel from Excise Department.
-            </Typography>
-
-            <Stack>
-              <CardMedia
-                component="video"
-                style={{
-                  minWidth: "20vw",
-                  maxWidth: 700,
-                  border: "5px solid black",
-                  display: "block",
-                  margin: "10px  auto",
-                }}
-                image={ReportVideo}
-                autoPlay
-                loop
-                controls
-              />
-
-              <Typography variant="h6" align="center">
-                <br /> You can see the stored reports data in our database{" "}
-                <LinkRouter to="/visualize" color="primary">
-                  here
-                </LinkRouter>
-              </Typography>
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormLabel>Date Of Incident*</FormLabel>
-              <DatePicker
-                views={["year", "month", "day"]}
-                value={formVars.dateIncident}
-                onChange={(newValue) => {
-                  setFormVars({
-                    ...formVars,
-                    dateIncident: newValue as dayjs.Dayjs,
-                  });
-                }}
-                inputFormat="DD/MM/YYYY"
-                renderInput={(params) => (
-                  <TextField {...params} sx={{ width: 220 }} />
-                )}
-              />
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormLabel id="incident-time">Incident Time*</FormLabel>
-              <Stack spacing={2} direction="row">
-                <TimePicker
-                  label="From"
-                  value={formVars.timeFrom}
+          <Stack
+            paddingX={30}
+            margin={3}
+            marginTop={0}
+            spacing={4}
+            direction="column"
+          >
+            <Stack spacing={4} direction="row">
+              <Stack spacing={2}>
+                <FormLabel>Incident Date*</FormLabel>
+                <DatePicker
+                  views={["year", "month", "day"]}
+                  value={formVars.dateIncident}
                   onChange={(newValue) => {
                     setFormVars({
                       ...formVars,
-                      timeFrom: newValue as dayjs.Dayjs,
+                      dateIncident: newValue as dayjs.Dayjs,
                     });
                   }}
+                  inputFormat="DD/MM/YYYY"
                   renderInput={(params) => (
-                    <TextField {...params} sx={{ width: 150 }} />
+                    <TextField {...params} sx={{ width: 220 }} />
                   )}
                 />
+              </Stack>
 
-                <TimePicker
-                  label="To"
-                  value={formVars.timeTo}
-                  onChange={(newValue) => {
-                    setFormVars({
-                      ...formVars,
-                      timeTo: newValue as dayjs.Dayjs,
-                    });
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} sx={{ width: 150 }} />
-                  )}
-                />
+              <Stack spacing={2}>
+                <FormLabel id="incident-time">Incident Time*</FormLabel>
+                <Stack spacing={2} direction="row">
+                  <TimePicker
+                    label="From"
+                    value={formVars.timeFrom}
+                    onChange={(newValue) => {
+                      setFormVars({
+                        ...formVars,
+                        timeFrom: newValue as dayjs.Dayjs,
+                      });
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ width: 150 }} />
+                    )}
+                  />
+
+                  <TimePicker
+                    label="To"
+                    value={formVars.timeTo}
+                    onChange={(newValue) => {
+                      setFormVars({
+                        ...formVars,
+                        timeTo: newValue as dayjs.Dayjs,
+                      });
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ width: 150 }} />
+                    )}
+                  />
+                </Stack>
               </Stack>
             </Stack>
 
@@ -384,23 +392,32 @@ export default function DrugReportForm(props: any) {
               </Alert>
             )}
 
-            <LoadingButton
-              type="submit"
-              loading={submitLoading}
-              variant="contained"
-              sx={{ width: "8rem", marginTop: "80px" }}
+            <hr />
+
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              direction="row"
+              margin={0}
             >
-              Submit
-            </LoadingButton>
+              <LoadingButton
+                type="submit"
+                loading={submitLoading}
+                variant="contained"
+                sx={{ width: "20rem" }}
+              >
+                Submit
+              </LoadingButton>
+            </Stack>
           </Stack>
         </form>
-        <DialogBox
-          title={dialogData.title}
-          description={dialogData.description}
-          openFlag={dialogOpen}
-          handleOpen={setDialogOpen}
-        />
-      </LocalizationProvider>
-    </Grid>
+      </Stack>
+      <DialogBox
+        title={dialogData.title}
+        description={dialogData.description}
+        openFlag={dialogOpen}
+        handleOpen={setDialogOpen}
+      />
+    </LocalizationProvider>
   );
 }
