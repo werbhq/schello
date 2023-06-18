@@ -122,12 +122,14 @@ export default function DrugReportForm(props: any) {
       new_errors.push("Provide a <Student Name>");
     }
 
-    if (enableFaceOption && !enableWantedOption && facialData === null) {
-      new_errors.push("Provide <Facial Data>");
-    }
+    if (!enableStudentOption) {
+      if (enableFaceOption && !enableWantedOption && facialData === null) {
+        new_errors.push("Provide <Facial Data>");
+      }
 
-    if (enableFaceOption && enableWantedOption && wantedPersonId === null) {
-      new_errors.push("Select a person from wanted list");
+      if (enableFaceOption && enableWantedOption && wantedPersonId === null) {
+        new_errors.push("Select a person from wanted list");
+      }
     }
 
     if (new_errors.length > 0) {
