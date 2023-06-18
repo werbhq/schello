@@ -151,7 +151,6 @@ export default function DrugReportForm(props: any) {
       setSubmitLoading(true);
       await addReport(parsedFormVars);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
-      setFormVars(defaultFormVars);
     } catch (error: any) {
       console.error(error);
       if (error?.message === "SPAM") {
