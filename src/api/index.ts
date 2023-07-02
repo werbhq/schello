@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEmulator } from 'config';
+import { useEmulator } from '../config';
 import BASE_URL from 'constant/api';
 import firebaseConfig from 'constant/firebase.config';
 import { initializeApp } from 'firebase/app';
