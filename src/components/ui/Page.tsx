@@ -3,5 +3,9 @@ type Props = {
 };
 
 export default function Page({ children }: Props) {
-    return <div style={{ paddingTop: '50px' }}>{children}</div>;
+    return (
+        <div style={{ paddingTop: '50px', paddingLeft: '196px', paddingRight: '196px' }}>
+            {children}
+        </div>
+    );
 }

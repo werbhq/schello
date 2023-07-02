@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import './assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf';
 
 const theme: ThemeOptions = createTheme({
     palette: {
@@ -23,20 +24,22 @@ const theme: ThemeOptions = createTheme({
         fontFamily: ['Inter', 'roboto'].join(','),
     },
     components: {
-        // MuiButton: {
-        //     styleOverrides: {
-        //         root: {
-        //             background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        //             border: 3,
-        //             borderRadius: '50px',
-        //             boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        //             color: 'white',
-        //             // height: 48,
-        //             // padding: '0x 30px',
-        //             // margin: '0px 20px',
-        //         },
-        //     },
-        // },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '10px',
+                    border: '1px solid rgba(199, 173, 165, 0.50)',
+                    background: 'linear-gradient(180deg, #1C2D46 0%, #204377 100%)',
+                    color: '#FFFFFF',
+                    textTransform: 'none',
+                    boxShadow: 'none',
+                },
+
+                // height: 48,
+                // padding: '0x 30px',
+                // margin: '0px 20px',
+            },
+        },
     },
 });
 

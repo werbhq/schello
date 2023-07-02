@@ -14,25 +14,22 @@ function HomePage() {
     return (
         <Page>
             <Grid container spacing={2}>
-                <Grid
-                    item
-                    xs={12}
-                    sx={{ paddingTop: '30px !important', paddingBottom: '30px !important' }}
-                >
-                    <Stack spacing={2} padding={2} alignItems="center" justifyContent="center">
-                        <Typography variant="h3" color="primary" fontWeight="bold">
-                            Schello
-                        </Typography>
-                        <Typography>
-                            A school monitoring system to track down and reduce substance abuse
-                        </Typography>
-                    </Stack>
-                </Grid>
-
-                <Divider sx={{ width: '100%' }} />
-
                 <Grid item xs={12} lg={8} sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Stack spacing={2} margin={2}>
+                        <Typography
+                            variant="h2"
+                            style={{
+                                fontFamily: 'Fixel Display',
+                                fontWeight: 'bold',
+                                color: '#1C2D46',
+                                fontSize: '40px',
+                                fontStyle: 'normal',
+                                lineHeight: '120%',
+                                letterSpacing: '-2.4px',
+                            }}
+                        >
+                            Welcome to Schello
+                        </Typography>
                         <Typography variant="h6">Videos</Typography>
                         <List
                             style={{

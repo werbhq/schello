@@ -10,6 +10,12 @@ body {
     display: none;
 }
 
+@font-face {
+  font-family: "FixelDisplay";
+  src: local("FixelDisplay"), url("./assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
 code {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
