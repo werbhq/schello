@@ -13,17 +13,75 @@ import { SDSColorPrimitives, SDSColoursSemantic } from 'components/ui/Colours';
 const theme: ThemeOptions = createTheme({
     palette: {
         primary: {
-            main: '#AF53F7',
+            main: '#179f97',
         },
         secondary: {
-            main: '#6BE6EE',
+            main: '#FFD700',
         },
         error: red,
         contrastThreshold: 3,
         tonalOffset: 0.2,
     },
     typography: {
-        fontFamily: ['Inter', 'roboto'].join(','),
+        fontFamily: 'Fixel Display',
+
+        h1: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+            fontFeatureSettings: '"ss01" 1',
+            letterSpacing: '-2.5px',
+        },
+        h2: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+            fontFeatureSettings: '"ss01" 1',
+            letterSpacing: '-2.5px',
+        },
+        h3: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+            fontFeatureSettings: '"ss01" 1',
+            letterSpacing: '-2.5px',
+        },
+        h4: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+            // fontFeatureSettings: '"ss01" 1',
+            letterSpacing: '-2.5px',
+        },
+        h5: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+
+            letterSpacing: '-1.6px',
+        },
+        h6: {
+            lineHeight: '120%',
+            fontWeight: 'bold',
+            color: '#1C2D46',
+            fontStyle: 'normal',
+            // fontFeatureSettings: '"ss01" 1',
+            letterSpacing: '-0.5px',
+        },
+
+        body1: {
+            fontFamily: 'Inter',
+        },
+        allVariants: {
+            // fontFamily: 'Inter',
+            // letterSpacing: '0px',
+            //fontFeatureSettings: 'normal',
+        },
     },
     components: {
         MuiButton: {
@@ -31,10 +89,13 @@ const theme: ThemeOptions = createTheme({
                 root: {
                     borderRadius: '10px',
                     border: '1px solid rgba(199, 173, 165, 0.50)',
-                    background: 'linear-gradient(180deg, #1C2D46 0%, #204377 100%)',
+                    background: 'linear-gradient(180deg, #154E44 0%, #179F97 100%)',
                     color: '#FFFFFF',
                     textTransform: 'none',
                     boxShadow: 'none',
+                    ':disabled': {
+                        background: 'rgba(199, 173, 165, 0.50)',
+                    },
                 },
 
                 // height: 48,
@@ -46,6 +107,17 @@ const theme: ThemeOptions = createTheme({
         MuiLink: {
             styleOverrides: {
                 root: {},
+            },
+        },
+
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '12px',
+                    border: '1px solid rgba(199, 173, 165, 0.50)',
+                    background: '#FFF',
+                    boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
+                },
             },
         },
     },

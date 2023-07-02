@@ -28,12 +28,12 @@ const MenuItems = ({
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.COMMUNITY} end>
                 <Link style={linkStyle} onClick={handleClose}>
-                    Community
+                    Library
                 </Link>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.CHAT} end>
                 <Link style={linkStyle} onClick={handleClose}>
-                    Chat
+                    Wellness Bot
                 </Link>
             </NavLink>
             <NavLink to={ROUTES.DRUG_FORM} end>
@@ -50,13 +50,14 @@ export default function AppBarCustom() {
 
     const navLink: React.CSSProperties = {
         textDecoration: 'none',
-        color: '#1C2D46 !important',
+
         borderRadius: '150px',
         padding: '8px 16px',
     };
 
     const activeLink: React.CSSProperties = {
-        backgroundColor: '#6BE6EE',
+        backgroundColor: SDSColoursSemantic.brandSecondary,
+        color: `${SDSColoursSemantic.surface} !important`,
     };
 
     const inActiveLink: React.CSSProperties = {

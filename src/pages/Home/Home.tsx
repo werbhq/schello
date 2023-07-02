@@ -1,4 +1,4 @@
-import { Grid, Divider, List, ListItem, Typography, Stack } from '@mui/material';
+import { Grid, Divider, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import EventCard from './components/EventCard';
 import VideoCard from './components/VideoCard';
 import NewsCard from './components/NewsCard';
@@ -12,26 +12,47 @@ function HomePage() {
     if (isLoading) return <PageLoader loading={isLoading} />;
 
     return (
-        <Page>
-            <Grid container spacing={2}>
-                <Grid item xs={12} lg={8} sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Page padding="50px 0px">
+            <Grid container spacing={2} xs={12} sx={{ width: '100%' }}>
+                <Grid
+                    item
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0px 146px',
+                        width: '100%',
+                    }}
+                >
                     <Stack spacing={2} margin={2}>
-                        <Stack paddingY={8}>
-                            <Typography
-                                variant="h2"
+                        <Stack padding={'64px 0px 24px 0px'}>
+                            <Typography variant="h3">Welcome to Schello!</Typography>
+                        </Stack>
+
+                        <Stack
+                            sx={{
+                                borderRadius: '24px',
+                                border: '1px solid rgba(199, 173, 165, 0.50)',
+                                background: '#FFF',
+                                boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
+                                padding: '16px',
+                            }}
+                        >
+                            <Typography variant="h5">Got something to share?</Typography>
+                            <Typography>
+                                Click here to share a video or article you feel would be helpful to
+                                others.
+                            </Typography>
+                            <div
                                 style={{
-                                    fontFamily: 'Fixel Display',
-                                    fontWeight: 'bold',
-                                    color: '#1C2D46',
-                                    fontSize: '40px',
-                                    fontStyle: 'normal',
-                                    lineHeight: '120%',
-                                    letterSpacing: '-2.4px',
-                                    fontFeatureSettings: '"ss01" 1',
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'row-reverse',
                                 }}
                             >
-                                Welcome to Schello!
-                            </Typography>
+                                <Button disabled sx={{ backgroundColour: 'red !important' }}>
+                                    Share
+                                </Button>
+                            </div>
                         </Stack>
 
                         <Typography variant="h6">Videos</Typography>
@@ -70,9 +91,24 @@ function HomePage() {
                     </Stack>
                 </Grid>
 
-                <Grid item xs={12} lg={4} sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Grid
+                    item
+                    xs={12}
+                    lg={4}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        borderRadius: ' 10px',
+                        border: '1px solid rgba(199, 173, 165, 0.50)',
+                        background: '#FFF',
+                        // position: 'fixed',
+                        right: '8px',
+                        top: '72px',
+                        bottom: '8px',
+                    }}
+                >
                     <Stack spacing={2} margin={2}>
-                        <Typography variant="h6">Events</Typography>
+                        <Typography variant="h6">Latest Events</Typography>
                         <List
                             style={{
                                 overflow: 'auto',

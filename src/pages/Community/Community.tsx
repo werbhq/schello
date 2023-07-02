@@ -1,6 +1,6 @@
 import { Button, Typography, List, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
-import VideoCard from 'pages/Home/components/VideoCard';
+import VideoCard from './../Home/components/VideoCard';
 import ArticleCard from './components/articleCard';
 import PageLoader from 'components/ui/PageLoader';
 import { useCommunityData } from 'hooks/useCommunityData';
@@ -14,9 +14,7 @@ function CommunityPage() {
     return (
         <Page>
             <Stack marginY={4} spacing={4} alignItems="center" justifyContent="center">
-                <Typography variant="h3" color="primary" fontWeight="bold">
-                    Community Page
-                </Typography>
+                <Typography variant="h3">Community Page</Typography>
 
                 <Button color="secondary" component={Link} to="/community/form" variant="contained">
                     Share Your Experience here

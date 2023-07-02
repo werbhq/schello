@@ -48,8 +48,10 @@ export class SDSColorPrimitives {
     static boringBlue = '#405D88';
     static brilliantBlue = '#6BE6EE';
     static pretentiousPurple = '#AF53F7';
-    static offWhite = '#F2F6F7';
+    static offWhite = '#F7F7F1';
     static pureWhite = '#FFFFFF';
+    static tardyTeal = '#179f97';
+    static yawningYellow = '#FFD700';
 }
 
 export class SDSColoursSemantic {
@@ -57,5 +59,6 @@ export class SDSColoursSemantic {
     static surface = SDSColorPrimitives.pureWhite;
     static onBackgroundPrimary = SDSColorPrimitives.bloodyBlue;
     static onBackgroundSecondary = SDSColorPrimitives.boringBlue;
-    static brand = SDSColorPrimitives.pretentiousPurple;
+    static brandPrimary = SDSColorPrimitives.pretentiousPurple;
+    static brandSecondary = SDSColorPrimitives.yawningYellow;
 }

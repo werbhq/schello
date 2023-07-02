@@ -8,6 +8,7 @@ import ChatMessage from './components/ChatMessage';
 import { ChatCompletionRequestMessage, ChatCompletionRoleEnum } from 'types/OpenAi';
 import LoadingMessage from './components/LoadingMessage';
 import Page from 'components/ui/Page';
+import { SDSColoursSemantic } from 'components/ui/Colours';
 
 function ChatPage() {
     const [input, setInput] = useState('');
@@ -69,28 +70,60 @@ function ChatPage() {
 
     return (
         <Page>
-            <Stack {...styleProps}>
+            <Stack {...styleProps} padding={'0px 80px'}>
                 {showWelcomeMsg && (
                     <Stack alignItems="center" justifyContent="center">
                         <Stack alignItems="center" marginBottom={4}>
-                            <Typography variant="h3" color="primary" fontWeight="bold">
-                                Substance Abuse Counseling Bot
+                            <Typography variant="h3">Talk to Welness Bot</Typography>
+                        </Stack>
+                        <Stack gap={'16px'}>
+                            <Typography variant="h6">
+                                Wellness Bot is your confidential and personalised substance-abuse
+                                counseling bot. Here's what you need to know:
+                            </Typography>
+                            {/* <Typography variant="h6" style={{ color: 'red' }}>
+                                We respect your privacy. The chats wont be saved and you don't need
+                                to reveal your personal details to use this personalized app.
+                            </Typography> */}
+                            <Stack
+                                sx={{
+                                    borderRadius: '10px',
+                                    border: '1px solid rgba(199, 173, 165, 0.50)',
+                                    background: '#FFF',
+                                    boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
+                                }}
+                            >
+                                <Typography variant="body1">
+                                    <ol>
+                                        <li>
+                                            <b>Privacy:</b>Your conversations are completely
+                                            confidential, and we respect your privacy.
+                                        </li>
+                                        <li>
+                                            <b>Anonymous Support:</b> No personal details are
+                                            required to use the app.
+                                        </li>
+                                        <li>
+                                            <b>Get Answers:</b> The bot is here to help clarify your
+                                            substance abuse-related queries.
+                                        </li>
+                                        <li>
+                                            <b>Disclaimer:</b> The bot provides general information
+                                            and is not a substitute for professional advice. Consult
+                                            a healthcare professional for personalized guidance.
+                                        </li>
+                                    </ol>
+                                </Typography>
+                            </Stack>
+                            <Typography variant="h6">
+                                By proceeding, you acknowledge that you've read and understood the
+                                above information.
                             </Typography>
                         </Stack>
-                        <Typography variant="h6">
-                            This is a personalized health app designed specially for clarifying your
-                            doubts regarding your substance abuse related queries.
-                        </Typography>
-                        <Typography variant="h6" style={{ color: 'red' }}>
-                            We respect your privacy. The chats wont be saved and you don't need to
-                            reveal your personal details to use this personalized app.
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            style={{ minWidth: '40vw', margin: '30px' }}
-                            onClick={() => handleClick()}
-                        >
-                            Click here to start a conversation
+                        <br />
+
+                        <Button variant="contained" style={{}} onClick={() => handleClick()}>
+                            Start a conversation!
                         </Button>
                     </Stack>
                 )}
