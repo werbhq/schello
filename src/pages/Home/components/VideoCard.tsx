@@ -14,6 +14,7 @@ import Expand from 'components/ui/Expand';
 import { useState } from 'react';
 import { GeneralVideo } from 'types/General Awarness';
 import { CommunityVideo } from 'types/Community';
+import { SDSColourPrimitives } from 'components/ui/Colours';
 
 export default function VideoCard(props: GeneralVideo | CommunityVideo) {
     const [expanded, setExpanded] = useState(false);
@@ -42,11 +43,13 @@ export default function VideoCard(props: GeneralVideo | CommunityVideo) {
                 whiteSpaceP: 'nowrap',
             }}
         >
-            <CardMedia sx={{ height: 170 }} image={props.thumbnail} />
-            <CardContent>
+            <CardMedia sx={{ height: 120 }} image={props.thumbnail} />
+            <CardContent sx={{ height: '100%', width: '100%' }}>
                 <Grid>
                     <Link href={props.url} target="_blank">
-                        <Typography variant="h6">{props.title}</Typography>
+                        <Typography variant="body1" sx={{ color: SDSColourPrimitives.bloodyBlue }}>
+                            {props.title.substring(0, 30) + '...'}
+                        </Typography>
                     </Link>
                 </Grid>
 

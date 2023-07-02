@@ -10,17 +10,17 @@ import { red } from '@mui/material/colors';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#179F97',
+            main: '#AF53F7',
         },
         secondary: {
-            main: '#F1C043',
+            main: '#6BE6EE',
         },
         error: red,
         contrastThreshold: 3,
         tonalOffset: 0.2,
     },
     typography: {
-        fontFamily: ['Poppins', 'roboto'].join(','),
+        fontFamily: ['Inter', 'roboto'].join(','),
     },
 });
 

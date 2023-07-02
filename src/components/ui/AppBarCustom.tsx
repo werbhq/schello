@@ -13,6 +13,8 @@ import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
+import { SDSColourPrimitives } from './Colours';
+import logo from './../../assets/images/wordmark.svg';
 
 const MenuItems = ({
     navStyle,
@@ -52,17 +54,17 @@ export default function AppBarCustom() {
     const [isOpen, setIsOpen] = useState(false);
 
     const activeLink: React.CSSProperties = {
-        backgroundColor: '#f9f9f9',
-        borderRadius: '2px',
         textDecoration: 'none',
-        color: theme.palette.primary.main,
+        backgroundColor: '#6BE6EE',
+        color: '#1C2D46',
+        borderRadius: '150px',
     };
 
     const inActiveLink: React.CSSProperties = {
-        backgroundColor: 'inherit',
-        borderRadius: '2px',
         textDecoration: 'none',
-        color: 'inherit',
+        backgroundColor: 'transparent',
+        color: '#1C2D46',
+        borderRadius: '150px',
     };
 
     const applyNavStyle = ({ isActive }: { isActive: boolean }) =>
@@ -85,11 +87,25 @@ export default function AppBarCustom() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{ background: theme.palette.secondary.main }}>
+            <AppBar
+                position="static"
+                style={{
+                    background: SDSColourPrimitives.white70,
+                    boxShadow: 'none',
+                    borderBottom: '1px solid #C7ADA580',
+
+                    display: 'flex',
+                    flexDirection: 'row',
+                    zIndex: 1000,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
                 <Toolbar>
-                    <Typography variant="h6" color="inherit" component="div" sx={{ flexGrow: 1 }}>
-                        Schello
-                    </Typography>
+                    <img src={logo} height={32}></img>
+                </Toolbar>
+
+                <Toolbar>
                     {width ? (
                         <>
                             <IconButton onClick={handleOpen}>
