@@ -1,13 +1,4 @@
-import {
-    AppBar,
-    Toolbar,
-    Typography,
-    Button,
-    Box,
-    useTheme,
-    IconButton,
-    Drawer,
-} from '@mui/material';
+import { AppBar, Toolbar, Button, Box, IconButton, Drawer } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -50,7 +41,6 @@ const MenuItems = ({
 };
 
 export default function AppBarCustom() {
-    const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
 
     const activeLink: React.CSSProperties = {
@@ -88,12 +78,11 @@ export default function AppBarCustom() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
-                position="static"
+                position="fixed"
                 style={{
                     background: SDSColorPrimitives.white70,
                     boxShadow: 'none',
                     borderBottom: '1px solid #C7ADA580',
-
                     display: 'flex',
                     flexDirection: 'row',
                     zIndex: 1000,
@@ -102,7 +91,7 @@ export default function AppBarCustom() {
                 }}
             >
                 <Toolbar>
-                    <img src={logo} height={32}></img>
+                    <img src={logo} height={32} alt="logo"></img>
                 </Toolbar>
 
                 <Toolbar>

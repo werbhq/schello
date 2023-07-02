@@ -2,6 +2,7 @@ import { Typography, Stack } from '@mui/material';
 import ReportTable from './components/ReportTable';
 import { useReportsData } from 'hooks/useVisualizeData';
 import PageLoader from 'components/ui/PageLoader';
+import Page from 'components/ui/Page';
 
 function VisualizePage() {
     const { data: reports, isLoading } = useReportsData();
@@ -9,17 +10,19 @@ function VisualizePage() {
     if (isLoading) return <PageLoader loading={isLoading} />;
 
     return (
-        <Stack spacing={4} margin={4}>
-            <Typography variant="h3">Visualize Your Reports</Typography>
+        <Page>
+            <Stack spacing={4} margin={4}>
+                <Typography variant="h3">Visualize Your Reports</Typography>
 
-            <Stack spacing={2}>
-                <Typography variant="h6" color={'red'}>
-                    We guarantee your privacy.
-                </Typography>
+                <Stack spacing={2}>
+                    <Typography variant="h6" color={'red'}>
+                        We guarantee your privacy.
+                    </Typography>
 
-                <ReportTable reports={reports ?? []} />
+                    <ReportTable reports={reports ?? []} />
+                </Stack>
             </Stack>
-        </Stack>
+        </Page>
     );
 }
 

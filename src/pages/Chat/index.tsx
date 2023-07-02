@@ -7,6 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ChatMessage from './components/ChatMessage';
 import { ChatCompletionRequestMessage, ChatCompletionRoleEnum } from 'types/OpenAi';
 import LoadingMessage from './components/LoadingMessage';
+import Page from 'components/ui/Page';
 
 function ChatPage() {
     const [input, setInput] = useState('');
@@ -62,101 +63,107 @@ function ChatPage() {
         }
     }, [chatLog]);
 
+    const styleProps = showWelcomeMsg
+        ? { marginY: 4, spacing: 4, alignItems: 'center', justifyContent: 'centre' }
+        : {};
+
     return (
-        <Stack>
-            {showWelcomeMsg && (
-                <Stack alignItems="center" justifyContent="center" margin={3}>
-                    <Stack alignItems="center" marginBottom={4}>
-                        <Typography variant="h3" color="primary" fontWeight="bold">
-                            Substance Abuse Counseling Bot
+        <Page>
+            <Stack {...styleProps}>
+                {showWelcomeMsg && (
+                    <Stack alignItems="center" justifyContent="center">
+                        <Stack alignItems="center" marginBottom={4}>
+                            <Typography variant="h3" color="primary" fontWeight="bold">
+                                Substance Abuse Counseling Bot
+                            </Typography>
+                        </Stack>
+                        <Typography variant="h6">
+                            This is a personalized health app designed specially for clarifying your
+                            doubts regarding your substance abuse related queries.
                         </Typography>
+                        <Typography variant="h6" style={{ color: 'red' }}>
+                            We respect your privacy. The chats wont be saved and you don't need to
+                            reveal your personal details to use this personalized app.
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            style={{ minWidth: '40vw', margin: '30px' }}
+                            onClick={() => handleClick()}
+                        >
+                            Click here to start a conversation
+                        </Button>
                     </Stack>
-                    <Typography variant="h6">
-                        This is a personalized health app designed specially for clarifying your
-                        doubts regarding your substance abuse related queries.
-                    </Typography>
-                    <Typography variant="h6" style={{ color: 'red' }}>
-                        We respect your privacy. The chats wont be saved and you don't need to
-                        reveal your personal details to use this personalized app.
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        style={{ minWidth: '40vw', margin: '30px' }}
-                        onClick={() => handleClick()}
-                    >
-                        Click here to start a conversation
-                    </Button>
-                </Stack>
-            )}
+                )}
 
-            {showChat && (
-                <Stack>
-                    <List
-                        style={{
-                            overflow: 'auto',
-                            padding: '0px',
-                            maxHeight: '75vh',
-                            minHeight: '20px',
-                        }}
-                        ref={chatRef}
-                    >
-                        {chatLog.map((message, index) => (
-                            <ChatMessage key={index} message={message} />
-                        ))}
-                        {isLoading && <LoadingMessage />}
-                    </List>
+                {showChat && (
+                    <Stack>
+                        <List
+                            style={{
+                                overflow: 'auto',
+                                padding: '0px',
+                                maxHeight: '75vh',
+                                minHeight: '20px',
+                            }}
+                            ref={chatRef}
+                        >
+                            {chatLog.map((message, index) => (
+                                <ChatMessage key={index} message={message} />
+                            ))}
+                            {isLoading && <LoadingMessage />}
+                        </List>
 
-                    <Card
-                        style={{
-                            padding: '10px',
-                            margin: 0,
-                            bottom: 0,
-                            minHeight: '4rem',
-                            position: 'fixed',
-                            width: '100%',
-                            borderRadius: 0,
-                            backgroundColor: notification.show ? '#f04d38' : '#f1c043',
-                        }}
-                    >
-                        <form onSubmit={handleSubmit}>
-                            <InputBase
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                placeholder="Provide your query message here"
-                                fullWidth
-                                multiline
-                                style={{ padding: '10px' }}
-                                onKeyDown={(e: any) => {
-                                    if (e.keyCode === 13 && !e.shiftKey) {
-                                        e.preventDefault();
-                                        handleSubmit(e);
+                        <Card
+                            style={{
+                                padding: '10px',
+                                margin: 0,
+                                bottom: 0,
+                                minHeight: '4rem',
+                                position: 'fixed',
+                                width: '100%',
+                                borderRadius: 0,
+                                backgroundColor: notification.show ? '#f04d38' : '#f1c043',
+                            }}
+                        >
+                            <form onSubmit={handleSubmit}>
+                                <InputBase
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    placeholder="Provide your query message here"
+                                    fullWidth
+                                    multiline
+                                    style={{ padding: '10px' }}
+                                    onKeyDown={(e: any) => {
+                                        if (e.keyCode === 13 && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSubmit(e);
+                                        }
+                                    }}
+                                    disabled={isLoading}
+                                />
+                                <Button
+                                    sx={{
+                                        float: 'right',
+                                        right: '60px',
+                                        bottom: '20px',
+                                    }}
+                                    endIcon={
+                                        <SendIcon
+                                            style={{
+                                                color: 'white',
+                                                fontSize: '30px',
+                                            }}
+                                        />
                                     }
-                                }}
-                                disabled={isLoading}
-                            />
-                            <Button
-                                sx={{
-                                    float: 'right',
-                                    right: '60px',
-                                    bottom: '20px',
-                                }}
-                                endIcon={
-                                    <SendIcon
-                                        style={{
-                                            color: 'white',
-                                            fontSize: '30px',
-                                        }}
-                                    />
-                                }
-                                onClick={handleSubmit}
-                                type="submit"
-                            />
-                        </form>
-                    </Card>
-                </Stack>
-            )}
-            <Notification showMessage={notification} setShowMessage={setNotification} />
-        </Stack>
+                                    onClick={handleSubmit}
+                                    type="submit"
+                                />
+                            </form>
+                        </Card>
+                    </Stack>
+                )}
+                <Notification showMessage={notification} setShowMessage={setNotification} />
+            </Stack>
+        </Page>
     );
 }
 
