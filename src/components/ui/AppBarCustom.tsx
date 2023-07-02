@@ -36,11 +36,6 @@ const MenuItems = ({
                     Wellness Bot
                 </Link>
             </NavLink>
-            <NavLink to={ROUTES.DRUG_FORM} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Report Anonymously
-                </Button>
-            </NavLink>
         </Stack>
     );
 };
@@ -132,6 +127,12 @@ export default function AppBarCustom() {
                         <MenuItems navStyle={applyNavStyle} />
                     )}
                 </Toolbar>
+
+                <NavLink to={ROUTES.DRUG_FORM} end>
+                    <Button color="inherit" onClick={handleClose} fullWidth>
+                        Report Anonymously
+                    </Button>
+                </NavLink>
             </AppBar>
             <Outlet />
         </Box>
