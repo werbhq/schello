@@ -48,5 +48,14 @@ export class SDSColorPrimitives {
     static boringBlue = '#405D88';
     static brilliantBlue = '#6BE6EE';
     static pretentiousPurple = '#AF53F7';
-    static white70 = '#F2F6F7';
+    static offWhite = '#F2F6F7';
+    static pureWhite = '#FFFFFF';
+}
+
+export class SDSColoursSemantic {
+    static background = SDSColorPrimitives.offWhite;
+    static surface = SDSColorPrimitives.pureWhite;
+    static onBackgroundPrimary = SDSColorPrimitives.bloodyBlue;
+    static onBackgroundSecondary = SDSColorPrimitives.boringBlue;
+    static brand = SDSColorPrimitives.pretentiousPurple;
 }

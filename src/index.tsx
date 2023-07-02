@@ -8,6 +8,8 @@ import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import './assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf';
 
+import { SDSColorPrimitives, SDSColoursSemantic } from 'components/ui/Colours';
+
 const theme: ThemeOptions = createTheme({
     palette: {
         primary: {
@@ -38,6 +40,12 @@ const theme: ThemeOptions = createTheme({
                 // height: 48,
                 // padding: '0x 30px',
                 // margin: '0px 20px',
+            },
+        },
+
+        MuiLink: {
+            styleOverrides: {
+                root: {},
             },
         },
     },

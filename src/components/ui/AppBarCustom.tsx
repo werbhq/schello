@@ -1,11 +1,16 @@
-import { AppBar, Toolbar, Button, Box, IconButton, Drawer } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, IconButton, Drawer, Link, Stack } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
-import { SDSColorPrimitives } from './Colours';
+import { SDSColorPrimitives, SDSColoursSemantic } from './Colours';
 import logo from './../../assets/images/wordmark.svg';
+
+const linkStyle: React.CSSProperties = {
+    textDecoration: 'none',
+    color: SDSColoursSemantic.onBackgroundSecondary,
+};
 
 const MenuItems = ({
     navStyle,
@@ -15,50 +20,51 @@ const MenuItems = ({
     handleClose?: () => void;
 }) => {
     return (
-        <>
+        <Stack gap={'8px'} direction={'row'}>
             <NavLink style={navStyle} to={ROUTES.DEFAULT} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
+                <Link style={linkStyle} onClick={handleClose}>
                     Home
-                </Button>
-            </NavLink>
-            <NavLink style={navStyle} to={ROUTES.DRUG_FORM} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Form
-                </Button>
+                </Link>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.COMMUNITY} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
+                <Link style={linkStyle} onClick={handleClose}>
                     Community
-                </Button>
+                </Link>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.CHAT} end>
+                <Link style={linkStyle} onClick={handleClose}>
+                    Chat
+                </Link>
+            </NavLink>
+            <NavLink to={ROUTES.DRUG_FORM} end>
                 <Button color="inherit" onClick={handleClose} fullWidth>
-                    Helpline
+                    Report Anonymously
                 </Button>
             </NavLink>
-        </>
+        </Stack>
     );
 };
 
 export default function AppBarCustom() {
     const [isOpen, setIsOpen] = useState(false);
 
-    const activeLink: React.CSSProperties = {
+    const navLink: React.CSSProperties = {
         textDecoration: 'none',
-        backgroundColor: '#6BE6EE',
-        color: '#1C2D46',
+        color: '#1C2D46 !important',
         borderRadius: '150px',
+        padding: '8px 16px',
+    };
+
+    const activeLink: React.CSSProperties = {
+        backgroundColor: '#6BE6EE',
     };
 
     const inActiveLink: React.CSSProperties = {
-        textDecoration: 'none',
         backgroundColor: 'transparent',
-        color: '#1C2D46',
-        borderRadius: '150px',
     };
 
     const applyNavStyle = ({ isActive }: { isActive: boolean }) =>
-        isActive ? activeLink : inActiveLink;
+        isActive ? { ...activeLink, ...navLink } : { ...inActiveLink, ...navLink };
 
     const getDeviceConfig = (width: number) => {
         if (width < 320) return true;
@@ -80,7 +86,7 @@ export default function AppBarCustom() {
             <AppBar
                 position="fixed"
                 style={{
-                    background: SDSColorPrimitives.white70,
+                    background: SDSColoursSemantic.surface,
                     boxShadow: 'none',
                     borderBottom: '1px solid #C7ADA580',
                     display: 'flex',
@@ -88,6 +94,8 @@ export default function AppBarCustom() {
                     zIndex: 1000,
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    paddingLeft: '146px',
+                    paddingRight: '146px',
                 }}
             >
                 <Toolbar>
