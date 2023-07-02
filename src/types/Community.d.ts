@@ -13,4 +13,5 @@ export interface CommunityArticle {
   visible: boolean;
   timestamp: string;
   description: string; // HTML
+  tenant: string;
 }

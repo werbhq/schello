@@ -11,4 +11,5 @@ export const MAPPING = {
     VIDEO: "general-video",
     GOOGLE_NEWS: "general-google-news",
   },
+  SCHOOLS: "school",
 };

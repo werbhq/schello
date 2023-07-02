@@ -14,6 +14,7 @@ let events: Event[] = [
     mode: "VIRTUAL",
     venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
     register_url: "https://forms.gle/7B5sYCiT8ouhgbpj6",
+    tenant: "excise",
   },
   {
     id: "feiojeifwioaso",
@@ -27,6 +28,7 @@ let events: Event[] = [
 </p>`, // HTML
     mode: "OFFLINE",
     venue: "https://meet.google.com/wqa-eohc-uws", // Venue for offline. Meeting link for online
+    tenant: "excise",
   },
 ];
 
@@ -43,6 +45,7 @@ let newsList: GeneralNews[] = [
     visible: true,
     news_type: "INTERNAL",
     description: "drug mafia captured in mbcet",
+    tenant: "excise",
   },
   {
     id: "n2",
@@ -50,6 +53,7 @@ let newsList: GeneralNews[] = [
     timestamp: "2023-02-16T06:30:00.000Z",
     visible: true,
     news_type: "EXTERNAL",
+    tenant: "excise",
     redirect_url:
       "https://timesofindia.indiatimes.com/city/ludhiana/counsellor-turns-drug-supplier-for-jail-inmates-held/articleshow/97965139.cms?from=mdr",
   },
@@ -59,6 +63,7 @@ let newsList: GeneralNews[] = [
     timestamp: "2023-02-16T06:30:00.000Z",
     visible: true,
     news_type: "INTERNAL",
+    tenant: "excise",
     description: "drug mafia captured in mbcet",
   },
   {
@@ -67,6 +72,7 @@ let newsList: GeneralNews[] = [
     timestamp: "2023-02-16T06:30:00.000Z",
     visible: true,
     news_type: "EXTERNAL",
+    tenant: "excise",
     redirect_url:
       "https://timesofindia.indiatimes.com/city/ludhiana/counsellor-turns-drug-supplier-for-jail-inmates-held/articleshow/97965139.cms?from=mdr",
   },
@@ -76,6 +82,7 @@ let newsList: GeneralNews[] = [
     timestamp: "2023-02-16T06:30:00.000Z",
     visible: true,
     news_type: "EXTERNAL",
+    tenant: "excise",
     redirect_url:
       "https://timesofindia.indiatimes.com/city/ludhiana/counsellor-turns-drug-supplier-for-jail-inmates-held/articleshow/97965139.cms?from=mdr",
   },
@@ -85,6 +92,7 @@ let newsList: GeneralNews[] = [
     timestamp: "2023-02-16T06:30:00.000Z",
     visible: true,
     news_type: "EXTERNAL",
+    tenant: "excise",
     redirect_url:
       "https://timesofindia.indiatimes.com/city/ludhiana/counsellor-turns-drug-supplier-for-jail-inmates-held/articleshow/97965139.cms?from=mdr",
   },
@@ -103,6 +111,7 @@ let videoList: GeneralVideo[] = [
   Help keep VICE News’ fearless reporting free for millions by making a one time or ongoing contribution here. - </span>`,
     platform: "YOUTUBE",
     url: "https://www.youtube.com/watch?v=82QhIOgJy1c",
+    tenant: "excise",
   },
   {
     id: "82QhIOgJy1c",
@@ -116,6 +125,7 @@ let videoList: GeneralVideo[] = [
   Help keep VICE News’ fearless reporting free for millions by making a one time or ongoing contribution here. - </span>`,
     platform: "YOUTUBE",
     url: "https://www.youtube.com/watch?v=82QhIOgJy1c",
+    tenant: "excise",
   },
   {
     id: "82QhIOgJy1c",
@@ -129,6 +139,7 @@ let videoList: GeneralVideo[] = [
   Help keep VICE News’ fearless reporting free for millions by making a one time or ongoing contribution here. - </span>`,
     platform: "YOUTUBE",
     url: "https://www.youtube.com/watch?v=82QhIOgJy1c",
+    tenant: "excise",
   },
   {
     id: "82QhIOgJy1c",
@@ -142,6 +153,7 @@ let videoList: GeneralVideo[] = [
   Help keep VICE News’ fearless reporting free for millions by making a one time or ongoing contribution here. - </span>`,
     platform: "YOUTUBE",
     url: "https://www.youtube.com/watch?v=82QhIOgJy1c",
+    tenant: "excise",
   },
 ];
 

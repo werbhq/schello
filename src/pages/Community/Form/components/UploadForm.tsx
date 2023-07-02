@@ -8,13 +8,16 @@ import {
   Alert,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Editor from "./Editor";
 import { LoadingButton } from "@mui/lab";
 import DialogBox from "components/ui/CustomDialogBox";
 import { CommunityArticle, CommunityVideo } from "types/Community";
 import { PlatForm } from "util/Platfrom";
 import { addCommunityForm } from "api/community";
+import { useSchoolDetailsData } from "hooks/useSchoolDetails";
+import PageLoader from "components/ui/PageLoader";
+import Error from "pages/Error/Error";
 
 type CommunityForm = Omit<
   CommunityVideo & CommunityArticle,
@@ -32,6 +35,8 @@ const DIALOG_MESSAGES = {
 };
 
 function UploadVideoArticleForm() {
+  const { data: schools, isLoading } = useSchoolDetailsData();
+
   const defaultFormVars: CommunityForm = {
     title: "",
     description: "",
@@ -40,6 +45,7 @@ function UploadVideoArticleForm() {
     platform: "YOUTUBE",
     url: "",
     thumbnail: "",
+    tenant: "excise",
   };
 
   const [editorHtml, setEditorHtml] = useState("");
@@ -98,6 +104,19 @@ function UploadVideoArticleForm() {
     setSubmitLoading(false);
   };
 
+  useEffect(() => {
+    if (!isLoading && schools) {
+      setFormVars({
+        ...defaultFormVars,
+        tenant: schools[0].id,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
+  if (isLoading) return <PageLoader loading={isLoading} />;
+  if (!schools) return <Error />;
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -114,15 +133,27 @@ function UploadVideoArticleForm() {
             variant="filled"
             name="author"
             onChange={handleForm}
-            required
           />
           <TextField
             label="Email"
             variant="filled"
             name="email"
             onChange={handleForm}
-            required
           />
+          <InputLabel>Reporting School</InputLabel>
+          <Select
+            label="Reporting School"
+            name="tenant"
+            value={formVars.tenant}
+            onChange={handleForm}
+            required
+          >
+            {schools.map((e) => (
+              <MenuItem key={e.id} value={e.id}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
           <InputLabel>Type</InputLabel>
           <Select
             label="Type"

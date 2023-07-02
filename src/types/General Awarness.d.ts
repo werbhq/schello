@@ -10,6 +10,7 @@ export interface Event {
   mode: "VIRTUAL" | "OFFLINE";
   venue: string; // Venue for offline. Meeting link for online
   register_url?: string;
+  tenant: string;
 }
 
 export interface GeneralVideo {
@@ -22,6 +23,7 @@ export interface GeneralVideo {
   platform: "YOUTUBE" | "DAILY-MOTION" | "GOOGLE-DRIVE" | "REEL";
   url: string;
   thumbnail: string;
+  tenant: string;
 }
 
 export type PlatFormOptions = GeneralVideo["platform"];
@@ -40,4 +42,5 @@ export interface GeneralNews {
     */
   redirect_url?: string;
   description?: string; // HTML . news_type == 'EXTERNAL won't have this
+  tenant: string;
 }

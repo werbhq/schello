@@ -2,7 +2,7 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-import type { MapData } from "types/MapData";
+import type { MapDataInput } from "types/MapData";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { MyLocation } from "@mui/icons-material";
 import Notification from "components/Notification";
@@ -15,7 +15,7 @@ function AutocompleteCustom({
   loading,
   locationUsed,
 }: {
-  options: MapData[];
+  options: MapDataInput[];
   setInput: any;
   formVars: any;
   setFormVars: any;
@@ -37,8 +37,10 @@ function AutocompleteCustom({
         loading={loading}
         options={options}
         onInputChange={(e, value: any) => setInput(value)}
-        isOptionEqualToValue={(option: MapData, value: MapData) => true}
-        getOptionLabel={(option: MapData) => option.title}
+        isOptionEqualToValue={(option: MapDataInput, value: MapDataInput) =>
+          true
+        }
+        getOptionLabel={(option: MapDataInput) => option.title}
         style={{ width: "15rem" }}
         noOptionsText="No Place Found"
         onChange={(e, value) => setFormVars({ ...formVars, location: value })}
@@ -51,7 +53,7 @@ function AutocompleteCustom({
 export function PlaceSearch(props: any) {
   const { formVars, setFormVars } = props;
   const [input, setInput] = React.useState<string>("kerala");
-  const [data, setData] = React.useState<MapData[]>([]);
+  const [data, setData] = React.useState<MapDataInput[]>([]);
   const [locationUsed, setLocationUsed] = React.useState(false);
   const [showMessage, setShowMessage] = React.useState({
     show: false,
@@ -89,7 +91,7 @@ export function PlaceSearch(props: any) {
       })
     ).then((e) => {
       setLocationUsed(false);
-      setData(e as MapData[]);
+      setData(e as MapDataInput[]);
     });
   }, [isPlacePredictionsLoading]);
 

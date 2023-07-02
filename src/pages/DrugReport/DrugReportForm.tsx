@@ -1,7 +1,5 @@
 import {
   Alert,
-  Autocomplete,
-  FormControl,
   FormControlLabel,
   FormLabel,
   MenuItem,
@@ -13,8 +11,9 @@ import {
   Typography,
   TextareaAutosize,
   CardMedia,
+  FormControl,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -25,22 +24,23 @@ import { PlaceSearch } from "./components/PlaceSearch";
 import { LoadingButton } from "@mui/lab";
 import { Link as LinkRouter } from "react-router-dom";
 import { addReport } from "api/report";
-import { MapData } from "types/MapData";
-import { FacialData, Report } from "types/Report";
-import student_data from "constant/student_data.json";
+import { MapDataInput } from "types/MapData";
+import { FacialData, InputReport } from "types/Report";
 import { FacialField } from "./components/FacialField";
 import ReportVideo from "assets/video/visualization.mp4";
-
-const studentData: { [index: string]: { id: string } } = student_data;
+import useCheckMobileScreen from "hooks/useMobile";
+import { useSchoolDetailsData } from "hooks/useSchoolDetails";
+import PageLoader from "components/ui/PageLoader";
+import Error from "pages/Error/Error";
 
 type FormVars = Omit<
-  Report,
-  "dateIncident" | "timeFrom" | "timeTo" | "location"
+  InputReport,
+  "dateIncident" | "timeFrom" | "timeTo" | "location" | "ip"
 > & {
   dateIncident: dayjs.Dayjs;
   timeFrom: dayjs.Dayjs;
   timeTo: dayjs.Dayjs;
-  location: MapData | null;
+  location: MapDataInput | null;
 };
 
 const DIALOG_MESSAGES = {
@@ -63,6 +63,9 @@ const DIALOG_MESSAGES = {
 };
 
 export default function DrugReportForm(props: any) {
+  const { data: schools, isLoading } = useSchoolDetailsData();
+  const isMobile = useCheckMobileScreen();
+
   const currentTime = dayjs();
 
   const defaultFormVars: FormVars = {
@@ -72,10 +75,13 @@ export default function DrugReportForm(props: any) {
     category: "USAGE_SUSPECTED",
     description: "",
     location: null,
-    studentId: null,
+    tenant: "",
+    student: {
+      name: "",
+      class: "",
+    },
     status: "NEW",
     facialData: null,
-    wantedPersonId: null,
   };
 
   const defaultFacialVars: FacialData = {
@@ -86,13 +92,10 @@ export default function DrugReportForm(props: any) {
     faceShape: "DIAMOND",
   };
 
-  const [formVars, setFormVars] = useState(defaultFormVars);
-  const [facialData, setFacialData] = useState(defaultFacialVars);
-  const [wantedPersonId, setWantedPersonId] =
-    useState<Report["wantedPersonId"]>(null);
+  const [formVars, setFormVars] = useState<FormVars>(defaultFormVars);
+  const [facialData, setFacialData] = useState<FacialData>(defaultFacialVars);
 
   const [enableFaceOption, setEnableFaceOption] = useState(false);
-  const [enableWantedOption, setEnableWantedOption] = useState(true);
   const [enableStudentOption, setEnableStudentOption] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -100,6 +103,23 @@ export default function DrugReportForm(props: any) {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogData, setDialogData] = useState(DIALOG_MESSAGES.SUCCESS);
+
+  useEffect(() => {
+    if (!isLoading && schools) {
+      setFormVars({
+        ...defaultFormVars,
+        tenant: schools[0].id,
+        student: {
+          name: "",
+          class: schools[0].classes[0],
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
+  if (isLoading) return <PageLoader loading={isLoading} />;
+  if (!schools) return <Error />;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -118,18 +138,13 @@ export default function DrugReportForm(props: any) {
     if (formVars.location == null)
       new_errors.push("Provide a <rough location>");
 
-    if (enableStudentOption && formVars.studentId === null) {
-      new_errors.push("Provide a <Student Name>");
+    if (enableStudentOption) {
+      if (!formVars.student?.name) new_errors.push("Provide a <Student Name>");
+      if (!formVars.student?.class) new_errors.push("Select a <Class>");
     }
 
-    if (!enableStudentOption) {
-      if (enableFaceOption && !enableWantedOption && facialData === null) {
-        new_errors.push("Provide <Facial Data>");
-      }
-
-      if (enableFaceOption && enableWantedOption && wantedPersonId === null) {
-        new_errors.push("Select a person from wanted list");
-      }
+    if (!enableStudentOption && enableFaceOption && facialData === null) {
+      new_errors.push("Provide <Facial Data>");
     }
 
     if (new_errors.length > 0) {
@@ -137,21 +152,19 @@ export default function DrugReportForm(props: any) {
       return;
     }
 
-    const parsedFormVars: Report = {
+    const parsedFormVars: InputReport = {
       ...formVars,
       dateIncident: formVars.dateIncident.toISOString(),
       timeFrom: formVars.timeFrom.toISOString(),
       timeTo: formVars.timeTo.toISOString(),
-      location: formVars.location as Report["location"],
-      studentId: enableStudentOption ? formVars.studentId : null,
-      facialData: enableFaceOption && !enableWantedOption ? facialData : null,
-      wantedPersonId:
-        enableFaceOption && enableWantedOption ? wantedPersonId : null,
+      location: formVars.location as InputReport["location"],
+      student: enableStudentOption ? formVars.student : null,
+      facialData: enableFaceOption ? facialData : null,
     };
 
     try {
       setSubmitLoading(true);
-      await addReport(parsedFormVars);
+      await addReport(parsedFormVars, formVars.tenant);
       setDialogData(DIALOG_MESSAGES.SUCCESS);
     } catch (error: any) {
       console.error(error);
@@ -168,7 +181,6 @@ export default function DrugReportForm(props: any) {
 
   const handleChange = async (e: any) =>
     setFormVars({ ...formVars, [e.target.name]: e.target.value });
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack margin={3} spacing={4} direction="column">
@@ -211,13 +223,13 @@ export default function DrugReportForm(props: any) {
 
         <form onSubmit={handleSubmit}>
           <Stack
-            paddingX={30}
             margin={3}
             marginTop={0}
             spacing={4}
             direction="column"
+            paddingX={isMobile ? "0px" : 25}
           >
-            <Stack spacing={4} direction="row">
+            <Stack spacing={4} direction={isMobile ? "column" : "row"}>
               <Stack spacing={2}>
                 <FormLabel>Incident Date*</FormLabel>
                 <DatePicker
@@ -315,6 +327,31 @@ export default function DrugReportForm(props: any) {
             </Stack>
 
             <Stack spacing={2}>
+              <FormLabel id="school-select">Select School</FormLabel>
+              <Select
+                labelId="school-select"
+                value={formVars.tenant}
+                onChange={(e) => {
+                  const id = e.target.value;
+                  setFormVars({
+                    ...formVars,
+                    tenant: id,
+                    student: {
+                      name: formVars.student?.name ?? "",
+                      class: schools.find((e) => e.id === id)?.classes[0] ?? "",
+                    },
+                  });
+                }}
+              >
+                {schools.map((e) => (
+                  <MenuItem key={e.id} value={e.id}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Stack>
+
+            <Stack spacing={2}>
               <FormControl>
                 <FormLabel id="student-flag">
                   Is the person a student?
@@ -346,38 +383,53 @@ export default function DrugReportForm(props: any) {
 
             {enableStudentOption ? (
               <Stack spacing={2}>
-                <FormLabel id="student-select">Student Name*</FormLabel>
-                <Autocomplete
-                  disableClearable
-                  options={Object.keys(studentData)}
-                  onChange={(e, value) => {
-                    setFormVars({
-                      ...formVars,
-                      studentId: studentData[value].id,
-                    });
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search input"
-                      InputProps={{
-                        ...params.InputProps,
-                        type: "search",
-                      }}
-                    />
-                  )}
-                />
+                <Stack spacing={2}>
+                  <FormLabel id="class-select">Select Class</FormLabel>
+                  <Select
+                    labelId="class-select"
+                    value={formVars.student?.class}
+                    onChange={(e) =>
+                      setFormVars({
+                        ...formVars,
+                        student: {
+                          name: formVars.student?.name ?? "",
+                          class: e.target.value,
+                        },
+                      })
+                    }
+                  >
+                    {schools
+                      .find((e) => e.id === formVars.tenant)
+                      ?.classes.map((e) => (
+                        <MenuItem value={e}>{e}</MenuItem>
+                      ))}
+                  </Select>
+                </Stack>
+
+                <Stack spacing={2}>
+                  <FormLabel id="name-enter">
+                    Enter Name (Please Enter the full name)
+                  </FormLabel>
+                  <TextField
+                    variant="outlined"
+                    onBlur={(e) => {
+                      setFormVars({
+                        ...formVars,
+                        student: {
+                          name: e.target.value,
+                          class: formVars.student?.class ?? "",
+                        },
+                      });
+                    }}
+                  />
+                </Stack>
               </Stack>
             ) : (
               <FacialField
                 enableFacialFeatures={enableFaceOption}
                 setEnableFacialFeatures={setEnableFaceOption}
-                enableWantedList={enableWantedOption}
-                setEnableWantedList={setEnableWantedOption}
                 facialData={facialData}
                 setFacialData={setFacialData}
-                wantedPersonId={wantedPersonId}
-                setWantedPersonId={setWantedPersonId}
               />
             )}
 

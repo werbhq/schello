@@ -1,8 +1,8 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Report } from "types/Report";
+import { InputReport } from "types/Report";
 import dayjs from "dayjs";
 
-const columns: GridColDef<Report>[] = [
+const columns: GridColDef<InputReport>[] = [
   {
     field: "dateIncident",
     headerName: "Incident Date",
@@ -40,18 +40,6 @@ const columns: GridColDef<Report>[] = [
     sortable: false,
   },
   {
-    field: "studentId",
-    headerName: "Student ID",
-    width: 100,
-    sortable: false,
-  },
-  {
-    field: "wantedPersonId",
-    headerName: "Wanted Person ID",
-    width: 100,
-    sortable: false,
-  },
-  {
     field: "facialData",
     headerName: "Face Data",
     width: 180,
@@ -59,7 +47,7 @@ const columns: GridColDef<Report>[] = [
   },
 ];
 
-export default function ReportTable(props: { reports: Report[] }) {
+export default function ReportTable(props: { reports: InputReport[] }) {
   return (
     <div style={{ height: 500 }}>
       <DataGrid

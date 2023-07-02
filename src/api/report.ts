@@ -1,11 +1,13 @@
 import { baseApi, fireStore } from ".";
-import { Report } from "types/Report";
+import { InputReport } from "types/Report";
 import { Timestamp, collection, getDocs } from "firebase/firestore";
 
 export const firebaseToDate = (date: Timestamp) => date.toDate().toISOString();
 
-export const addReport = async (data: Report) => {
-  const response = await baseApi.post("/report", data);
+export const addReport = async (data: InputReport, tenant: string) => {
+  const response = await baseApi.post("/report", data, {
+    headers: { tenant },
+  });
   if (response.data === "SPAM") throw Error("SPAM");
 };
 
@@ -21,5 +23,5 @@ export const getEncryptedReports = async () => {
       timeTo: firebaseToDate(data.timeTo),
     };
   });
-  return report as Report[];
+  return report as InputReport[];
 };
