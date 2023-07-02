@@ -43,10 +43,10 @@
 // 	static;
 // }
 
-export class SDSColourPrimitives {
-	static bloodyBlue = "#1C2D46";
-	static boringBlue = "#405D88";
-	static brilliantBlue = "#6BE6EE";
-	static pretentiousPurple = "#AF53F7";
-	static white70 = "#F2F6F7";
+export class SDSColorPrimitives {
+    static bloodyBlue = '#1C2D46';
+    static boringBlue = '#405D88';
+    static brilliantBlue = '#6BE6EE';
+    static pretentiousPurple = '#AF53F7';
+    static white70 = '#F2F6F7';
 }

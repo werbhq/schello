@@ -13,7 +13,7 @@ import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
-import { SDSColourPrimitives } from './Colours';
+import { SDSColorPrimitives } from './Colours';
 import logo from './../../assets/images/wordmark.svg';
 
 const MenuItems = ({
@@ -90,7 +90,7 @@ export default function AppBarCustom() {
             <AppBar
                 position="static"
                 style={{
-                    background: SDSColourPrimitives.white70,
+                    background: SDSColorPrimitives.white70,
                     boxShadow: 'none',
                     borderBottom: '1px solid #C7ADA580',
 
