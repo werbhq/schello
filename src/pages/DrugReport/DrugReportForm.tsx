@@ -1,477 +1,470 @@
 import {
-  Alert,
-  FormControlLabel,
-  FormLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-  TextareaAutosize,
-  CardMedia,
-  FormControl,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { TimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs from "dayjs";
-import DialogBox from "components/ui/CustomDialogBox";
-import { PlaceSearch } from "./components/PlaceSearch";
-import { LoadingButton } from "@mui/lab";
-import { Link as LinkRouter } from "react-router-dom";
-import { addReport } from "api/report";
-import { MapDataInput } from "types/MapData";
-import { FacialData, InputReport } from "types/Report";
-import { FacialField } from "./components/FacialField";
-import ReportVideo from "assets/video/visualization.mp4";
-import useCheckMobileScreen from "hooks/useMobile";
-import { useSchoolDetailsData } from "hooks/useSchoolDetails";
-import PageLoader from "components/ui/PageLoader";
-import Error from "pages/Error/Error";
+    Alert,
+    FormControlLabel,
+    FormLabel,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    Stack,
+    TextField,
+    Typography,
+    TextareaAutosize,
+    CardMedia,
+    FormControl,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { TimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
+import DialogBox from 'components/ui/CustomDialogBox';
+import { PlaceSearch } from './components/PlaceSearch';
+import { LoadingButton } from '@mui/lab';
+import { Link as LinkRouter } from 'react-router-dom';
+import { addReport } from 'api/report';
+import { MapDataInput } from 'types/MapData';
+import { FacialData, InputReport } from 'types/Report';
+import { FacialField } from './components/FacialField';
+import ReportVideo from 'assets/video/visualization.mp4';
+import useCheckMobileScreen from 'hooks/useMobile';
+import { useSchoolDetailsData } from 'hooks/useSchoolDetails';
+import PageLoader from 'components/ui/PageLoader';
+import Error from 'pages/Error/Error';
 
-type FormVars = Omit<
-  InputReport,
-  "dateIncident" | "timeFrom" | "timeTo" | "location" | "ip"
-> & {
-  dateIncident: dayjs.Dayjs;
-  timeFrom: dayjs.Dayjs;
-  timeTo: dayjs.Dayjs;
-  location: MapDataInput | null;
+type FormVars = Omit<InputReport, 'dateIncident' | 'timeFrom' | 'timeTo' | 'location' | 'ip'> & {
+    dateIncident: dayjs.Dayjs;
+    timeFrom: dayjs.Dayjs;
+    timeTo: dayjs.Dayjs;
+    location: MapDataInput | null;
 };
 
 const DIALOG_MESSAGES = {
-  SUCCESS: {
-    title: "Success",
-    description: "Your report has been submitted",
-  },
-  WAIT: {
-    title: "Please wait",
-    description: "Facial features image is still loading",
-  },
-  SPAM: {
-    title: "SPAM DETECTED",
-    description: "Your report has not been submitted due to suspected spamming",
-  },
-  FAILED: {
-    title: "Failed",
-    description: "Your report has not been submitted",
-  },
+    SUCCESS: {
+        title: 'Success',
+        description: 'Your report has been submitted',
+    },
+    WAIT: {
+        title: 'Please wait',
+        description: 'Facial features image is still loading',
+    },
+    SPAM: {
+        title: 'SPAM DETECTED',
+        description: 'Your report has not been submitted due to suspected spamming',
+    },
+    FAILED: {
+        title: 'Failed',
+        description: 'Your report has not been submitted',
+    },
 };
 
 export default function DrugReportForm(props: any) {
-  const { data: schools, isLoading } = useSchoolDetailsData();
-  const isMobile = useCheckMobileScreen();
+    const { data: schools, isLoading } = useSchoolDetailsData();
+    const isMobile = useCheckMobileScreen();
 
-  const currentTime = dayjs();
+    const currentTime = dayjs();
 
-  const defaultFormVars: FormVars = {
-    dateIncident: currentTime,
-    timeFrom: currentTime,
-    timeTo: currentTime.add(2, "hour"),
-    category: "USAGE_SUSPECTED",
-    description: "",
-    location: null,
-    tenant: "",
-    student: {
-      name: "",
-      class: "",
-    },
-    status: "NEW",
-    facialData: null,
-  };
-
-  const defaultFacialVars: FacialData = {
-    hairType: "CURLY",
-    skinColor: "FAIR",
-    gender: "MALE",
-    eyeColor: "BLACK",
-    faceShape: "DIAMOND",
-  };
-
-  const [formVars, setFormVars] = useState<FormVars>(defaultFormVars);
-  const [facialData, setFacialData] = useState<FacialData>(defaultFacialVars);
-
-  const [enableFaceOption, setEnableFaceOption] = useState(false);
-  const [enableStudentOption, setEnableStudentOption] = useState(false);
-  const [submitLoading, setSubmitLoading] = useState(false);
-
-  const [error, setError] = useState<string[]>([]);
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogData, setDialogData] = useState(DIALOG_MESSAGES.SUCCESS);
-
-  useEffect(() => {
-    if (!isLoading && schools) {
-      setFormVars({
-        ...defaultFormVars,
-        tenant: schools[0].id,
+    const defaultFormVars: FormVars = {
+        dateIncident: currentTime,
+        timeFrom: currentTime,
+        timeTo: currentTime.add(2, 'hour'),
+        category: 'USAGE_SUSPECTED',
+        description: '',
+        location: null,
+        tenant: '',
         student: {
-          name: "",
-          class: schools[0].classes[0],
+            name: '',
+            class: '',
         },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
-
-  if (isLoading) return <PageLoader loading={isLoading} />;
-  if (!schools) return <Error />;
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    // Handle Errors
-    setError([]);
-    const new_errors = [];
-
-    if (formVars.timeFrom?.isAfter(formVars.timeTo))
-      new_errors.push(
-        "Incident <from time> cannot be after incident <to time>"
-      );
-
-    if (formVars.description.split(" ").length < 5)
-      new_errors.push("Provide a <description> greater than 5 words");
-
-    if (formVars.location == null)
-      new_errors.push("Provide a <rough location>");
-
-    if (enableStudentOption) {
-      if (!formVars.student?.name) new_errors.push("Provide a <Student Name>");
-      if (!formVars.student?.class) new_errors.push("Select a <Class>");
-    }
-
-    if (!enableStudentOption && enableFaceOption && facialData === null) {
-      new_errors.push("Provide <Facial Data>");
-    }
-
-    if (new_errors.length > 0) {
-      setError(new_errors);
-      return;
-    }
-
-    const parsedFormVars: InputReport = {
-      ...formVars,
-      dateIncident: formVars.dateIncident.toISOString(),
-      timeFrom: formVars.timeFrom.toISOString(),
-      timeTo: formVars.timeTo.toISOString(),
-      location: formVars.location as InputReport["location"],
-      student: enableStudentOption ? formVars.student : null,
-      facialData: enableFaceOption ? facialData : null,
+        status: 'NEW',
+        facialData: null,
     };
 
-    try {
-      setSubmitLoading(true);
-      await addReport(parsedFormVars, formVars.tenant);
-      setDialogData(DIALOG_MESSAGES.SUCCESS);
-    } catch (error: any) {
-      console.error(error);
-      if (error?.message === "SPAM") {
-        setDialogData(DIALOG_MESSAGES.SPAM);
-      } else {
-        setDialogData(DIALOG_MESSAGES.FAILED);
-      }
-    }
+    const defaultFacialVars: FacialData = {
+        hairType: 'CURLY',
+        skinColor: 'FAIR',
+        gender: 'MALE',
+        eyeColor: 'BLACK',
+        faceShape: 'DIAMOND',
+    };
 
-    setDialogOpen(true);
-    setSubmitLoading(false);
-  };
+    const [formVars, setFormVars] = useState<FormVars>(defaultFormVars);
+    const [facialData, setFacialData] = useState<FacialData>(defaultFacialVars);
 
-  const handleChange = async (e: any) =>
-    setFormVars({ ...formVars, [e.target.name]: e.target.value });
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack margin={3} spacing={4} direction="column">
-        <Stack alignItems="center">
-          <Typography variant="h3" color="primary" fontWeight="bold">
-            Drug Report
-          </Typography>
-        </Stack>
-        <Typography variant="h6">
-          <span style={{ color: "red" }}>We guarantee your privacy</span>. All
-          the data you submit is <span style={{ color: "red" }}>encrypted</span>{" "}
-          and can only be seen by a authorized personnel from Excise Department.
-        </Typography>
+    const [enableFaceOption, setEnableFaceOption] = useState(false);
+    const [enableStudentOption, setEnableStudentOption] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
-        <Stack>
-          <CardMedia
-            component="video"
-            style={{
-              minWidth: "20vw",
-              maxWidth: 700,
-              border: "5px solid black",
-              display: "block",
-              margin: "10px  auto",
-            }}
-            image={ReportVideo}
-            autoPlay
-            loop
-            controls
-          />
+    const [error, setError] = useState<string[]>([]);
 
-          <Typography variant="h6" align="center">
-            <br /> You can see the stored reports data in our database{" "}
-            <LinkRouter to="/visualize" color="primary">
-              here
-            </LinkRouter>
-          </Typography>
-        </Stack>
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogData, setDialogData] = useState(DIALOG_MESSAGES.SUCCESS);
 
-        <hr />
+    useEffect(() => {
+        if (!isLoading && schools) {
+            setFormVars({
+                ...defaultFormVars,
+                tenant: schools[0].id,
+                student: {
+                    name: '',
+                    class: schools[0].classes[0],
+                },
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading]);
 
-        <form onSubmit={handleSubmit}>
-          <Stack
-            margin={3}
-            marginTop={0}
-            spacing={4}
-            direction="column"
-            paddingX={isMobile ? "0px" : 25}
-          >
-            <Stack spacing={4} direction={isMobile ? "column" : "row"}>
-              <Stack spacing={2}>
-                <FormLabel>Incident Date*</FormLabel>
-                <DatePicker
-                  views={["year", "month", "day"]}
-                  value={formVars.dateIncident}
-                  onChange={(newValue) => {
-                    setFormVars({
-                      ...formVars,
-                      dateIncident: newValue as dayjs.Dayjs,
-                    });
-                  }}
-                  inputFormat="DD/MM/YYYY"
-                  renderInput={(params) => (
-                    <TextField {...params} sx={{ width: 220 }} />
-                  )}
-                />
-              </Stack>
+    if (isLoading) return <PageLoader loading={isLoading} />;
+    if (!schools) return <Error />;
 
-              <Stack spacing={2}>
-                <FormLabel id="incident-time">Incident Time*</FormLabel>
-                <Stack spacing={2} direction="row">
-                  <TimePicker
-                    label="From"
-                    value={formVars.timeFrom}
-                    onChange={(newValue) => {
-                      setFormVars({
-                        ...formVars,
-                        timeFrom: newValue as dayjs.Dayjs,
-                      });
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ width: 150 }} />
-                    )}
-                  />
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        // Handle Errors
+        setError([]);
+        const new_errors = [];
 
-                  <TimePicker
-                    label="To"
-                    value={formVars.timeTo}
-                    onChange={(newValue) => {
-                      setFormVars({
-                        ...formVars,
-                        timeTo: newValue as dayjs.Dayjs,
-                      });
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ width: 150 }} />
-                    )}
-                  />
+        if (formVars.timeFrom?.isAfter(formVars.timeTo))
+            new_errors.push('Incident <from time> cannot be after incident <to time>');
+
+        if (formVars.description.split(' ').length < 5)
+            new_errors.push('Provide a <description> greater than 5 words');
+
+        if (formVars.location == null) new_errors.push('Provide a <rough location>');
+
+        if (enableStudentOption) {
+            if (!formVars.student?.name) new_errors.push('Provide a <Student Name>');
+            if (!formVars.student?.class) new_errors.push('Select a <Class>');
+        }
+
+        if (!enableStudentOption && enableFaceOption && facialData === null) {
+            new_errors.push('Provide <Facial Data>');
+        }
+
+        if (new_errors.length > 0) {
+            setError(new_errors);
+            return;
+        }
+
+        const parsedFormVars: InputReport = {
+            ...formVars,
+            dateIncident: formVars.dateIncident.toISOString(),
+            timeFrom: formVars.timeFrom.toISOString(),
+            timeTo: formVars.timeTo.toISOString(),
+            location: formVars.location as InputReport['location'],
+            student: enableStudentOption ? formVars.student : null,
+            facialData: enableFaceOption ? facialData : null,
+        };
+
+        try {
+            setSubmitLoading(true);
+            await addReport(parsedFormVars, formVars.tenant);
+            setDialogData(DIALOG_MESSAGES.SUCCESS);
+        } catch (error: any) {
+            console.error(error);
+            if (error?.message === 'SPAM') {
+                setDialogData(DIALOG_MESSAGES.SPAM);
+            } else {
+                setDialogData(DIALOG_MESSAGES.FAILED);
+            }
+        }
+
+        setDialogOpen(true);
+        setSubmitLoading(false);
+    };
+
+    const handleChange = async (e: any) =>
+        setFormVars({ ...formVars, [e.target.name]: e.target.value });
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Stack margin={3} spacing={4} direction="column">
+                <Stack alignItems="center">
+                    <Typography variant="h3" color="primary" fontWeight="bold">
+                        Drug Report
+                    </Typography>
                 </Stack>
-              </Stack>
-            </Stack>
+                <Typography variant="h6">
+                    <span style={{ color: 'red' }}>We guarantee your privacy</span>. All the data
+                    you submit is <span style={{ color: 'red' }}>encrypted</span> and can only be
+                    seen by a authorized personnel from Excise Department.
+                </Typography>
 
-            <Stack spacing={2}>
-              <FormLabel id="category-select">Category*</FormLabel>
-              <Select
-                required
-                labelId="category-select"
-                value={formVars.category}
-                label="Category"
-                variant="standard"
-                sx={{ width: 300 }}
-                name="category"
-                onChange={handleChange}
-              >
-                <MenuItem value={"USAGE_SUSPECTED"}>
-                  Suspected Usage of drugs
-                </MenuItem>
-                <MenuItem value={"USAGE_CONFIRMED"}>
-                  Confirmed Usage of drugs
-                </MenuItem>
-                <MenuItem value={"TRADING_SUSPECTED"}>
-                  Suspected Trading of drugs
-                </MenuItem>
-                <MenuItem value={"TRADING_CONFIRMED"}>
-                  Confirmed Trading of drugs
-                </MenuItem>
-              </Select>
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormLabel>Description*</FormLabel>
-              <TextareaAutosize
-                placeholder="Describe what happened. The more details you provide the better we can investigate your report."
-                required
-                minRows={5}
-                maxRows={12}
-                name="description"
-                onBlur={handleChange}
-              />
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormLabel>Location*</FormLabel>
-              <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormLabel id="school-select">Select School</FormLabel>
-              <Select
-                labelId="school-select"
-                value={formVars.tenant}
-                onChange={(e) => {
-                  const id = e.target.value;
-                  setFormVars({
-                    ...formVars,
-                    tenant: id,
-                    student: {
-                      name: formVars.student?.name ?? "",
-                      class: schools.find((e) => e.id === id)?.classes[0] ?? "",
-                    },
-                  });
-                }}
-              >
-                {schools.map((e) => (
-                  <MenuItem key={e.id} value={e.id}>
-                    {e.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Stack>
-
-            <Stack spacing={2}>
-              <FormControl>
-                <FormLabel id="student-flag">
-                  Is the person a student?
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="student-flag"
-                  value={enableStudentOption}
-                  name="student-flag-group"
-                  onChange={(e, value) => {
-                    const currentVal = value === "true";
-                    setEnableStudentOption(currentVal);
-                  }}
-                >
-                  <Stack direction="row">
-                    <FormControlLabel
-                      value={true}
-                      control={<Radio />}
-                      label="Yes"
+                <Stack>
+                    <CardMedia
+                        component="video"
+                        style={{
+                            minWidth: '20vw',
+                            maxWidth: 700,
+                            border: '5px solid black',
+                            display: 'block',
+                            margin: '10px  auto',
+                        }}
+                        image={ReportVideo}
+                        autoPlay
+                        loop
+                        controls
                     />
-                    <FormControlLabel
-                      value={false}
-                      control={<Radio />}
-                      label="No"
-                    />
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
-            </Stack>
 
-            {enableStudentOption ? (
-              <Stack spacing={2}>
-                <Stack spacing={2}>
-                  <FormLabel id="class-select">Select Class</FormLabel>
-                  <Select
-                    labelId="class-select"
-                    value={formVars.student?.class}
-                    onChange={(e) =>
-                      setFormVars({
-                        ...formVars,
-                        student: {
-                          name: formVars.student?.name ?? "",
-                          class: e.target.value,
-                        },
-                      })
-                    }
-                  >
-                    {schools
-                      .find((e) => e.id === formVars.tenant)
-                      ?.classes.map((e) => (
-                        <MenuItem value={e}>{e}</MenuItem>
-                      ))}
-                  </Select>
+                    <Typography variant="h6" align="center">
+                        <br /> You can see the stored reports data in our database{' '}
+                        <LinkRouter to="/visualize" color="primary">
+                            here
+                        </LinkRouter>
+                    </Typography>
                 </Stack>
 
-                <Stack spacing={2}>
-                  <FormLabel id="name-enter">
-                    Enter Name (Please Enter the full name)
-                  </FormLabel>
-                  <TextField
-                    variant="outlined"
-                    onBlur={(e) => {
-                      setFormVars({
-                        ...formVars,
-                        student: {
-                          name: e.target.value,
-                          class: formVars.student?.class ?? "",
-                        },
-                      });
-                    }}
-                  />
-                </Stack>
-              </Stack>
-            ) : (
-              <FacialField
-                enableFacialFeatures={enableFaceOption}
-                setEnableFacialFeatures={setEnableFaceOption}
-                facialData={facialData}
-                setFacialData={setFacialData}
-              />
-            )}
+                <hr />
 
-            {error.length > 0 && (
-              <Alert severity="error">
-                {error.map((e, index) => {
-                  return (
-                    <div key={index}>
-                      {e}
-                      <br />
-                    </div>
-                  );
-                })}
-              </Alert>
-            )}
+                <form onSubmit={handleSubmit}>
+                    <Stack
+                        margin={3}
+                        marginTop={0}
+                        spacing={4}
+                        direction="column"
+                        paddingX={isMobile ? '0px' : 25}
+                    >
+                        <Stack spacing={4} direction={isMobile ? 'column' : 'row'}>
+                            <Stack spacing={2}>
+                                <FormLabel>Incident Date*</FormLabel>
+                                <DatePicker
+                                    views={['year', 'month', 'day']}
+                                    value={formVars.dateIncident}
+                                    onChange={(newValue) => {
+                                        setFormVars({
+                                            ...formVars,
+                                            dateIncident: newValue as dayjs.Dayjs,
+                                        });
+                                    }}
+                                    inputFormat="DD/MM/YYYY"
+                                    renderInput={(params) => (
+                                        <TextField {...params} sx={{ width: 220 }} />
+                                    )}
+                                />
+                            </Stack>
 
-            <hr />
+                            <Stack spacing={2}>
+                                <FormLabel id="incident-time">Incident Time*</FormLabel>
+                                <Stack spacing={2} direction="row">
+                                    <TimePicker
+                                        label="From"
+                                        value={formVars.timeFrom}
+                                        onChange={(newValue) => {
+                                            setFormVars({
+                                                ...formVars,
+                                                timeFrom: newValue as dayjs.Dayjs,
+                                            });
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} sx={{ width: 150 }} />
+                                        )}
+                                    />
 
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              direction="row"
-              margin={0}
-            >
-              <LoadingButton
-                type="submit"
-                loading={submitLoading}
-                variant="contained"
-                sx={{ width: "20rem" }}
-              >
-                Submit
-              </LoadingButton>
+                                    <TimePicker
+                                        label="To"
+                                        value={formVars.timeTo}
+                                        onChange={(newValue) => {
+                                            setFormVars({
+                                                ...formVars,
+                                                timeTo: newValue as dayjs.Dayjs,
+                                            });
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} sx={{ width: 150 }} />
+                                        )}
+                                    />
+                                </Stack>
+                            </Stack>
+                        </Stack>
+
+                        <Stack spacing={2}>
+                            <FormLabel id="category-select">Category*</FormLabel>
+                            <Select
+                                required
+                                labelId="category-select"
+                                value={formVars.category}
+                                label="Category"
+                                variant="standard"
+                                sx={{ width: 300 }}
+                                name="category"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={'USAGE_SUSPECTED'}>
+                                    Suspected Usage of drugs
+                                </MenuItem>
+                                <MenuItem value={'USAGE_CONFIRMED'}>
+                                    Confirmed Usage of drugs
+                                </MenuItem>
+                                <MenuItem value={'TRADING_SUSPECTED'}>
+                                    Suspected Trading of drugs
+                                </MenuItem>
+                                <MenuItem value={'TRADING_CONFIRMED'}>
+                                    Confirmed Trading of drugs
+                                </MenuItem>
+                            </Select>
+                        </Stack>
+
+                        <Stack spacing={2}>
+                            <FormLabel>Description*</FormLabel>
+                            <TextareaAutosize
+                                placeholder="Describe what happened. The more details you provide the better we can investigate your report."
+                                required
+                                minRows={5}
+                                maxRows={12}
+                                name="description"
+                                onBlur={handleChange}
+                            />
+                        </Stack>
+
+                        <Stack spacing={2}>
+                            <FormLabel>Location*</FormLabel>
+                            <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+                        </Stack>
+
+                        <Stack spacing={2}>
+                            <FormLabel id="school-select">Select School</FormLabel>
+                            <Select
+                                labelId="school-select"
+                                value={formVars.tenant}
+                                onChange={(e) => {
+                                    const id = e.target.value;
+                                    setFormVars({
+                                        ...formVars,
+                                        tenant: id,
+                                        student: {
+                                            name: formVars.student?.name ?? '',
+                                            class:
+                                                schools.find((e) => e.id === id)?.classes[0] ?? '',
+                                        },
+                                    });
+                                }}
+                            >
+                                {schools.map((e) => (
+                                    <MenuItem key={e.id} value={e.id}>
+                                        {e.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </Stack>
+
+                        <Stack spacing={2}>
+                            <FormControl>
+                                <FormLabel id="student-flag">Is the person a student?</FormLabel>
+                                <RadioGroup
+                                    aria-labelledby="student-flag"
+                                    value={enableStudentOption}
+                                    name="student-flag-group"
+                                    onChange={(e, value) => {
+                                        const currentVal = value === 'true';
+                                        setEnableStudentOption(currentVal);
+                                    }}
+                                >
+                                    <Stack direction="row">
+                                        <FormControlLabel
+                                            value={true}
+                                            control={<Radio />}
+                                            label="Yes"
+                                        />
+                                        <FormControlLabel
+                                            value={false}
+                                            control={<Radio />}
+                                            label="No"
+                                        />
+                                    </Stack>
+                                </RadioGroup>
+                            </FormControl>
+                        </Stack>
+
+                        {enableStudentOption ? (
+                            <Stack spacing={2}>
+                                <Stack spacing={2}>
+                                    <FormLabel id="class-select">Select Class</FormLabel>
+                                    <Select
+                                        labelId="class-select"
+                                        value={formVars.student?.class}
+                                        onChange={(e) =>
+                                            setFormVars({
+                                                ...formVars,
+                                                student: {
+                                                    name: formVars.student?.name ?? '',
+                                                    class: e.target.value,
+                                                },
+                                            })
+                                        }
+                                    >
+                                        {schools
+                                            .find((e) => e.id === formVars.tenant)
+                                            ?.classes.map((e) => (
+                                                <MenuItem value={e}>{e}</MenuItem>
+                                            ))}
+                                    </Select>
+                                </Stack>
+
+                                <Stack spacing={2}>
+                                    <FormLabel id="name-enter">
+                                        Enter Name (Please Enter the full name)
+                                    </FormLabel>
+                                    <TextField
+                                        variant="outlined"
+                                        onBlur={(e) => {
+                                            setFormVars({
+                                                ...formVars,
+                                                student: {
+                                                    name: e.target.value,
+                                                    class: formVars.student?.class ?? '',
+                                                },
+                                            });
+                                        }}
+                                    />
+                                </Stack>
+                            </Stack>
+                        ) : (
+                            <FacialField
+                                enableFacialFeatures={enableFaceOption}
+                                setEnableFacialFeatures={setEnableFaceOption}
+                                facialData={facialData}
+                                setFacialData={setFacialData}
+                            />
+                        )}
+
+                        {error.length > 0 && (
+                            <Alert severity="error">
+                                {error.map((e, index) => {
+                                    return (
+                                        <div key={index}>
+                                            {e}
+                                            <br />
+                                        </div>
+                                    );
+                                })}
+                            </Alert>
+                        )}
+
+                        <hr />
+
+                        <Stack
+                            justifyContent="center"
+                            alignItems="center"
+                            direction="row"
+                            margin={0}
+                        >
+                            <LoadingButton
+                                type="submit"
+                                loading={submitLoading}
+                                variant="contained"
+                                sx={{ width: '20rem' }}
+                            >
+                                Submit
+                            </LoadingButton>
+                        </Stack>
+                    </Stack>
+                </form>
             </Stack>
-          </Stack>
-        </form>
-      </Stack>
-      <DialogBox
-        title={dialogData.title}
-        description={dialogData.description}
-        openFlag={dialogOpen}
-        handleOpen={setDialogOpen}
-      />
-    </LocalizationProvider>
-  );
+            <DialogBox
+                title={dialogData.title}
+                description={dialogData.description}
+                openFlag={dialogOpen}
+                handleOpen={setDialogOpen}
+            />
+        </LocalizationProvider>
+    );
 }
