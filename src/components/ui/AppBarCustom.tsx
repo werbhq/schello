@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, Box, IconButton, Drawer, Link, Stack } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, IconButton, Drawer, Link, Stack, Grid } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -85,54 +85,72 @@ export default function AppBarCustom() {
                     background: SDSColoursSemantic.surface,
                     boxShadow: 'none',
                     borderBottom: '1px solid #C7ADA580',
-                    display: 'flex',
-                    flexDirection: 'row',
                     zIndex: 1000,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingLeft: '146px',
-                    paddingRight: '146px',
                 }}
             >
-                <Toolbar>
-                    <img src={logo} height={32} alt="logo"></img>
-                </Toolbar>
+                <Grid container direction={'row'} wrap={'nowrap'}>
+                    <Grid xs sm md lg></Grid>
+                    <Grid
+                        container
+                        direction={'row'}
+                        xs={12}
+                        sm={10}
+                        md={10}
+                        lg={10}
+                        justifyContent={'space-between'}
+                    >
+                        <Toolbar>
+                            <img src={logo} height={32} alt="logo"></img>
+                        </Toolbar>
 
-                <Toolbar>
-                    {width ? (
-                        <>
-                            <IconButton onClick={handleOpen}>
-                                <MenuIcon sx={{ color: '#ffffff' }} fontSize="large" />
-                            </IconButton>
-                            <Drawer
-                                anchor="right"
-                                open={isOpen}
-                                onClose={handleClose}
-                                PaperProps={{ sx: { backgroundColor: '#F1C043' } }}
-                            >
-                                <IconButton sx={{ mb: 2 }} disableRipple onClick={handleClose}>
-                                    <CloseIcon />
-                                </IconButton>
+                        <Toolbar>{width ? <></> : <MenuItems navStyle={applyNavStyle} />}</Toolbar>
 
-                                <Box
-                                    display="flex"
-                                    flexDirection="column"
-                                    sx={{ backgroundColor: 'inherit', width: '200px' }}
-                                >
-                                    <MenuItems navStyle={applyNavStyle} handleClose={handleClose} />
-                                </Box>
-                            </Drawer>
-                        </>
-                    ) : (
-                        <MenuItems navStyle={applyNavStyle} />
-                    )}
-                </Toolbar>
+                        <Toolbar>
+                            {width ? (
+                                <>
+                                    <IconButton onClick={handleOpen}>
+                                        <MenuIcon
+                                            sx={{ color: SDSColoursSemantic.brandPrimary }}
+                                            fontSize="large"
+                                        />
+                                    </IconButton>
+                                    <Drawer
+                                        anchor="right"
+                                        open={isOpen}
+                                        onClose={handleClose}
+                                        PaperProps={{ sx: { backgroundColor: '#F1C043' } }}
+                                    >
+                                        <IconButton
+                                            sx={{ mb: 2 }}
+                                            disableRipple
+                                            onClick={handleClose}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
 
-                <NavLink to={ROUTES.DRUG_FORM} end>
-                    <Button color="inherit" onClick={handleClose} fullWidth>
-                        Report Anonymously
-                    </Button>
-                </NavLink>
+                                        <Box
+                                            display="flex"
+                                            flexDirection="column"
+                                            sx={{ backgroundColor: 'inherit', width: '200px' }}
+                                        >
+                                            <MenuItems
+                                                navStyle={applyNavStyle}
+                                                handleClose={handleClose}
+                                            />
+                                        </Box>
+                                    </Drawer>
+                                </>
+                            ) : (
+                                <NavLink to={ROUTES.DRUG_FORM} end>
+                                    <Button color="inherit" onClick={handleClose} fullWidth>
+                                        Report Anonymously
+                                    </Button>
+                                </NavLink>
+                            )}
+                        </Toolbar>
+                    </Grid>
+                    <Grid xs sm md lg></Grid>
+                </Grid>
             </AppBar>
             <Outlet />
         </Box>

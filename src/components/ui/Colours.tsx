@@ -59,6 +59,6 @@ export class SDSColoursSemantic {
     static surface = SDSColorPrimitives.pureWhite;
     static onBackgroundPrimary = SDSColorPrimitives.bloodyBlue;
     static onBackgroundSecondary = SDSColorPrimitives.boringBlue;
-    static brandPrimary = SDSColorPrimitives.pretentiousPurple;
+    static brandPrimary = SDSColorPrimitives.tardyTeal;
     static brandSecondary = SDSColorPrimitives.yawningYellow;
 }
