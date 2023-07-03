@@ -4,7 +4,7 @@ import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
-import { SDSColorPrimitives, SDSColoursSemantic } from './Colours';
+import { SDSColoursSemantic } from './Colours';
 import logo from './../../assets/images/wordmark.svg';
 
 const linkStyle: React.CSSProperties = {

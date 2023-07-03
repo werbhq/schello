@@ -1,4 +1,4 @@
-import { Grid, Divider, List, ListItem, Typography, Stack, Button } from '@mui/material';
+import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import EventCard from './components/EventCard';
