@@ -14,11 +14,7 @@ function CommunityPage() {
     return (
         <Page>
             <Stack marginY={4} spacing={4} alignItems="center" justifyContent="center">
-                <Typography variant="h3">Community Page</Typography>
-
-                <Button color="secondary" component={Link} to="/community/form" variant="contained">
-                    Share Your Experience here
-                </Button>
+                <Typography variant="h3">Library</Typography>
 
                 <Stack spacing={2}>
                     <Typography variant="h4">Videos</Typography>

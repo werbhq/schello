@@ -1,4 +1,6 @@
 import { Grid, Divider, List, ListItem, Typography, Stack, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 import EventCard from './components/EventCard';
 import VideoCard from './components/VideoCard';
 import NewsCard from './components/NewsCard';
@@ -29,12 +31,15 @@ function HomePage() {
                         </Stack>
 
                         <Stack
+                            component={Link}
+                            to="/community/form"
                             sx={{
                                 borderRadius: '24px',
                                 border: '1px solid rgba(199, 173, 165, 0.50)',
                                 background: '#FFF',
                                 boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
                                 padding: '16px',
+                                textDecoration: 'none',
                             }}
                         >
                             <Typography variant="h5">Got something to share?</Typography>

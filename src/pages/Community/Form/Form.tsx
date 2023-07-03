@@ -15,14 +15,7 @@ function CommunityForm() {
                     display="flex"
                 >
                     <Grid item xs={12} sx={{ paddingTop: '30px', paddingBottom: '20px' }}>
-                        <Typography
-                            variant="h3"
-                            color="primary"
-                            fontWeight="bold"
-                            sx={{ textAlign: 'center' }}
-                        >
-                            Share Your Experience
-                        </Typography>
+                        <Typography variant="h3">Share Your Experience</Typography>
                     </Grid>
                     <Grid>
                         <UploadVideoArticleForm />
