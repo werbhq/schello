@@ -8,24 +8,32 @@ import NoDataCard from './components/NoDataCard';
 import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
+import { SDSColoursSemantic } from 'components/ui/Colours';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
     if (isLoading) return <PageLoader loading={isLoading} />;
 
     return (
-        <Page padding="50px 0px">
-            <Grid container spacing={2} xs={12} sx={{ width: '100%' }}>
+        <Page padding="64px 0px 0px 0px" scroll={false}>
+            <Grid container style={{ overflow: 'hidden', height: '100%', padding: '16px' }}>
+                <Grid item lg xs></Grid>
                 <Grid
                     item
+                    xs={12}
+                    sm={5}
+                    md={7}
+                    lg={7}
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        padding: '0px 146px',
-                        width: '100%',
+                        // padding: '0px 146px',
+                        // width: '100%',
+                        height: '100vh',
+                        overflow: 'scroll',
                     }}
                 >
-                    <Stack spacing={2} margin={2}>
+                    <Stack spacing={2}>
                         <Stack padding={'64px 0px 24px 0px'}>
                             <Typography variant="h3">Welcome to Schello!</Typography>
                         </Stack>
@@ -77,7 +85,7 @@ function HomePage() {
                         </List>
                     </Stack>
 
-                    <Stack spacing={2} margin={2}>
+                    <Stack spacing={2}>
                         <Typography variant="h6">News</Typography>
                         <List
                             style={{
@@ -95,45 +103,52 @@ function HomePage() {
                         </List>
                     </Stack>
                 </Grid>
+                <Grid item lg xs></Grid>
 
                 <Grid
                     item
-                    xs={12}
-                    lg={4}
+                    xs={5}
+                    sm={0}
+                    md={3}
+                    lg={3}
+                    direction={'row'}
+                    // lg={4}
                     sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
+                        // alignItems: 'center',
                         borderRadius: ' 10px',
                         border: '1px solid rgba(199, 173, 165, 0.50)',
-                        background: '#FFF',
+                        background: SDSColoursSemantic.surface,
+                        padding: '16px',
+                        boxSizing: 'border-box',
                         // position: 'fixed',
-                        right: '8px',
-                        top: '72px',
-                        bottom: '8px',
+                        height: '100%',
+                        overflow: 'scroll',
+                        // right: '8px',
+                        // top: '72px',
+                        // bottom: '8px',
                     }}
                 >
-                    <Stack spacing={2} margin={2}>
-                        <Typography variant="h6">Latest Events</Typography>
-                        <List
-                            style={{
-                                overflow: 'auto',
-                                padding: '0px',
-                                maxHeight: '350px',
-                            }}
-                        >
-                            {events?.map((e, index) => (
-                                <ListItem
-                                    key={index}
-                                    style={{
-                                        padding: '5px 0px',
-                                    }}
-                                >
-                                    <EventCard event={e} key={index} />
-                                </ListItem>
-                            ))}
-                            {events?.length === 0 && <NoDataCard resource="events" />}
-                        </List>
-                    </Stack>
+                    <Typography variant="h6">Latest Events</Typography>
+                    <List
+                        style={{
+                            overflow: 'auto',
+                            padding: '0px',
+                            marginTop: '16px',
+                            // height: '100%',
+                        }}
+                    >
+                        {events?.map((e, index) => (
+                            <ListItem
+                                key={index}
+                                style={{
+                                    padding: '5px 0px',
+                                }}
+                            >
+                                <EventCard event={e} key={index} />
+                            </ListItem>
+                        ))}
+                        {events?.length === 0 && <NoDataCard resource="events" />}
+                    </List>
                 </Grid>
             </Grid>
         </Page>
