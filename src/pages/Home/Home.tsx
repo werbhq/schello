@@ -27,8 +27,6 @@ function HomePage() {
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        // padding: '0px 146px',
-                        // width: '100%',
                         height: '100vh',
                         overflow: 'scroll',
                     }}
@@ -112,20 +110,14 @@ function HomePage() {
                     md={3}
                     lg={3}
                     direction={'row'}
-                    // lg={4}
                     sx={{
-                        // alignItems: 'center',
                         borderRadius: ' 10px',
                         border: '1px solid rgba(199, 173, 165, 0.50)',
                         background: SDSColoursSemantic.surface,
                         padding: '16px',
                         boxSizing: 'border-box',
-                        // position: 'fixed',
                         height: '100%',
                         overflow: 'scroll',
-                        // right: '8px',
-                        // top: '72px',
-                        // bottom: '8px',
                     }}
                 >
                     <Typography variant="h6">Latest Events</Typography>
@@ -134,7 +126,6 @@ function HomePage() {
                             overflow: 'auto',
                             padding: '0px',
                             marginTop: '16px',
-                            // height: '100%',
                         }}
                     >
                         {events?.map((e, index) => (

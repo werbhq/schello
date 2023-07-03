@@ -1,5 +1,4 @@
-import { Button, Typography, List, Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Typography, List, Stack } from '@mui/material';
 import VideoCard from './../Home/components/VideoCard';
 import ArticleCard from './components/articleCard';
 import PageLoader from 'components/ui/PageLoader';

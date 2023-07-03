@@ -8,7 +8,8 @@ import {
     Typography,
     CardContent,
 } from '@mui/material';
-import { Error, Google, Instagram, Schedule, YouTube } from '@mui/icons-material';
+// import { Error, Google, Instagram, Schedule, YouTube } from '@mui/icons-material';
+import { Schedule } from '@mui/icons-material';
 import stringToHtml from 'html-react-parser';
 import Expand from 'components/ui/Expand';
 import { useState } from 'react';
@@ -21,18 +22,18 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
 
     let description: any = stringToHtml('description' in props ? props.description ?? '' : '');
 
-    function renderSwitch(param: string): JSX.Element {
-        switch (param) {
-            case 'YOUTUBE':
-                return <YouTube />;
-            case 'REEL':
-                return <Instagram />;
-            case 'GOOGLE-DRIVE':
-                return <Google />;
-            default:
-                return <Error />;
-        }
-    }
+    // function renderSwitch(param: string): JSX.Element {
+    //     switch (param) {
+    //         case 'YOUTUBE':
+    //             return <YouTube />;
+    //         case 'REEL':
+    //             return <Instagram />;
+    //         case 'GOOGLE-DRIVE':
+    //             return <Google />;
+    //         default:
+    //             return <Error />;
+    //     }
+    // }
 
     return (
         <Card
