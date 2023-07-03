@@ -120,6 +120,15 @@ const theme: ThemeOptions = createTheme({
                 },
             },
         },
+
+        MuiSelect: {
+            styleOverrides: {
+                select: {
+                    // backgroundColor: SDSColoursSemantic.surface,
+                    borderRadius: '12px',
+                },
+            },
+        },
     },
 });
 
