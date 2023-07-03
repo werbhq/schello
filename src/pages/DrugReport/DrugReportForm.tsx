@@ -29,7 +29,7 @@ import { MapDataInput } from 'types/MapData';
 import { FacialData, InputReport } from 'types/Report';
 import { FacialField } from './components/FacialField';
 import ReportVideo from 'assets/video/visualization.mp4';
-import useCheckMobileScreen from 'hooks/useMobile';
+// import useCheckMobileScreen from 'hooks/useMobile';
 import { useSchoolDetailsData } from 'hooks/useSchoolDetails';
 import PageLoader from 'components/ui/PageLoader';
 import Error from 'pages/Error/Error';
@@ -64,7 +64,7 @@ const DIALOG_MESSAGES = {
 
 export default function DrugReportForm(props: any) {
     const { data: schools, isLoading } = useSchoolDetailsData();
-    const isMobile = useCheckMobileScreen();
+    // const isMobile = useCheckMobileScreen();
 
     const currentTime = dayjs();
 
