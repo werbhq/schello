@@ -8,7 +8,6 @@ import ChatMessage from './components/ChatMessage';
 import { ChatCompletionRequestMessage, ChatCompletionRoleEnum } from 'types/OpenAi';
 import LoadingMessage from './components/LoadingMessage';
 import Page from 'components/ui/Page';
-import { SDSColoursSemantic } from 'components/ui/Colours';
 
 function ChatPage() {
     const [input, setInput] = useState('');

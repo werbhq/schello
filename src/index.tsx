@@ -13,10 +13,10 @@ import { SDSColorPrimitives, SDSColoursSemantic } from 'components/ui/Colours';
 const theme: ThemeOptions = createTheme({
     palette: {
         primary: {
-            main: '#179f97',
+            main: SDSColorPrimitives.tardyTeal,
         },
         secondary: {
-            main: '#FFD700',
+            main: SDSColoursSemantic.brandSecondary,
         },
         error: red,
         contrastThreshold: 3,

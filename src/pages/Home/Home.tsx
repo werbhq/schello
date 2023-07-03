@@ -1,4 +1,4 @@
-import { Grid, Divider, List, ListItem, Typography, Stack, Button } from '@mui/material';
+import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import EventCard from './components/EventCard';
 import VideoCard from './components/VideoCard';
 import NewsCard from './components/NewsCard';
