@@ -10,7 +10,7 @@ export default function Page({ children, padding, scroll }: Props) {
     return (
         <div
             style={{
-                padding: padding ?? '50px 146px 0px 0px',
+                padding: padding ?? '100px 0px 0px 0px',
                 backgroundColor: SDSColoursSemantic.background,
                 minHeight: '100vh',
                 overflow: scroll ?? true ? 'scroll' : 'hidden',
