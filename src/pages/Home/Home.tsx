@@ -70,7 +70,20 @@ function HomePage() {
                             </div>
                         </Stack>
 
-                        <MediaCard {...data}></MediaCard>
+                        <List
+                            style={{
+                                gap: 12,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                width: '100% !important',
+                                padding: 0,
+                                margin: 0,
+                            }}
+                        >
+                            {data?.map((e, index) => (
+                                <MediaCard {...e} key={index} />
+                            ))}
+                        </List>
 
                         <Typography variant="h6">Videos</Typography>
                         <List
