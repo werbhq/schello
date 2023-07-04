@@ -20,11 +20,13 @@ const data: MediaInformation = {
     url: '',
 
     redirect: false,
+
+    views: 0,
 };
 
 export const useNewData = () => {
     return {
         data,
-        isLoading2: true,
+        isLoading2: false,
     };
 };
