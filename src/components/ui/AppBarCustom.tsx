@@ -1,4 +1,14 @@
-import { AppBar, Toolbar, Button, Box, IconButton, Drawer, Link, Stack, Grid } from '@mui/material';
+import {
+    AppBar,
+    Toolbar,
+    Button,
+    Box,
+    IconButton,
+    Drawer,
+    Stack,
+    Grid,
+    Typography,
+} from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -20,23 +30,17 @@ const MenuItems = ({
     handleClose?: () => void;
 }) => {
     return (
-        <Stack gap={'8px'} direction={'row'}>
-            <NavLink style={navStyle} to={ROUTES.DEFAULT} end>
-                <Link style={linkStyle} onClick={handleClose}>
-                    Home
-                </Link>
+        <>
+            <NavLink style={navStyle} to={ROUTES.DEFAULT} onClick={handleClose} end>
+                <Typography style={linkStyle}>Home</Typography>
             </NavLink>
-            <NavLink style={navStyle} to={ROUTES.COMMUNITY} end>
-                <Link style={linkStyle} onClick={handleClose}>
-                    Library
-                </Link>
+            <NavLink style={navStyle} to={ROUTES.COMMUNITY} onClick={handleClose} end>
+                <Typography style={linkStyle}>Library</Typography>
             </NavLink>
-            <NavLink style={navStyle} to={ROUTES.CHAT} end>
-                <Link style={linkStyle} onClick={handleClose}>
-                    Wellness Bot
-                </Link>
+            <NavLink style={navStyle} to={ROUTES.CHAT} onClick={handleClose} end>
+                <Typography style={linkStyle}>Wellness Boat</Typography>
             </NavLink>
-        </Stack>
+        </>
     );
 };
 
@@ -89,8 +93,9 @@ export default function AppBarCustom() {
                 }}
             >
                 <Grid container direction={'row'} wrap={'nowrap'}>
-                    <Grid xs sm md lg></Grid>
+                    <Grid item xs sm md lg></Grid>
                     <Grid
+                        item
                         container
                         direction={'row'}
                         xs={12}
@@ -103,7 +108,15 @@ export default function AppBarCustom() {
                             <img src={logo} height={32} alt="logo"></img>
                         </Toolbar>
 
-                        <Toolbar>{width ? <></> : <MenuItems navStyle={applyNavStyle} />}</Toolbar>
+                        <Toolbar>
+                            {width ? (
+                                <></>
+                            ) : (
+                                <Stack gap={'8px'} direction={'row'}>
+                                    <MenuItems navStyle={applyNavStyle} />
+                                </Stack>
+                            )}
+                        </Toolbar>
 
                         <Toolbar>
                             {width ? (
@@ -128,16 +141,12 @@ export default function AppBarCustom() {
                                             <CloseIcon />
                                         </IconButton>
 
-                                        <Box
-                                            display="flex"
-                                            flexDirection="column"
-                                            sx={{ backgroundColor: 'inherit', width: '200px' }}
-                                        >
+                                        <Stack gap={'8px'} direction={'column'}>
                                             <MenuItems
                                                 navStyle={applyNavStyle}
                                                 handleClose={handleClose}
                                             />
-                                        </Box>
+                                        </Stack>
                                     </Drawer>
                                 </>
                             ) : (
@@ -149,7 +158,7 @@ export default function AppBarCustom() {
                             )}
                         </Toolbar>
                     </Grid>
-                    <Grid xs sm md lg></Grid>
+                    <Grid item xs sm md lg></Grid>
                 </Grid>
             </AppBar>
             <Outlet />

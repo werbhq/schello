@@ -95,7 +95,7 @@ function ChatPage() {
                                                     '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
                                             }}
                                         >
-                                            <Typography variant="body1">
+                                            <div>
                                                 <ol>
                                                     <li>
                                                         <b>Privacy:</b>Your conversations are
@@ -118,7 +118,7 @@ function ChatPage() {
                                                         professional for personalized guidance.
                                                     </li>
                                                 </ol>
-                                            </Typography>
+                                            </div>
                                         </Stack>
                                         <Typography variant="h6">
                                             By proceeding, you acknowledge that you've read and

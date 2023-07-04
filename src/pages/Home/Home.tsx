@@ -109,7 +109,6 @@ function HomePage() {
                     sm={0}
                     md={3}
                     lg={3}
-                    direction={'row'}
                     sx={{
                         borderRadius: ' 10px',
                         border: '1px solid rgba(199, 173, 165, 0.50)',

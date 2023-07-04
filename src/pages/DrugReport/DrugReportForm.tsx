@@ -275,7 +275,6 @@ export default function DrugReportForm(props: any) {
                                         sx={{ width: 300 }}
                                         name="category"
                                         onChange={handleChange}
-                                        disableUnderline
                                     >
                                         <MenuItem value={'USAGE_SUSPECTED'}>
                                             Suspected Usage of drugs
@@ -452,7 +451,6 @@ export default function DrugReportForm(props: any) {
                         sm={0}
                         md={3}
                         lg={3}
-                        direction={'row'}
                         sx={{
                             borderRadius: ' 10px',
                             border: '1px solid rgba(199, 173, 165, 0.50)',
