@@ -5,13 +5,17 @@ import EventCard from './components/EventCard';
 import VideoCard from './components/VideoCard';
 import NewsCard from './components/NewsCard';
 import NoDataCard from './components/NoDataCard';
+import MediaCard from './components/HomeCard';
 import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
 import { SDSColoursSemantic } from 'components/ui/Colours';
+import { useNewData } from 'hooks/useData';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
+    const { data, isLoading2 } = useNewData();
+
     if (isLoading) return <PageLoader loading={isLoading} />;
 
     return (
@@ -65,6 +69,8 @@ function HomePage() {
                                 </Button>
                             </div>
                         </Stack>
+
+                        <MediaCard {...data}></MediaCard>
 
                         <Typography variant="h6">Videos</Typography>
                         <List
