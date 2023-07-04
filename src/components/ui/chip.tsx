@@ -17,7 +17,7 @@ export const SDSChip = (props: SDSChipProps) => {
             size={size}
             variant={variant}
             icon={icon}
-            sx={{ borderRadius: 2, border: '1px #00000010 solid' }}
+            sx={{ borderRadius: 6, border: '1px #00000010 solid' }}
         />
     );
 };
