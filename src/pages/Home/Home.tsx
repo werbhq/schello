@@ -16,7 +16,7 @@ function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
     const { data, isLoading2 } = useNewData();
 
-    if (isLoading) return <PageLoader loading={isLoading} />;
+    if (isLoading || isLoading2) return <PageLoader loading={isLoading} />;
 
     return (
         <Page padding="64px 0px 0px 0px" scroll={false}>
