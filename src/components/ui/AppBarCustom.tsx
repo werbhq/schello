@@ -13,6 +13,7 @@ import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { Report } from '@mui/icons-material';
 import { useState } from 'react';
 import { SDSColoursSemantic } from './Colours';
 import logo from './../../assets/images/wordmark.svg';
@@ -151,7 +152,12 @@ export default function AppBarCustom() {
                                 </>
                             ) : (
                                 <NavLink to={ROUTES.DRUG_FORM} end>
-                                    <Button color="inherit" onClick={handleClose} fullWidth>
+                                    <Button
+                                        startIcon={<Report />}
+                                        color="inherit"
+                                        onClick={handleClose}
+                                        fullWidth
+                                    >
                                         Report Anonymously
                                     </Button>
                                 </NavLink>

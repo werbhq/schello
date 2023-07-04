@@ -96,6 +96,13 @@ const theme: ThemeOptions = createTheme({
                     ':disabled': {
                         background: 'rgba(199, 173, 165, 0.50)',
                     },
+                    fontFamily: 'Inter',
+                    padding: '8px 12px',
+                },
+
+                containedSizeSmall: {
+                    padding: '0px 8px',
+                    minHeight: '32px',
                 },
 
                 // height: 48,

@@ -1,18 +1,22 @@
 import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import EventCard from './components/EventCard';
+// import EventCard from './components/EventCard';
 import VideoCard from './components/VideoCard';
 import NewsCard from './components/NewsCard';
 import NoDataCard from './components/NoDataCard';
+import MediaCard from './components/HomeCard';
 import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
 import { SDSColoursSemantic } from 'components/ui/Colours';
+import { useNewData } from 'hooks/useData';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
-    if (isLoading) return <PageLoader loading={isLoading} />;
+    const { mediaList, eventList, isLoading: isLoading2 } = useNewData();
+
+    if (isLoading || isLoading2) return <PageLoader loading={isLoading} />;
 
     return (
         <Page padding="64px 0px 0px 0px" scroll={false}>
@@ -46,6 +50,7 @@ function HomePage() {
                                 boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
                                 padding: '16px',
                                 textDecoration: 'none',
+                                marginBottom: '160px',
                             }}
                         >
                             <Typography variant="h5">Got something to share?</Typography>
@@ -65,6 +70,21 @@ function HomePage() {
                                 </Button>
                             </div>
                         </Stack>
+
+                        <List
+                            style={{
+                                gap: 12,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                width: '100% !important',
+                                padding: 0,
+                                marginTop: 24,
+                            }}
+                        >
+                            {mediaList?.map((e, index) => (
+                                <MediaCard {...e} key={index} />
+                            ))}
+                        </List>
 
                         <Typography variant="h6">Videos</Typography>
                         <List
@@ -127,14 +147,14 @@ function HomePage() {
                             marginTop: '16px',
                         }}
                     >
-                        {events?.map((e, index) => (
+                        {eventList?.map((e, index) => (
                             <ListItem
                                 key={index}
                                 style={{
                                     padding: '5px 0px',
                                 }}
                             >
-                                <EventCard event={e} key={index} />
+                                <MediaCard {...e} key={index} />
                             </ListItem>
                         ))}
                         {events?.length === 0 && <NoDataCard resource="events" />}

@@ -1,11 +1,17 @@
 export interface MediaInformation extends Information {
+    type: 'MEDIA';
+
     media_type: 'ARTICLE' | 'NEWS' | 'VIDEO';
 
     url?: string;
     redirect?: boolean;
+
+    views: number;
 }
 
 export interface EventInformation extends Information {
+    type: 'EVENT';
+
     mode: 'VIRTUAL' | 'OFFLINE';
 
     venue: string;
@@ -27,8 +33,10 @@ export interface Information {
     description?: string;
     thumbnail?: string;
 
-    source?: 'EXCISE' | string;
+    source?: string;
     source_pfp?: string;
+
+    fromExcise: boolean;
 
     tenant: string;
 }
