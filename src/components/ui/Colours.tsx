@@ -54,7 +54,7 @@ export class SDSColorPrimitives {
     static yawningYellow = '#FFD600';
 }
 
-export class SDSColoursSemantic {
+export class SDSColorsSemantic {
     static background = SDSColorPrimitives.offWhite;
     static surface = SDSColorPrimitives.pureWhite;
     static onBackgroundPrimary = SDSColorPrimitives.bloodyBlue;

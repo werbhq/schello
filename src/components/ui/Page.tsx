@@ -1,4 +1,4 @@
-import { SDSColoursSemantic } from './Colours';
+import { SDSColorsSemantic } from './Colours';
 
 type Props = {
     children: string | JSX.Element | JSX.Element[];
@@ -11,7 +11,7 @@ export default function Page({ children, padding, scroll }: Props) {
         <div
             style={{
                 padding: padding ?? '100px 0px 0px 0px',
-                backgroundColor: SDSColoursSemantic.background,
+                backgroundColor: SDSColorsSemantic.background,
                 minHeight: '100vh',
                 overflow: scroll ?? true ? 'scroll' : 'hidden',
                 height: scroll ?? true ? undefined : '100vh',

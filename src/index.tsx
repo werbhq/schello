@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import './assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf';
 
-import { SDSColorPrimitives, SDSColoursSemantic } from 'components/ui/Colours';
+import { SDSColorPrimitives, SDSColorsSemantic } from 'components/ui/Colours';
 
 const theme: ThemeOptions = createTheme({
     palette: {
@@ -16,7 +16,7 @@ const theme: ThemeOptions = createTheme({
             main: SDSColorPrimitives.tardyTeal,
         },
         secondary: {
-            main: SDSColoursSemantic.brandSecondary,
+            main: SDSColorsSemantic.brandSecondary,
         },
         error: red,
         contrastThreshold: 3,

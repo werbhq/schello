@@ -34,7 +34,7 @@ import { useSchoolDetailsData } from 'hooks/useSchoolDetails';
 import PageLoader from 'components/ui/PageLoader';
 import Error from 'pages/Error/Error';
 import Page from 'components/ui/Page';
-import { SDSColoursSemantic } from 'components/ui/Colours';
+import { SDSColorsSemantic } from 'components/ui/Colours';
 
 type FormVars = Omit<InputReport, 'dateIncident' | 'timeFrom' | 'timeTo' | 'location' | 'ip'> & {
     dateIncident: dayjs.Dayjs;
@@ -454,7 +454,7 @@ export default function DrugReportForm(props: any) {
                         sx={{
                             borderRadius: ' 10px',
                             border: '1px solid rgba(199, 173, 165, 0.50)',
-                            background: SDSColoursSemantic.surface,
+                            background: SDSColorsSemantic.surface,
                             padding: '16px',
                             boxSizing: 'border-box',
                             height: '100%',

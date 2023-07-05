@@ -15,12 +15,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Report } from '@mui/icons-material';
 import { useState } from 'react';
-import { SDSColoursSemantic } from './Colours';
+import { SDSColorsSemantic } from './Colours';
 import logo from './../../assets/images/wordmark.svg';
 
 const linkStyle: React.CSSProperties = {
     textDecoration: 'none',
-    color: SDSColoursSemantic.onBackgroundSecondary,
+    color: SDSColorsSemantic.onBackgroundSecondary,
 };
 
 const MenuItems = ({
@@ -56,8 +56,8 @@ export default function AppBarCustom() {
     };
 
     const activeLink: React.CSSProperties = {
-        backgroundColor: SDSColoursSemantic.brandSecondary,
-        color: `${SDSColoursSemantic.surface} !important`,
+        backgroundColor: SDSColorsSemantic.brandSecondary,
+        color: `${SDSColorsSemantic.surface} !important`,
     };
 
     const inActiveLink: React.CSSProperties = {
@@ -87,7 +87,7 @@ export default function AppBarCustom() {
             <AppBar
                 position="fixed"
                 style={{
-                    background: SDSColoursSemantic.surface,
+                    background: SDSColorsSemantic.surface,
                     boxShadow: 'none',
                     borderBottom: '1px solid #C7ADA580',
                     zIndex: 1000,
@@ -124,7 +124,7 @@ export default function AppBarCustom() {
                                 <>
                                     <IconButton onClick={handleOpen}>
                                         <MenuIcon
-                                            sx={{ color: SDSColoursSemantic.brandPrimary }}
+                                            sx={{ color: SDSColorsSemantic.brandPrimary }}
                                             fontSize="large"
                                         />
                                     </IconButton>

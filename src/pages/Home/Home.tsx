@@ -9,7 +9,7 @@ import MediaCard from './components/HomeCard';
 import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
-import { SDSColoursSemantic } from 'components/ui/Colours';
+import { SDSColorsSemantic } from 'components/ui/Colours';
 import { useNewData } from 'hooks/useData';
 
 function HomePage() {
@@ -130,7 +130,7 @@ function HomePage() {
                     sx={{
                         borderRadius: ' 10px',
                         border: '1px solid rgba(199, 173, 165, 0.50)',
-                        background: SDSColoursSemantic.surface,
+                        background: SDSColorsSemantic.surface,
                         padding: '16px',
                         boxSizing: 'border-box',
                         height: '100%',
