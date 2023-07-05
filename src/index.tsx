@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-import './assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf';
 
 import { SDSColorPrimitives, SDSColorsSemantic } from 'components/ui/Colours';
 
@@ -23,8 +22,7 @@ const theme: ThemeOptions = createTheme({
         tonalOffset: 0.2,
     },
     typography: {
-        fontFamily: 'Fixel Display',
-
+        fontFamily: 'FixelDisplay',
         h1: {
             lineHeight: '120%',
             fontWeight: 'bold',
@@ -76,11 +74,6 @@ const theme: ThemeOptions = createTheme({
 
         body1: {
             fontFamily: 'Inter',
-        },
-        allVariants: {
-            // fontFamily: 'Inter',
-            // letterSpacing: '0px',
-            //fontFeatureSettings: 'normal',
         },
     },
     components: {

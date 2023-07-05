@@ -6,8 +6,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-*{
-  box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
 
 *::-webkit-scrollbar {
@@ -15,30 +15,29 @@ body {
 }
 
 @font-face {
-  font-family: "FixelDisplay";
-  src: local("FixelDisplay"), url("./assets/fonts/FixelDisplay/._FixelDisplay-Bold.ttf") format("truetype");
-  font-weight: bold;
+    font-family: 'FixelDisplay';
+    src: local('FixelDisplay'),
+        url('./assets/fonts/FixelDisplay/FixelDisplay-Bold.ttf') format('truetype');
+    font-weight: bold;
 }
 
 @font-face {
-  font-family: "FixelDisplay";
-  src: url("./assets/fonts/FixelDisplay/._FixelDisplay-Regular.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'FixelDisplay';
+    src: url('./assets/fonts/FixelDisplay/FixelDisplay-Regular.ttf') format('truetype');
+    font-weight: normal;
 }
 
 @font-face {
-  font-family: "FixelDisplay";
-  src: url("./assets/fonts/FixelDisplay/._FixelDisplay-Light.ttf") format("truetype");
-  font-weight: lighter;
+    font-family: 'FixelDisplay';
+    src: url('./assets/fonts/FixelDisplay/FixelDisplay-Light.ttf') format('truetype');
+    font-weight: lighter;
 }
 
 @font-face {
-  font-family: "FixelDisplay";
-  src: url("./assets/fonts/FixelDisplay/._FixelDisplay-ExtraBold.ttf") format("truetype");
-  font-weight: bolder;
+    font-family: 'FixelDisplay';
+    src: url('./assets/fonts/FixelDisplay/FixelDisplay-ExtraBold.ttf') format('truetype');
+    font-weight: bolder;
 }
-
-
 
 code {
     font-family: 'Inter', sans-serif;
