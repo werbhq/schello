@@ -72,7 +72,7 @@ function HomePage() {
                             }}
                         >
                             {mediaList?.map((e, index) => (
-                                <MediaCard {...e} key={index} />
+                                <MediaCard data={e} key={index} />
                             ))}
                         </List>
 
@@ -144,7 +144,7 @@ function HomePage() {
                                     padding: '5px 0px',
                                 }}
                             >
-                                <MediaCard {...e} key={index} />
+                                <MediaCard data={e} key={index} />
                             </ListItem>
                         ))}
                         {events?.length === 0 && <NoDataCard resource="events" />}

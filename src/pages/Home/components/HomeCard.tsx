@@ -6,12 +6,16 @@ import { EventInformation, MediaInformation } from 'types/Media';
 
 import dayjs from 'dayjs';
 
-export default function MediaCard(props: MediaInformation | EventInformation) {
+export default function MediaCard(props: {
+    data: MediaInformation | EventInformation;
+    expand?: boolean;
+}) {
     const displayTime = {
-        startDate: 'date_from' in props ? dayjs(props.date_from).format('D MMM YYYY') : '',
-        endDate: 'date_to' in props ? dayjs(props.date_to).format('D MMM YYYY') : '',
-        startTime: 'time_from' in props ? dayjs(props.time_from).format('hh:mm A') : '',
-        endTime: 'time_to' in props ? dayjs(props.time_to).format('hh:mm A') : '',
+        startDate:
+            'date_from' in props.data ? dayjs(props.data.date_from).format('D MMM YYYY') : '',
+        endDate: 'date_to' in props.data ? dayjs(props.data.date_to).format('D MMM YYYY') : '',
+        startTime: 'time_from' in props.data ? dayjs(props.data.time_from).format('hh:mm A') : '',
+        endTime: 'time_to' in props.data ? dayjs(props.data.time_to).format('hh:mm A') : '',
     };
 
     const displayTimeDateString =
@@ -33,23 +37,25 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
         }
     }
 
-    // let description: any = stringToHtml('description' in props ? props.description ?? '' : '');
+    const expand = props.expand ?? true;
+
+    // let description: any = stringToHtml('description' in props ? props.data.description ?? '' : '');
 
     return (
         <Card
             sx={{
-                width: '100%',
+                width: expand ? '100%' : '320px',
                 // margin: '5px',
                 whiteSpaceP: 'nowrap',
             }}
         >
-            {props.type === 'MEDIA' && props.media_type === 'VIDEO' && (
+            {props.data.type === 'MEDIA' && props.data.media_type === 'VIDEO' && (
                 <Link
-                    href={'url' in props ? props.url : undefined}
+                    href={'url' in props.data ? props.data.url : undefined}
                     target="_blank"
                     sx={{ textDecoration: 'none' }}
                 >
-                    <CardMedia sx={{ height: 245 }} image={props.thumbnail} />
+                    <CardMedia sx={{ height: expand ? 245 : 120 }} image={props.data.thumbnail} />
                 </Link>
             )}
             <CardContent
@@ -70,14 +76,20 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
                         textOverflow: 'ellipsis',
                     }}
                 >
-                    {props.title}
+                    {props.data.title}
                 </Typography>
 
-                <Stack direction={'row'} gap={'12px'} alignItems={'center'}>
-                    <Stack direction={'row'} gap={'12px'}>
+                <Stack
+                    direction={'row'}
+                    gap={'12px'}
+                    alignItems={'center'}
+                    justifyContent={'flex-start'}
+                    sx={{ width: '100%' }}
+                >
+                    <Stack direction={'row'} gap={'12px'} sx={{ flex: '1 0 0' }}>
                         <img
                             src={
-                                props.source_pfp ??
+                                props.data.source_pfp ??
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6MQWm0d8mZkv2KRJ4fkG1cs7Gen8RfXFGHw&usqp=CAU'
                             }
                             width={24}
@@ -85,18 +97,27 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
                             style={{ borderRadius: '50%' }}
                             alt=""
                         ></img>
-                        <Typography>{props.source ?? 'UNDEFINED'}</Typography>
+                        <Typography
+                            style={{
+                                overflow: 'hidden',
+                                flex: '1 0 0',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis',
+                            }}
+                        >
+                            {props.data.source ?? 'UNDEFINED'}
+                        </Typography>
                     </Stack>
 
                     <SDSChip
-                        label={props.fromExcise ? 'Excise' : 'Community'}
-                        color={props.fromExcise ? 'primary' : 'secondary'}
-                        icon={props.fromExcise ? <Verified /> : <People />}
+                        label={expand ? (props.data.fromExcise ? 'Excise' : 'Community') : ''}
+                        color={props.data.fromExcise ? 'primary' : 'secondary'}
+                        icon={props.data.fromExcise ? <Verified /> : <People />}
                     ></SDSChip>
                 </Stack>
 
                 <Typography variant="body2" color="text.secondary" style={{ maxLines: 3 }}>
-                    {truncateString(removeHtmlTags(props.description ?? ''), descriptionLimit)}
+                    {truncateString(removeHtmlTags(props.data.description ?? ''), descriptionLimit)}
                 </Typography>
 
                 <Stack
@@ -109,35 +130,35 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
                         <Stack direction="row" alignItems="center" justifyContent="center">
                             <AccessTimeFilledRounded />
                             <p style={{ fontSize: '0.8em', margin: '0', padding: '0px 5px' }}>
-                                {props.type === 'MEDIA'
-                                    ? new Date(props.timestamp).toDateString()
+                                {props.data.type === 'MEDIA'
+                                    ? new Date(props.data.timestamp).toDateString()
                                     : displayTimeDateString}
                             </p>
                         </Stack>
                     </Stack>
 
-                    {props.type === 'MEDIA' && props.media_type === 'ARTICLE' && (
+                    {props.data.type === 'MEDIA' && props.data.media_type === 'ARTICLE' && (
                         <Button startIcon={<LaunchRounded />} size="small" variant="contained">
                             Continue Reading
                         </Button>
                     )}
 
-                    {props.type === 'EVENT' && (
+                    {props.data.type === 'EVENT' && (
                         <Stack
                             direction={'row'}
                             justifyContent={'space-between'}
                             style={{ width: '100%' }}
                         >
                             <SDSChip
-                                label={props.mode}
-                                icon={props.mode === 'OFFLINE' ? <Verified /> : <People />}
+                                label={props.data.mode}
+                                icon={props.data.mode === 'OFFLINE' ? <Verified /> : <People />}
                             ></SDSChip>
 
                             <Button
                                 startIcon={<LaunchRounded />}
                                 size="small"
                                 variant="contained"
-                                href={props.register_url}
+                                href={props.data.register_url}
                             >
                                 Register Now
                             </Button>

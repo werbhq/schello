@@ -1,7 +1,9 @@
 import { collection, Timestamp, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { fireStore, processSnapshot } from '.';
 import { CommunityVideo, CommunityArticle } from 'types/Community';
+import { migrateData } from 'hooks/dataMigrater';
 import { MAPPING } from './mapping';
+import { MediaInformation } from 'types/Media';
 
 type CommunityForm = Omit<
     CommunityVideo & CommunityArticle,
@@ -44,7 +46,9 @@ export const getCommunityVideos = async () => {
     const communityVideoQuery = query(videoRef, where('visible', '==', true));
     const snapshot = await getDocs(communityVideoQuery);
     const data = processSnapshot(snapshot);
-    return data as CommunityVideo[];
+    return (data as CommunityVideo[]).map((e) =>
+        migrateData(e, 'CommunityVideo')
+    ) as MediaInformation[];
 };
 
 export const getCommunityArticle = async () => {
@@ -52,5 +56,7 @@ export const getCommunityArticle = async () => {
     const communityArticleQuery = query(articleRef, where('visible', '==', true));
     const snapshot = await getDocs(communityArticleQuery);
     const data = processSnapshot(snapshot);
-    return data as CommunityArticle[];
+    return (data as CommunityArticle[]).map((e) =>
+        migrateData(e, 'CommunityArticle')
+    ) as MediaInformation[];
 };

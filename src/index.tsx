@@ -75,6 +75,9 @@ const theme: ThemeOptions = createTheme({
         body1: {
             fontFamily: 'Inter',
         },
+        body2: {
+            fontFamily: 'Inter',
+        },
     },
     components: {
         MuiButton: {
