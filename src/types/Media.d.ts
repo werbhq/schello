@@ -35,6 +35,7 @@ export interface Information {
 
     source?: string;
     source_pfp?: string;
+    email?: string;
 
     fromExcise: boolean;
 

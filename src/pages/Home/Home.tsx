@@ -2,8 +2,8 @@ import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 // import EventCard from './components/EventCard';
-import VideoCard from './components/VideoCard';
-import NewsCard from './components/NewsCard';
+// import VideoCard from './components/VideoCard';
+// import NewsCard from './components/NewsCard';
 import NoDataCard from './components/NoDataCard';
 import MediaCard from './components/HomeCard';
 import { useGeneralData } from 'hooks/useGeneralData';
@@ -14,7 +14,14 @@ import { useNewData } from 'hooks/useData';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
-    const { mediaList, eventList, isLoading: isLoading2 } = useNewData();
+    const {
+        mediaList: mediaListFake,
+        eventList: eventListFake,
+        isLoading: isLoading2,
+    } = useNewData();
+
+    const mediaList = [...events, ...videos, ...news, ...mediaListFake];
+    const eventList = [...events, ...eventListFake];
 
     if (isLoading || isLoading2) return <PageLoader loading={isLoading} />;
 
@@ -86,7 +93,7 @@ function HomePage() {
                             ))}
                         </List>
 
-                        <Typography variant="h6">Videos</Typography>
+                        {/* <Typography variant="h6">Videos</Typography>
                         <List
                             style={{
                                 display: 'flex',
@@ -100,10 +107,10 @@ function HomePage() {
                                 <VideoCard {...e} key={index} />
                             ))}
                             {videos?.length === 0 && <NoDataCard resource="videos" />}
-                        </List>
+                        </List> */}
                     </Stack>
 
-                    <Stack spacing={2}>
+                    {/* <Stack spacing={2}>
                         <Typography variant="h6">News</Typography>
                         <List
                             style={{
@@ -119,7 +126,7 @@ function HomePage() {
                             ))}
                             {news?.length === 0 && <NoDataCard resource="news" />}
                         </List>
-                    </Stack>
+                    </Stack> */}
                 </Grid>
                 <Grid item lg xs></Grid>
 
