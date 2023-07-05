@@ -1,13 +1,5 @@
 import { Link, Stack, Card, CardMedia, Typography, CardContent, Button } from '@mui/material';
-// import { Error, Google, Instagram, Schedule, YouTube } from '@mui/icons-material';
-import {
-    AccessTimeFilledRounded,
-    People,
-    Verified,
-    RemoveRedEye,
-    LaunchRounded,
-} from '@mui/icons-material';
-// import stringToHtml from 'html-react-parser';
+import { AccessTimeFilledRounded, People, Verified, LaunchRounded } from '@mui/icons-material';
 import { SDSChip } from 'components/ui/chip';
 import { SDSColorPrimitives } from 'components/ui/Colours';
 import { EventInformation, MediaInformation } from 'types/Media';
@@ -122,15 +114,6 @@ export default function MediaCard(props: MediaInformation | EventInformation) {
                                     : displayTimeDateString}
                             </p>
                         </Stack>
-
-                        {'views' in props && (
-                            <Stack direction="row" alignItems="center" justifyContent="center">
-                                <RemoveRedEye />
-                                <p style={{ fontSize: '0.8em', margin: '0', padding: '0px 5px' }}>
-                                    {props.views} views
-                                </p>
-                            </Stack>
-                        )}
                     </Stack>
 
                     {props.type === 'MEDIA' && props.media_type === 'ARTICLE' && (

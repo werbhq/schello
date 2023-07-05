@@ -10,22 +10,14 @@ import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
 import { SDSColorsSemantic } from 'components/ui/Colours';
-import { useNewData } from 'hooks/useData';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
-    const {
-        mediaList: mediaListFake,
-        eventList: eventListFake,
-        isLoading: isLoading2,
-    } = useNewData();
+    if (isLoading) return <PageLoader loading={isLoading} />;
 
-    const mediaList = [...videos, ...news, ...mediaListFake].sort(
+    const mediaList = [...(videos ?? []), ...(news ?? [])].sort(
         (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
-    const eventList = [...events, ...eventListFake];
-
-    if (isLoading || isLoading2) return <PageLoader loading={isLoading} />;
 
     return (
         <Page padding="64px 0px 0px 0px" scroll={false}>
@@ -145,7 +137,7 @@ function HomePage() {
                             marginTop: '16px',
                         }}
                     >
-                        {eventList?.map((e, index) => (
+                        {events?.map((e, index) => (
                             <ListItem
                                 key={index}
                                 style={{

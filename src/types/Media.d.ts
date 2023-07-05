@@ -5,8 +5,6 @@ export interface MediaInformation extends Information {
 
     url?: string;
     redirect?: boolean;
-
-    views: number;
 }
 
 export interface EventInformation extends Information {

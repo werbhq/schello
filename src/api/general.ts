@@ -3,13 +3,15 @@ import { fireStore, processSnapshot } from '.';
 import { MAPPING } from './mapping';
 import { GeneralNews, GeneralVideo } from 'types/General Awarness';
 import { sortByTimeStamp } from 'util/TimeStamp';
+import { MediaInformation } from 'types/Media';
+import { migrateData } from 'hooks/dataMigrater';
 
 export const getGeneralVideos = async () => {
     const videoRef = collection(fireStore, MAPPING.GENERAL.VIDEO);
     const videoQuery = query(videoRef, where('visible', '==', true));
     const videoSnapshot = await getDocs(videoQuery);
-    const data = processSnapshot(videoSnapshot);
-    return data as GeneralVideo[];
+    const data = processSnapshot(videoSnapshot) as GeneralVideo[];
+    return data.map((e) => migrateData(e, 'GeneralVideo')) as MediaInformation[];
 };
 
 export const getGeneralNews = async () => {
@@ -23,6 +25,6 @@ export const getGeneralNews = async () => {
     const googleNewsSnapshot = await getDocs(googleNewsQuery);
     const googleNewsData = processSnapshot(googleNewsSnapshot);
 
-    const data = [...newsData, ...googleNewsData];
-    return data.sort(sortByTimeStamp) as GeneralNews[];
+    const data = [...newsData, ...googleNewsData].sort(sortByTimeStamp) as GeneralNews[];
+    return data.map((e) => migrateData(e, 'GeneralNews')) as MediaInformation[];
 };

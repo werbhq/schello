@@ -23,8 +23,6 @@ const mediaVideo: MediaInformation = {
     url: '',
 
     redirect: false,
-
-    views: 0,
 };
 
 const mediaArticleorNews: MediaInformation = {
@@ -50,8 +48,6 @@ const mediaArticleorNews: MediaInformation = {
     url: '',
 
     redirect: false,
-
-    views: 0,
 };
 
 const mediaList: MediaInformation[] = [

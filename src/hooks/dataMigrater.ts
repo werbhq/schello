@@ -10,48 +10,30 @@ type oldStringTypes =
     | 'CommunityArticle'
     | 'Event';
 
-type newDataTypes = MediaInformation | EventInformation | undefined;
+const TENANT_EXCISE = 'excise';
 
-export const dataMigrationHandler = (
-    data: Array<{
-        data: oldDataTypes;
-        type: oldStringTypes;
-    }>
-) => {
-    let newData: Array<newDataTypes> = [];
-    data.forEach((dataItem) => {
-        newData.push(tempMigrateData(dataItem.data, dataItem.type));
-    });
-};
-
-export const tempMigrateData = (data: oldDataTypes, type: oldStringTypes) => {
+export const migrateData = (data: oldDataTypes, type: oldStringTypes) => {
     let newData;
+    const fromExcise = data.tenant === TENANT_EXCISE;
     if (type === 'GeneralVideo') {
         newData = data as GeneralVideo;
         const migratedData: MediaInformation = {
             id: newData.id,
             timestamp: newData.timestamp,
             visible: newData.visible,
-            type: 'MEDIA',
-
             title: newData.title,
             description: newData.description,
             thumbnail: newData.thumbnail,
-
-            source: newData.author,
-            source_pfp: undefined,
-
-            fromExcise: true,
-
             tenant: newData.tenant,
-
-            media_type: 'VIDEO',
-
+            source: newData.author,
             url: newData.url,
 
-            redirect: false,
+            type: 'MEDIA',
+            media_type: 'VIDEO',
 
-            views: 0,
+            source_pfp: undefined,
+            fromExcise,
+            redirect: false,
         };
         return migratedData;
     }
@@ -61,26 +43,18 @@ export const tempMigrateData = (data: oldDataTypes, type: oldStringTypes) => {
             id: newData.id,
             timestamp: newData.timestamp,
             visible: newData.visible,
-            type: 'MEDIA',
-
             title: newData.title,
             description: newData.description,
             thumbnail: newData.thumbnail,
-
             source: newData.author,
-            source_pfp: undefined,
-
-            fromExcise: false,
-
             tenant: newData.tenant,
-
-            media_type: 'VIDEO',
-
             url: newData.url,
 
+            type: 'MEDIA',
+            source_pfp: undefined,
+            fromExcise,
+            media_type: 'VIDEO',
             redirect: false,
-
-            views: 0,
         };
         return migratedData;
     }
@@ -90,26 +64,18 @@ export const tempMigrateData = (data: oldDataTypes, type: oldStringTypes) => {
             id: newData.id,
             timestamp: newData.timestamp,
             visible: newData.visible,
-            type: 'MEDIA',
-
             title: newData.title,
             description: newData.description,
-            thumbnail: undefined,
-
             source: newData.author,
-            source_pfp: undefined,
-
-            fromExcise: false,
-
             tenant: newData.tenant,
 
+            type: 'MEDIA',
             media_type: 'ARTICLE',
-
+            thumbnail: undefined,
+            source_pfp: undefined,
+            fromExcise,
             url: undefined,
-
             redirect: false,
-
-            views: 0,
         };
         return migratedData;
     }
@@ -120,26 +86,18 @@ export const tempMigrateData = (data: oldDataTypes, type: oldStringTypes) => {
             id: newData.id,
             timestamp: newData.timestamp,
             visible: newData.visible,
-            type: 'MEDIA',
-
             title: newData.title,
             description: newData.description,
-            thumbnail: undefined,
-
-            source: getNewsOutletName(newData.redirect_url),
-            source_pfp: undefined,
-
-            fromExcise: false,
-
             tenant: newData.tenant,
-
-            media_type: 'NEWS',
-
             url: newData.redirect_url,
 
             redirect: newData.news_type === 'EXTERNAL',
-
-            views: 0,
+            type: 'MEDIA',
+            media_type: 'NEWS',
+            thumbnail: undefined,
+            source: getNewsOutletName(newData.redirect_url),
+            source_pfp: undefined,
+            fromExcise,
         };
         return migratedData;
     }
@@ -148,30 +106,26 @@ export const tempMigrateData = (data: oldDataTypes, type: oldStringTypes) => {
         newData = data as Event;
         const migratedData: EventInformation = {
             id: newData.id,
-            timestamp: '0',
             visible: newData.visible,
-            type: 'EVENT',
-
             title: newData.title,
             description: newData.description,
-            thumbnail: undefined,
-
-            source: 'Unknown Source',
-            source_pfp: undefined,
-
-            fromExcise: false,
-
             tenant: newData.tenant,
-
             mode: newData.mode,
-
             venue: newData.venue,
             register_url: newData.register_url,
-
             date_to: newData.date_to,
             date_from: newData.date_from,
             time_to: newData.time_to,
             time_from: newData.time_from,
+
+            // TODO: ADD BACKEND
+            timestamp: newData.date_from,
+
+            type: 'EVENT',
+            thumbnail: undefined,
+            source: newData.tenant.replace(/-/g, ' ').toLocaleUpperCase(),
+            source_pfp: undefined,
+            fromExcise,
         };
         return migratedData;
     }
