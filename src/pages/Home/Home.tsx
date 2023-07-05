@@ -20,7 +20,9 @@ function HomePage() {
         isLoading: isLoading2,
     } = useNewData();
 
-    const mediaList = [...events, ...videos, ...news, ...mediaListFake];
+    const mediaList = [...videos, ...news, ...mediaListFake].sort(
+        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
     const eventList = [...events, ...eventListFake];
 
     if (isLoading || isLoading2) return <PageLoader loading={isLoading} />;
