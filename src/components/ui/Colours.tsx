@@ -48,10 +48,10 @@ export class SDSColorPrimitives {
     static boringBlue = '#405D88';
     static brilliantBlue = '#6BE6EE';
     static pretentiousPurple = '#AF53F7';
-    static offWhite = '#F7F7F1';
+    static offWhite = '#F5F0EC';
     static pureWhite = '#FFFFFF';
     static tardyTeal = '#179f97';
-    static yawningYellow = '#FFD700';
+    static yawningYellow = '#FFD600';
 }
 
 export class SDSColoursSemantic {

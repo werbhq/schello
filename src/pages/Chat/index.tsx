@@ -163,11 +163,11 @@ function ChatPage() {
                                     // padding: '10px',
                                     margin: 0,
                                     bottom: 0,
-                                    // minHeight: '20%',
+                                    minHeight: '16%',
                                     position: 'fixed',
                                     width: '100vw',
                                     borderRadius: 0,
-                                    backgroundColor: notification.show ? '#f04d38' : '#f1c043',
+                                    backgroundColor: notification.show ? '#f04d38' : '#fff',
                                 }}
                             >
                                 <form onSubmit={handleSubmit}>
@@ -177,7 +177,7 @@ function ChatPage() {
                                         placeholder="Provide your query message here"
                                         fullWidth
                                         multiline
-                                        style={{ padding: '10px' }}
+                                        style={{ padding: '10px', backgroundColor: '#fff' }}
                                         onKeyDown={(e: any) => {
                                             if (e.keyCode === 13 && !e.shiftKey) {
                                                 e.preventDefault();

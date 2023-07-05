@@ -89,7 +89,7 @@ const theme: ThemeOptions = createTheme({
                 root: {
                     borderRadius: '10px',
                     border: '1px solid rgba(199, 173, 165, 0.50)',
-                    background: 'linear-gradient(180deg, #154E44 0%, #179F97 100%)',
+                    background: 'linear-gradient(180deg, #14443B 0%, #1A706B 100%)',
                     color: '#FFFFFF',
                     textTransform: 'none',
                     boxShadow: 'none',
