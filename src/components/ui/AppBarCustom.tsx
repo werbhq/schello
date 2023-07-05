@@ -39,7 +39,7 @@ const MenuItems = ({
                 <Typography style={linkStyle}>Library</Typography>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.CHAT} onClick={handleClose} end>
-                <Typography style={linkStyle}>Wellness Boat</Typography>
+                <Typography style={linkStyle}>Wellness Bot</Typography>
             </NavLink>
         </>
     );
