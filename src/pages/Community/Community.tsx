@@ -4,16 +4,36 @@ import ArticleCard from './components/articleCard';
 import PageLoader from 'components/ui/PageLoader';
 import { useCommunityData } from 'hooks/useCommunityData';
 import Page from 'components/ui/Page';
+import SearchBar from 'components/ui/SearchBar';
+import { useState } from 'react';
+import { CommunityArticle, CommunityVideo } from 'types/Community';
+import NoDataCard from './components/NoDataCard';
 
 function CommunityPage() {
     const { videos, articles, isLoading } = useCommunityData();
+    const [search, setSearch] = useState('');
 
     if (isLoading) return <PageLoader loading={isLoading} />;
+
+    const onSearchChange = (e: any) => setSearch(e.target.value.toLocaleLowerCase());
+
+    const filterSearch = (e: CommunityVideo | CommunityArticle, search: string) => {
+        if (search.length > 2) {
+            return (
+                e.title.toLocaleLowerCase().includes(search) ||
+                e.description.toLocaleLowerCase().includes(search) ||
+                e.author.toLocaleLowerCase().includes(search) ||
+                e.email.toLocaleLowerCase().includes(search)
+            );
+        }
+        return true;
+    };
 
     return (
         <Page>
             <Stack marginY={4} spacing={4} alignItems="center" justifyContent="center">
                 <Typography variant="h3">Library</Typography>
+                <SearchBar placeholder="Search" onChange={onSearchChange} />
 
                 <Stack spacing={2}>
                     <Typography variant="h4">Videos</Typography>
@@ -26,9 +46,15 @@ function CommunityPage() {
                             minWidth: '90vw',
                         }}
                     >
-                        {videos?.map((e, index) => (
-                            <VideoCard {...e} key={index} />
-                        ))}
+                        {videos
+                            ?.filter((e) => filterSearch(e, search))
+                            .map((e, index) => (
+                                <VideoCard {...e} key={index} />
+                            ))}
+
+                        {videos?.filter((e) => filterSearch(e, search)).length === 0 && (
+                            <NoDataCard resource="videos" />
+                        )}
                     </List>
                 </Stack>
 
@@ -43,9 +69,14 @@ function CommunityPage() {
                             minWidth: '90vw',
                         }}
                     >
-                        {articles?.map((e, index) => (
-                            <ArticleCard {...e} key={index} />
-                        ))}
+                        {articles
+                            ?.filter((e) => filterSearch(e, search))
+                            .map((e, index) => (
+                                <ArticleCard {...e} key={index} />
+                            ))}
+                        {articles?.filter((e) => filterSearch(e, search)).length === 0 && (
+                            <NoDataCard resource="articles" />
+                        )}
                     </List>
                 </Stack>
             </Stack>
