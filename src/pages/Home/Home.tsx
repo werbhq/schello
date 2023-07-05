@@ -1,4 +1,4 @@
-import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
+import { Grid, List, ListItem, Typography, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 // import EventCard from './components/EventCard';
@@ -58,17 +58,6 @@ function HomePage() {
                                 Click here to share a video or article you feel would be helpful to
                                 others.
                             </Typography>
-                            <div
-                                style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'row-reverse',
-                                }}
-                            >
-                                <Button disabled sx={{ backgroundColour: 'red !important' }}>
-                                    Share
-                                </Button>
-                            </div>
                         </Stack>
 
                         <List
