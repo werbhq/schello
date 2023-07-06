@@ -138,19 +138,9 @@ function getNewsOutletName(url: string | undefined): string {
     if (domainMatch && domainMatch[1]) {
         const domain = domainMatch[1];
 
-        // Check if the domain contains common news outlet keywords
-        const newsOutletKeywords = ['news', 'times', 'post', 'tribune'];
         const lowercaseDomain = domain.toLowerCase();
-        const matchedKeyword = newsOutletKeywords.find((keyword) =>
-            lowercaseDomain.includes(keyword)
-        );
 
-        if (matchedKeyword) {
-            return matchedKeyword.toUpperCase();
-        }
-
-        // If no common keyword is found, return the capitalized domain name
-        return domain.charAt(0).toUpperCase() + domain.slice(1);
+        return lowercaseDomain;
     }
 
     // Return null if the URL doesn't match the expected format

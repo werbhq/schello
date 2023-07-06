@@ -137,11 +137,18 @@ export default function MediaCard(props: {
                         </Stack>
                     </Stack>
 
-                    {props.data.type === 'MEDIA' && props.data.media_type === 'ARTICLE' && (
-                        <Button startIcon={<LaunchRounded />} size="small" variant="contained">
-                            Continue Reading
-                        </Button>
-                    )}
+                    {props.data.type === 'MEDIA' &&
+                        (props.data.media_type === 'ARTICLE' ||
+                            props.data.media_type === 'NEWS') && (
+                            <Button
+                                href={props.data.url ?? undefined}
+                                startIcon={<LaunchRounded />}
+                                size="small"
+                                variant="contained"
+                            >
+                                Continue Reading
+                            </Button>
+                        )}
 
                     {props.data.type === 'EVENT' && (
                         <Stack
