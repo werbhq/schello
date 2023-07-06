@@ -97,7 +97,15 @@ export default function MediaCard(props: {
                     justifyContent={'flex-start'}
                     sx={{ width: '100%' }}
                 >
-                    <Stack direction={'row'} gap={'12px'} sx={{ flex: '1 0 0' }}>
+                    <div
+                        style={{
+                            height: '20px',
+                            display: 'flex',
+                            columnGap: '12px',
+                            minWidth: 0,
+                            flexShrink: 1,
+                        }}
+                    >
                         <div
                             style={{
                                 width: '24px',
@@ -116,21 +124,25 @@ export default function MediaCard(props: {
                                 backgroundSize: 'cover',
                                 backgroundRepeat: 'no-repeat',
                                 border: '1px solid #00000032',
+                                flex: '0 0 auto',
                             }}
                         ></div>
                         <Typography
                             style={{
                                 overflow: 'hidden',
-                                flex: '1 0 0',
                                 whiteSpace: 'nowrap',
                                 textOverflow: 'ellipsis',
+                                flexShrink: 1,
+                                maxWidth: '100%',
+                                minWidth: '0px',
                             }}
                         >
                             {props.data.source ?? 'UNDEFINED'}
                         </Typography>
-                    </Stack>
+                    </div>
 
                     <SDSChip
+                        sx={{ flexShrink: 0 }}
                         label={expand ? (props.data.fromExcise ? 'Excise' : 'Community') : ''}
                         color={props.data.fromExcise ? 'primary' : 'secondary'}
                         icon={props.data.fromExcise ? <Verified /> : <People />}
@@ -147,7 +159,13 @@ export default function MediaCard(props: {
                     flexWrap={'wrap'}
                     rowGap={'12px'}
                 >
-                    <Stack direction="row" alignItems="center" justifyContent="center" gap={'8px'}>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="flex-start"
+                        gap={'8px'}
+                        flexWrap={'wrap'}
+                    >
                         <Stack direction="row" alignItems="center" justifyContent="center">
                             <AccessTimeFilledRounded />
                             <p style={{ fontSize: '0.8em', margin: '0', padding: '0px 5px' }}>
@@ -156,6 +174,22 @@ export default function MediaCard(props: {
                                     : displayTimeDateString}
                             </p>
                         </Stack>
+
+                        {props.data.type === 'EVENT' && props.data.venue !== undefined && (
+                            <Stack direction="row" alignItems="center" justifyContent="center">
+                                <AccessTimeFilledRounded />
+                                <a
+                                    style={{
+                                        fontSize: '0.8em',
+                                        margin: '0',
+                                        padding: '0px 5px',
+                                    }}
+                                    href={props.data.venue}
+                                >
+                                    {props.data.venue}
+                                </a>
+                            </Stack>
+                        )}
                     </Stack>
 
                     {props.data.type === 'MEDIA' &&
@@ -182,14 +216,16 @@ export default function MediaCard(props: {
                                 icon={props.data.mode === 'OFFLINE' ? <Verified /> : <People />}
                             ></SDSChip>
 
-                            <Button
-                                startIcon={<LaunchRounded />}
-                                size="small"
-                                variant="contained"
-                                href={props.data.register_url}
-                            >
-                                Register Now
-                            </Button>
+                            {props.data.register_url !== null && (
+                                <Button
+                                    startIcon={<LaunchRounded />}
+                                    size="small"
+                                    variant="contained"
+                                    href={props.data.register_url}
+                                >
+                                    Register Now
+                                </Button>
+                            )}
                         </Stack>
                     )}
                 </Stack>
