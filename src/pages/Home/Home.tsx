@@ -37,7 +37,7 @@ function HomePage() {
                     }}
                 >
                     <Stack spacing={2}>
-                        <Stack padding={'64px 0px 24px 0px'}>
+                        <Stack padding={'64px 0px 24px 0px'} sx={{ zIndex: 999 }}>
                             <Typography variant="h3">Welcome to Schello!</Typography>
                         </Stack>
 
@@ -47,11 +47,26 @@ function HomePage() {
                             sx={{
                                 borderRadius: '24px',
                                 border: '1px solid rgba(199, 173, 165, 0.50)',
-                                background: '#FFF',
-                                boxShadow: '0px 4px 50px 0px rgba(64, 93, 136, 0.04)',
+                                background: SDSColorsSemantic.surface,
+                                boxShadow:
+                                    '0px 4px 50px 0px rgba(64, 93, 136, 0.04), 0px -80px 0px 40px #F5F0EC',
                                 padding: '16px',
                                 textDecoration: 'none',
                                 marginBottom: '160px',
+                                position: 'sticky',
+                                top: '0px',
+                                zIndex: 998,
+                                //TODO: Use hover effect to migrate from multiple forms to one linked form
+
+                                // transitionDuration: '0.2s',
+                                // height: 'min-content',
+
+                                // '&:hover': {
+                                //     borderRadius: '16px',
+                                //     transitionDuration: '0.6s',
+                                //     paddingBottom: '120px',
+
+                                // },
                             }}
                         >
                             <Typography variant="h5">Got something to share?</Typography>
@@ -69,47 +84,14 @@ function HomePage() {
                                 width: '100% !important',
                                 padding: 0,
                                 marginTop: 24,
+                                marginBottom: 120,
                             }}
                         >
                             {mediaList?.map((e, index) => (
                                 <MediaCard data={e} key={index} index={index} />
                             ))}
                         </List>
-
-                        {/* <Typography variant="h6">Videos</Typography>
-                        <List
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                padding: 0,
-                                maxWidth: '100%',
-                                overflow: 'auto',
-                            }}
-                        >
-                            {videos?.map((e, index) => (
-                                <VideoCard {...e} key={index} />
-                            ))}
-                            {videos?.length === 0 && <NoDataCard resource="videos" />}
-                        </List> */}
                     </Stack>
-
-                    {/* <Stack spacing={2}>
-                        <Typography variant="h6">News</Typography>
-                        <List
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                padding: 0,
-                                maxWidth: '100%',
-                                overflow: 'auto',
-                            }}
-                        >
-                            {news?.map((e, index) => (
-                                <NewsCard {...e} key={index} />
-                            ))}
-                            {news?.length === 0 && <NoDataCard resource="news" />}
-                        </List>
-                    </Stack> */}
                 </Grid>
                 <Grid item lg xs></Grid>
 

@@ -15,6 +15,7 @@ export default function Page({ children, padding, scroll }: Props) {
                 minHeight: '100vh',
                 overflow: scroll ?? true ? 'scroll' : 'hidden',
                 height: scroll ?? true ? undefined : '100vh',
+                position: 'relative',
             }}
         >
             {children}
