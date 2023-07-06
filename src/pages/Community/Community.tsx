@@ -8,6 +8,7 @@ import { CommunityArticle, CommunityVideo } from 'types/Community';
 import NoDataCard from './components/NoDataCard';
 import { MediaInformation } from 'types/Media';
 import MediaCard from 'pages/Home/components/HomeCard';
+import { SDSChip } from 'components/ui/chip';
 
 function CommunityPage() {
     const { videos, articles, isLoading } = useCommunityData();
@@ -54,17 +55,23 @@ function CommunityPage() {
                         sx={{ width: '100%', paddingTop: '64px' }}
                     >
                         <Typography variant="h3">Library</Typography>
-                        <SearchBar placeholder="Search" onChange={onSearchChange} />
+                        <Stack direction={'row'}>
+                            <SearchBar placeholder="Search" onChange={onSearchChange} />
+                            <Stack direction={'row'}>
+                                <SDSChip label="Videos"></SDSChip>
+                                <SDSChip label="Articles"></SDSChip>
+                                <SDSChip label="News"></SDSChip>
+                                <SDSChip label="Events"></SDSChip>
+                            </Stack>
+                        </Stack>
 
-                        <Stack spacing={2}>
+                        <Stack spacing={2} sx={{ width: '100%', overflow: 'auto' }}>
                             <Typography variant="h4">Videos</Typography>
                             <List
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
                                     columnGap: '12px',
-                                    overflow: 'auto',
-                                    width: '100%',
                                 }}
                             >
                                 {videos

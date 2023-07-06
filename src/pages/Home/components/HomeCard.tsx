@@ -90,6 +90,7 @@ export default function MediaCard(props: {
         <Card
             sx={{
                 width: expand ? '100%' : '320px',
+                flexShrink: 0,
                 // margin: '5px',
                 whiteSpaceP: 'nowrap',
             }}
