@@ -1,5 +1,12 @@
 import { Link, Stack, Card, CardMedia, Typography, CardContent, Button } from '@mui/material';
-import { AccessTimeFilledRounded, People, Verified, LaunchRounded } from '@mui/icons-material';
+import {
+    AccessTimeFilledRounded,
+    People,
+    Verified,
+    LaunchRounded,
+    LocationOnRounded,
+    PlayCircleFilledRounded,
+} from '@mui/icons-material';
 import { SDSChip } from 'components/ui/chip';
 import { SDSColorPrimitives, SDSColorsSemantic } from 'components/ui/Colours';
 import { EventInformation, MediaInformation } from 'types/Media';
@@ -66,9 +73,29 @@ export default function MediaCard(props: {
                     target="_blank"
                     sx={{ textDecoration: 'none' }}
                 >
-                    <CardMedia sx={{ height: expand ? 245 : 120 }} image={props.data.thumbnail} />
+                    <CardMedia
+                        sx={{
+                            height: expand ? 245 : 120,
+                            position: 'relative',
+                        }}
+                        image={props.data.thumbnail}
+                    >
+                        <PlayCircleFilledRounded
+                            sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                fontSize: 64,
+                                color: 'rgba(255, 255, 255, 0.8)',
+                                zIndex: 1,
+                                cursor: 'pointer',
+                            }}
+                        />
+                    </CardMedia>
                 </Link>
             )}
+
             <CardContent
                 sx={{
                     height: '100%',
@@ -137,7 +164,10 @@ export default function MediaCard(props: {
                                 minWidth: '0px',
                             }}
                         >
-                            {props.data.source ?? 'UNDEFINED'}
+                            {props.data.source ?? 'UNDEFINED'}{' '}
+                            {props.data.type === 'MEDIA' && props.data.media_type === 'NEWS'
+                                ? ' (News)'
+                                : ''}
                         </Typography>
                     </div>
 
@@ -165,6 +195,7 @@ export default function MediaCard(props: {
                         justifyContent="flex-start"
                         gap={'8px'}
                         flexWrap={'wrap'}
+                        sx={{ maxWidth: '100%', textOverflow: 'ellipsis' }}
                     >
                         <Stack direction="row" alignItems="center" justifyContent="center">
                             <AccessTimeFilledRounded />
@@ -177,7 +208,7 @@ export default function MediaCard(props: {
 
                         {props.data.type === 'EVENT' && props.data.venue !== undefined && (
                             <Stack direction="row" alignItems="center" justifyContent="center">
-                                <AccessTimeFilledRounded />
+                                <LocationOnRounded />
                                 <a
                                     style={{
                                         fontSize: '0.8em',
