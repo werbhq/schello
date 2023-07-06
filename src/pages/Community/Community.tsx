@@ -70,7 +70,12 @@ function CommunityPage() {
                                 {videos
                                     ?.filter((e) => filterSearch(e, search))
                                     .map((e, index) => (
-                                        <MediaCard data={e} expand={false} key={index} />
+                                        <MediaCard
+                                            data={e}
+                                            expand={false}
+                                            key={index}
+                                            index={index}
+                                        />
                                     ))}
 
                                 {videos?.filter((e) => filterSearch(e, search)).length === 0 && (
@@ -93,7 +98,12 @@ function CommunityPage() {
                                 {articles
                                     ?.filter((e) => filterSearch(e, search))
                                     .map((e, index) => (
-                                        <MediaCard data={e} expand={false} key={index} />
+                                        <MediaCard
+                                            data={e}
+                                            expand={false}
+                                            key={index}
+                                            index={index}
+                                        />
                                     ))}
                                 {articles?.filter((e) => filterSearch(e, search)).length === 0 && (
                                     <NoDataCard resource="articles" />

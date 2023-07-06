@@ -1,14 +1,25 @@
 import { Link, Stack, Card, CardMedia, Typography, CardContent, Button } from '@mui/material';
 import { AccessTimeFilledRounded, People, Verified, LaunchRounded } from '@mui/icons-material';
 import { SDSChip } from 'components/ui/chip';
-import { SDSColorPrimitives } from 'components/ui/Colours';
+import { SDSColorPrimitives, SDSColorsSemantic } from 'components/ui/Colours';
 import { EventInformation, MediaInformation } from 'types/Media';
+import schelloStudentImg from 'assets/images/characters/student.png';
+import schelloAdminImg from 'assets/images/characters/admin.png';
+import schelloExciseImg from 'assets/images/characters/excise.png';
+import schelloNewsImg from 'assets/images/characters/news.png';
 
 import dayjs from 'dayjs';
+
+const backgroundColors = [
+    SDSColorsSemantic.brandPrimary,
+    SDSColorsSemantic.brandSecondary,
+    SDSColorsSemantic.brandTeritiary,
+];
 
 export default function MediaCard(props: {
     data: MediaInformation | EventInformation;
     expand?: boolean;
+    index: number;
 }) {
     const displayTime = {
         startDate:
@@ -87,16 +98,26 @@ export default function MediaCard(props: {
                     sx={{ width: '100%' }}
                 >
                     <Stack direction={'row'} gap={'12px'} sx={{ flex: '1 0 0' }}>
-                        <img
-                            src={
-                                props.data.source_pfp ??
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6MQWm0d8mZkv2KRJ4fkG1cs7Gen8RfXFGHw&usqp=CAU'
-                            }
-                            width={24}
-                            height={24}
-                            style={{ borderRadius: '50%' }}
-                            alt=""
-                        ></img>
+                        <div
+                            style={{
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                backgroundImage: `url(${
+                                    props.data.type === 'MEDIA' && props.data.media_type === 'NEWS'
+                                        ? schelloNewsImg
+                                        : props.data.fromExcise
+                                        ? schelloExciseImg
+                                        : props.data.type === 'EVENT'
+                                        ? schelloAdminImg
+                                        : schelloStudentImg
+                                })`,
+                                backgroundColor: backgroundColors[props.index % 3],
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                border: '1px solid #00000032',
+                            }}
+                        ></div>
                         <Typography
                             style={{
                                 overflow: 'hidden',
