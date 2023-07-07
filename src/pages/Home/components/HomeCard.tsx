@@ -27,6 +27,7 @@ export default function MediaCard(props: {
     data: MediaInformation | EventInformation;
     expand?: boolean;
     index: number;
+    grow?: boolean;
 }) {
     const displayTime = {
         startDate:
@@ -90,9 +91,12 @@ export default function MediaCard(props: {
         <Card
             sx={{
                 width: expand ? '100%' : '320px',
-                flexShrink: 0,
-                // margin: '5px',
-                whiteSpaceP: 'nowrap',
+                minWidth: '230px',
+                flexShrink: 1,
+                flexGrow: 1,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
             }}
         >
             {props.data.type === 'MEDIA' && props.data.media_type === 'VIDEO' && (
@@ -104,6 +108,7 @@ export default function MediaCard(props: {
                     <CardMedia
                         sx={{
                             height: expand ? 245 : 120,
+                            width: '100%',
                             position: 'relative',
                         }}
                         image={props.data.thumbnail}
