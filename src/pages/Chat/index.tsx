@@ -77,7 +77,7 @@ function ChatPage() {
                             <Stack {...styleProps} padding={'0px 16px'}>
                                 <Stack alignItems="center" justifyContent="center">
                                     <Stack alignItems="center" marginBottom={4}>
-                                        <Typography variant="h3">Talk to Welness Bot</Typography>
+                                        <Typography variant="h3">Talk to Wellness Bot</Typography>
                                     </Stack>
                                     <Stack gap={'16px'}>
                                         <Typography variant="h6">
