@@ -94,7 +94,7 @@ export default function MediaCard(props: {
                 minWidth: '230px',
                 flexShrink: 1,
                 flexGrow: 1,
-                height: '100%',
+                // height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
             }}
