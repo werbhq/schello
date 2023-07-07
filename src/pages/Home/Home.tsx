@@ -10,14 +10,19 @@ import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
 import { SDSColorsSemantic } from 'components/ui/Colours';
+import { useCommunityData } from 'hooks/useCommunityData';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
-    if (isLoading) return <PageLoader loading={isLoading} />;
+    const { videos: communityVideos, articles, isLoading: isLoadingCommunity } = useCommunityData();
+    if (isLoading || isLoadingCommunity) return <PageLoader loading={isLoading} />;
 
-    const mediaList = [...(videos ?? []), ...(news ?? [])].sort(
-        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-    );
+    const mediaList = [
+        ...(videos ?? []),
+        ...(news ?? []),
+        ...(communityVideos ?? []),
+        ...(articles ?? []),
+    ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     return (
         <Page padding="64px 0px 0px 0px" scroll={false}>
