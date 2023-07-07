@@ -50,7 +50,7 @@ function HomePage() {
                             component={Link}
                             to="/community/form"
                             sx={{
-                                borderRadius: '24px',
+                                borderRadius: '16px',
                                 border: '1px solid rgba(199, 173, 165, 0.50)',
                                 background: SDSColorsSemantic.surface,
                                 boxShadow:

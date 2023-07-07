@@ -36,7 +36,7 @@ const MenuItems = ({
                 <Typography style={linkStyle}>Home</Typography>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.COMMUNITY} onClick={handleClose} end>
-                <Typography style={linkStyle}>Library</Typography>
+                <Typography style={linkStyle}>Explore</Typography>
             </NavLink>
             <NavLink style={navStyle} to={ROUTES.CHAT} onClick={handleClose} end>
                 <Typography style={linkStyle}>Wellness Bot</Typography>
@@ -132,7 +132,9 @@ export default function AppBarCustom() {
                                         anchor="right"
                                         open={isOpen}
                                         onClose={handleClose}
-                                        PaperProps={{ sx: { backgroundColor: '#F1C043' } }}
+                                        PaperProps={{
+                                            sx: { backgroundColor: SDSColorsSemantic.background },
+                                        }}
                                     >
                                         <IconButton
                                             sx={{ mb: 2 }}

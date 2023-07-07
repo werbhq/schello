@@ -259,14 +259,22 @@ export default function MediaCard(props: {
                     {props.data.type === 'MEDIA' &&
                         (props.data.media_type === 'ARTICLE' ||
                             props.data.media_type === 'NEWS') && (
-                            <Button
-                                href={props.data.url ?? undefined}
-                                startIcon={<LaunchRounded />}
-                                size="small"
-                                variant="contained"
-                            >
-                                Continue Reading
-                            </Button>
+                            <a href={props.data.url ?? undefined} target="_blank" rel="noreferrer">
+                                <Button
+                                    onClick={
+                                        !props.data.redirect
+                                            ? () => {
+                                                  alert('this works');
+                                              }
+                                            : undefined
+                                    }
+                                    startIcon={<LaunchRounded />}
+                                    size="small"
+                                    variant="contained"
+                                >
+                                    Continue Reading
+                                </Button>
+                            </a>
                         )}
 
                     {props.data.type === 'EVENT' && (
