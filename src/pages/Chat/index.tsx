@@ -148,6 +148,7 @@ function ChatPage() {
                                     overflow: 'auto',
                                     padding: '0px',
                                     maxHeight: '75vh',
+                                    paddingBottom: '32px',
                                     minHeight: '20px',
                                 }}
                                 ref={chatRef}
