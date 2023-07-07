@@ -2,6 +2,7 @@ import { useState } from 'react';
 import stringToHtml from 'html-react-parser';
 import { Card, CardContent } from '@mui/material';
 import { ChatCompletionRequestMessage, ChatCompletionRoleEnum } from 'types/OpenAi';
+import { SDSColorsSemantic } from 'components/ui/Colours';
 
 const ChatMessage = ({ message }: { message: ChatCompletionRequestMessage }) => {
     const [expanded, setExpanded] = useState(false);
@@ -23,8 +24,14 @@ const ChatMessage = ({ message }: { message: ChatCompletionRequestMessage }) => 
             }}
             sx={
                 isAi
-                    ? { backgroundColor: '#179f97', color: 'white' }
-                    : { backgroundColor: '#cbcbcb' }
+                    ? {
+                          backgroundColor: SDSColorsSemantic.brandPrimary,
+                          color: SDSColorsSemantic.surface,
+                      }
+                    : {
+                          backgroundColor: SDSColorsSemantic.surface,
+                          color: SDSColorsSemantic.onBackgroundSecondary,
+                      }
             }
         >
             <CardContent style={{ padding: '8px' }}>
