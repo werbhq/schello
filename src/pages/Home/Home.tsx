@@ -1,9 +1,5 @@
-import { Grid, List, ListItem, Typography, Stack } from '@mui/material';
+import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-
-// import EventCard from './components/EventCard';
-// import VideoCard from './components/VideoCard';
-// import NewsCard from './components/NewsCard';
 import NoDataCard from './components/NoDataCard';
 import MediaCard from './components/HomeCard';
 import { useGeneralData } from 'hooks/useGeneralData';
@@ -11,10 +7,16 @@ import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';
 import { SDSColorsSemantic } from 'components/ui/Colours';
 import { useCommunityData } from 'hooks/useCommunityData';
+import { Add } from '@mui/icons-material';
+import useCheckMobileScreen from 'hooks/useMobile';
+import ROUTES from 'routes';
 
 function HomePage() {
     const { events, videos, news, isLoading } = useGeneralData();
     const { videos: communityVideos, articles, isLoading: isLoadingCommunity } = useCommunityData();
+
+    const isMobile = useCheckMobileScreen();
+
     if (isLoading || isLoadingCommunity) return <PageLoader loading={isLoading} />;
 
     const mediaList = [
@@ -26,6 +28,29 @@ function HomePage() {
 
     return (
         <Page padding="64px 0px 0px 0px" scroll={false}>
+            {isMobile ? (
+                <Button
+                    component={Link}
+                    to={ROUTES.COMMUNITY_FORM}
+                    style={{
+                        position: 'absolute',
+                        height: '80px',
+                        width: '80px',
+                        borderRadius: '50%',
+                        bottom: '40px',
+                        right: '40px',
+                        border: '1px solid rgba(199, 173, 165, 0.50)',
+                        // background: SDSColorsSemantic.brandPrimary,
+                        zIndex: 999,
+                        cursor: 'pointer',
+                    }}
+                >
+                    <Add />
+                </Button>
+            ) : (
+                <></>
+            )}
+
             <Grid container style={{ overflow: 'hidden', height: '100%', padding: '16px' }}>
                 <Grid item lg xs></Grid>
                 <Grid
@@ -48,7 +73,7 @@ function HomePage() {
 
                         <Stack
                             component={Link}
-                            to="/community/form"
+                            to={isMobile ? '' : '/community/form'}
                             sx={{
                                 borderRadius: '16px',
                                 border: '1px solid rgba(199, 173, 165, 0.50)',
@@ -74,11 +99,24 @@ function HomePage() {
                                 // },
                             }}
                         >
-                            <Typography variant="h5">Got something to share?</Typography>
-                            <Typography>
-                                Click here to share a video or article you feel would be helpful to
-                                others.
+                            <Typography variant="h5">
+                                {isMobile
+                                    ? 'Want to report an incident?'
+                                    : 'Got something to share?'}
                             </Typography>
+                            <Typography>
+                                {isMobile
+                                    ? 'Feel free to report a drug related incident, completely anonymously'
+                                    : 'Click here to share a video or article you feel would be helpful to others.'}
+                            </Typography>
+                            <br />
+                            {isMobile ? (
+                                <Button component={Link} to={ROUTES.DRUG_FORM}>
+                                    Report Anonymously
+                                </Button>
+                            ) : (
+                                <></>
+                            )}
                         </Stack>
 
                         <List
