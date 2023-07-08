@@ -133,7 +133,11 @@ export default function AppBarCustom() {
                                         open={isOpen}
                                         onClose={handleClose}
                                         PaperProps={{
-                                            sx: { backgroundColor: SDSColorsSemantic.background },
+                                            sx: {
+                                                backgroundColor: SDSColorsSemantic.background,
+                                                padding: '16px',
+                                                width: '75vw',
+                                            },
                                         }}
                                     >
                                         <IconButton
