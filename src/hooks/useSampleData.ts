@@ -57,7 +57,7 @@ const mediaList: MediaInformation[] = [
     mediaArticleorNews,
 ];
 
-export const useNewData = () => {
+export const useSampleData = () => {
     return {
         mediaList,
         eventList,
