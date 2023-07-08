@@ -1,7 +1,7 @@
 import { Grid, List, ListItem, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NoDataCard from './components/NoDataCard';
-import MediaCard from './components/HomeCard';
+import MediaCard from './components/MediaCard';
 import { useGeneralData } from 'hooks/useGeneralData';
 import PageLoader from 'components/ui/PageLoader';
 import Page from 'components/ui/Page';

@@ -6,7 +6,7 @@ import SearchBar from 'components/ui/SearchBar';
 import { useState } from 'react';
 import NoDataCard from './components/NoDataCard';
 import { MediaInformation, EventInformation } from 'types/Media';
-import MediaCard from 'pages/Home/components/HomeCard';
+import MediaCard from 'pages/Home/components/MediaCard';
 import { SDSChip } from 'components/ui/chip';
 import { useGeneralData } from 'hooks/useGeneralData';
 import { SDSColorsSemantic } from 'components/ui/Colours';
@@ -213,7 +213,6 @@ function CommunityPage() {
                                         item
                                         sx={{
                                             flexGrow: 1,
-
                                             display: 'flex',
                                         }}
                                     >

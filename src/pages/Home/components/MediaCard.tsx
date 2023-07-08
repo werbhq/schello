@@ -22,7 +22,7 @@ import dayjs from 'dayjs';
 const backgroundColors = [
     SDSColorsSemantic.brandPrimary,
     SDSColorsSemantic.brandSecondary,
-    SDSColorsSemantic.brandTeritiary,
+    SDSColorsSemantic.brandTertiary,
 ];
 
 export default function MediaCard(props: {
