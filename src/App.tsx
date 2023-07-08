@@ -27,7 +27,7 @@ function App() {
                 <Routes>
                     <Route path={ROUTES.DEFAULT} element={<AppBarCustom />}>
                         <Route index element={<HomePage />} />
-                        <Route path="/article/:id" element={<ArticlePage />} />
+                        <Route path={ROUTES.ARTICLE} element={<ArticlePage />} />
                         <Route path={ROUTES.DRUG_FORM} element={<DrugReportForm />} />
                         <Route path={ROUTES.COMMUNITY} element={<Community />} />
                         <Route path={ROUTES.COMMUNITY_FORM} element={<CommunityForm />} />

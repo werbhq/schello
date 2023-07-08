@@ -18,6 +18,7 @@ import schelloNewsImg from 'assets/images/characters/news.png';
 import { removeHtmlTags, formatTimestamp } from 'util/media';
 
 import dayjs from 'dayjs';
+import ROUTES from 'routes';
 
 const backgroundColors = [
     SDSColorsSemantic.brandPrimary,
@@ -242,7 +243,7 @@ export default function MediaCard(props: {
                                 to={
                                     props.data.redirect
                                         ? props.data.url!
-                                        : `/article/${props.data.id}`
+                                        : ROUTES.ARTICLE.replace(':id', props.data.id)
                                 }
                                 state={{
                                     data: props.data,
