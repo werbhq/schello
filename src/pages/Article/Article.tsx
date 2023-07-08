@@ -13,7 +13,7 @@ import schelloNewsImg from 'assets/images/characters/news.png';
 
 import { removeHtmlTags, getReadTime, formatTimestamp } from 'util/media';
 
-export default function ArticlePage(props: any) {
+export default function Article(props: any) {
     const location = useLocation();
     const { data, fromPage, profileColor } = location.state as {
         data: MediaInformation;

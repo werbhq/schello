@@ -9,7 +9,7 @@ import Error from './pages/Error/Error';
 import VisualizePage from './pages/Visualize/Visualize';
 import CommunityForm from './pages/Community/Form/Form';
 import ChatPage from './pages/Chat';
-import ArticlePage from 'pages/Community/components/emptyPage';
+import Article from 'pages/Article/Article';
 import ROUTES from 'routes';
 
 const queryClient = new QueryClient({
@@ -27,7 +27,7 @@ function App() {
                 <Routes>
                     <Route path={ROUTES.DEFAULT} element={<AppBarCustom />}>
                         <Route index element={<HomePage />} />
-                        <Route path={ROUTES.ARTICLE} element={<ArticlePage />} />
+                        <Route path={ROUTES.ARTICLE} element={<Article />} />
                         <Route path={ROUTES.DRUG_FORM} element={<DrugReportForm />} />
                         <Route path={ROUTES.COMMUNITY} element={<Community />} />
                         <Route path={ROUTES.COMMUNITY_FORM} element={<CommunityForm />} />
