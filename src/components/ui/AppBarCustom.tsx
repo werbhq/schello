@@ -1,18 +1,27 @@
 import {
     AppBar,
     Toolbar,
-    Typography,
     Button,
     Box,
-    useTheme,
     IconButton,
     Drawer,
+    Stack,
+    Grid,
+    Typography,
 } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import ROUTES from 'routes';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { Report } from '@mui/icons-material';
 import { useState } from 'react';
+import { SDSColorsSemantic } from './Colours';
+import logo from './../../assets/images/wordmark.svg';
+
+const linkStyle: React.CSSProperties = {
+    textDecoration: 'none',
+    color: SDSColorsSemantic.onBackgroundSecondary,
+};
 
 const MenuItems = ({
     navStyle,
@@ -23,50 +32,40 @@ const MenuItems = ({
 }) => {
     return (
         <>
-            <NavLink style={navStyle} to={ROUTES.DEFAULT} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Home
-                </Button>
+            <NavLink style={navStyle} to={ROUTES.DEFAULT} onClick={handleClose} end>
+                <Typography style={linkStyle}>Home</Typography>
             </NavLink>
-            <NavLink style={navStyle} to={ROUTES.DRUG_FORM} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Form
-                </Button>
+            <NavLink style={navStyle} to={ROUTES.COMMUNITY} onClick={handleClose} end>
+                <Typography style={linkStyle}>Explore</Typography>
             </NavLink>
-            <NavLink style={navStyle} to={ROUTES.COMMUNITY} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Community
-                </Button>
-            </NavLink>
-            <NavLink style={navStyle} to={ROUTES.CHAT} end>
-                <Button color="inherit" onClick={handleClose} fullWidth>
-                    Helpline
-                </Button>
+            <NavLink style={navStyle} to={ROUTES.CHAT} onClick={handleClose} end>
+                <Typography style={linkStyle}>Wellness Bot</Typography>
             </NavLink>
         </>
     );
 };
 
 export default function AppBarCustom() {
-    const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
 
-    const activeLink: React.CSSProperties = {
-        backgroundColor: '#f9f9f9',
-        borderRadius: '2px',
+    const navLink: React.CSSProperties = {
         textDecoration: 'none',
-        color: theme.palette.primary.main,
+
+        borderRadius: '150px',
+        padding: '8px 16px',
+    };
+
+    const activeLink: React.CSSProperties = {
+        backgroundColor: SDSColorsSemantic.brandSecondary,
+        color: `${SDSColorsSemantic.surface} !important`,
     };
 
     const inActiveLink: React.CSSProperties = {
-        backgroundColor: 'inherit',
-        borderRadius: '2px',
-        textDecoration: 'none',
-        color: 'inherit',
+        backgroundColor: 'transparent',
     };
 
     const applyNavStyle = ({ isActive }: { isActive: boolean }) =>
-        isActive ? activeLink : inActiveLink;
+        isActive ? { ...activeLink, ...navLink } : { ...inActiveLink, ...navLink };
 
     const getDeviceConfig = (width: number) => {
         if (width < 320) return true;
@@ -85,39 +84,94 @@ export default function AppBarCustom() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{ background: theme.palette.secondary.main }}>
-                <Toolbar>
-                    <Typography variant="h6" color="inherit" component="div" sx={{ flexGrow: 1 }}>
-                        Schello
-                    </Typography>
-                    {width ? (
-                        <>
-                            <IconButton onClick={handleOpen}>
-                                <MenuIcon sx={{ color: '#ffffff' }} fontSize="large" />
-                            </IconButton>
-                            <Drawer
-                                anchor="right"
-                                open={isOpen}
-                                onClose={handleClose}
-                                PaperProps={{ sx: { backgroundColor: '#F1C043' } }}
-                            >
-                                <IconButton sx={{ mb: 2 }} disableRipple onClick={handleClose}>
-                                    <CloseIcon />
-                                </IconButton>
+            <AppBar
+                position="fixed"
+                style={{
+                    background: SDSColorsSemantic.surface,
+                    boxShadow: 'none',
+                    borderBottom: '1px solid #C7ADA580',
+                    zIndex: 1000,
+                }}
+            >
+                <Grid container direction={'row'} wrap={'nowrap'}>
+                    <Grid item xs sm md lg></Grid>
+                    <Grid
+                        item
+                        container
+                        direction={'row'}
+                        xs={12}
+                        sm={10}
+                        md={10}
+                        lg={10}
+                        justifyContent={'space-between'}
+                    >
+                        <Toolbar>
+                            <img src={logo} height={32} alt="logo"></img>
+                        </Toolbar>
 
-                                <Box
-                                    display="flex"
-                                    flexDirection="column"
-                                    sx={{ backgroundColor: 'inherit', width: '200px' }}
-                                >
-                                    <MenuItems navStyle={applyNavStyle} handleClose={handleClose} />
-                                </Box>
-                            </Drawer>
-                        </>
-                    ) : (
-                        <MenuItems navStyle={applyNavStyle} />
-                    )}
-                </Toolbar>
+                        <Toolbar>
+                            {width ? (
+                                <></>
+                            ) : (
+                                <Stack gap={'8px'} direction={'row'}>
+                                    <MenuItems navStyle={applyNavStyle} />
+                                </Stack>
+                            )}
+                        </Toolbar>
+
+                        <Toolbar>
+                            {width ? (
+                                <>
+                                    <IconButton onClick={handleOpen}>
+                                        <MenuIcon
+                                            sx={{ color: SDSColorsSemantic.brandPrimary }}
+                                            fontSize="large"
+                                        />
+                                    </IconButton>
+                                    <Drawer
+                                        anchor="right"
+                                        open={isOpen}
+                                        onClose={handleClose}
+                                        PaperProps={{
+                                            sx: {
+                                                backgroundColor: SDSColorsSemantic.background,
+                                                padding: '16px',
+                                                width: '75vw',
+                                            },
+                                        }}
+                                    >
+                                        <IconButton
+                                            sx={{ mb: 2 }}
+                                            disableRipple
+                                            onClick={handleClose}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+
+                                        <Stack gap={'8px'} direction={'column'}>
+                                            <MenuItems
+                                                navStyle={applyNavStyle}
+                                                handleClose={handleClose}
+                                            />
+                                        </Stack>
+                                    </Drawer>
+                                </>
+                            ) : (
+                                <NavLink to={ROUTES.DRUG_FORM} end>
+                                    <Button
+                                        startIcon={<Report />}
+                                        color="inherit"
+                                        onClick={handleClose}
+                                        fullWidth
+                                    >
+                                        Report Anonymously
+                                    </Button>
+                                </NavLink>
+                            )}
+                        </Toolbar>
+                    </Grid>
+                    <Grid item xs sm md lg></Grid>
+                </Grid>
             </AppBar>
             <Outlet />
         </Box>

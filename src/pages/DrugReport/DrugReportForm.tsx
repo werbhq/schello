@@ -11,6 +11,7 @@ import {
     Typography,
     TextareaAutosize,
     CardMedia,
+    Grid,
     FormControl,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -28,10 +29,12 @@ import { MapDataInput } from 'types/MapData';
 import { FacialData, InputReport } from 'types/Report';
 import { FacialField } from './components/FacialField';
 import ReportVideo from 'assets/video/visualization.mp4';
-import useCheckMobileScreen from 'hooks/useMobile';
+// import useCheckMobileScreen from 'hooks/useMobile';
 import { useSchoolDetailsData } from 'hooks/useSchoolDetails';
 import PageLoader from 'components/ui/PageLoader';
 import Error from 'pages/Error/Error';
+import Page from 'components/ui/Page';
+import { SDSColorsSemantic } from 'components/ui/Colours';
 
 type FormVars = Omit<InputReport, 'dateIncident' | 'timeFrom' | 'timeTo' | 'location' | 'ip'> & {
     dateIncident: dayjs.Dayjs;
@@ -61,7 +64,7 @@ const DIALOG_MESSAGES = {
 
 export default function DrugReportForm(props: any) {
     const { data: schools, isLoading } = useSchoolDetailsData();
-    const isMobile = useCheckMobileScreen();
+    // const isMobile = useCheckMobileScreen();
 
     const currentTime = dayjs();
 
@@ -175,296 +178,336 @@ export default function DrugReportForm(props: any) {
 
     const handleChange = async (e: any) =>
         setFormVars({ ...formVars, [e.target.name]: e.target.value });
+
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Stack margin={3} spacing={4} direction="column">
-                <Stack alignItems="center">
-                    <Typography variant="h3" color="primary" fontWeight="bold">
-                        Drug Report
-                    </Typography>
-                </Stack>
-                <Typography variant="h6">
-                    <span style={{ color: 'red' }}>We guarantee your privacy</span>. All the data
-                    you submit is <span style={{ color: 'red' }}>encrypted</span> and can only be
-                    seen by a authorized personnel from Excise Department.
-                </Typography>
-
-                <Stack>
-                    <CardMedia
-                        component="video"
+        <Page padding={'64px 0px 0px 0px'} scroll={false}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Grid container style={{ overflow: 'hidden', height: '100%', padding: '16px' }}>
+                    <Grid item lg xs></Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={5}
+                        md={7}
+                        lg={7}
                         style={{
-                            minWidth: '20vw',
-                            maxWidth: 700,
-                            border: '5px solid black',
-                            display: 'block',
-                            margin: '10px  auto',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: '100vh',
+                            overflow: 'scroll',
                         }}
-                        image={ReportVideo}
-                        autoPlay
-                        loop
-                        controls
-                    />
-
-                    <Typography variant="h6" align="center">
-                        <br /> You can see the stored reports data in our database{' '}
-                        <LinkRouter to="/visualize" color="primary">
-                            here
-                        </LinkRouter>
-                    </Typography>
-                </Stack>
-
-                <hr />
-
-                <form onSubmit={handleSubmit}>
-                    <Stack
-                        margin={3}
-                        marginTop={0}
-                        spacing={4}
-                        direction="column"
-                        paddingX={isMobile ? '0px' : 25}
                     >
-                        <Stack spacing={4} direction={isMobile ? 'column' : 'row'}>
-                            <Stack spacing={2}>
-                                <FormLabel>Incident Date*</FormLabel>
-                                <DatePicker
-                                    views={['year', 'month', 'day']}
-                                    value={formVars.dateIncident}
-                                    onChange={(newValue) => {
-                                        setFormVars({
-                                            ...formVars,
-                                            dateIncident: newValue as dayjs.Dayjs,
-                                        });
-                                    }}
-                                    inputFormat="DD/MM/YYYY"
-                                    renderInput={(params) => (
-                                        <TextField {...params} sx={{ width: 220 }} />
-                                    )}
-                                />
-                            </Stack>
-
-                            <Stack spacing={2}>
-                                <FormLabel id="incident-time">Incident Time*</FormLabel>
-                                <Stack spacing={2} direction="row">
-                                    <TimePicker
-                                        label="From"
-                                        value={formVars.timeFrom}
-                                        onChange={(newValue) => {
-                                            setFormVars({
-                                                ...formVars,
-                                                timeFrom: newValue as dayjs.Dayjs,
-                                            });
-                                        }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} sx={{ width: 150 }} />
-                                        )}
-                                    />
-
-                                    <TimePicker
-                                        label="To"
-                                        value={formVars.timeTo}
-                                        onChange={(newValue) => {
-                                            setFormVars({
-                                                ...formVars,
-                                                timeTo: newValue as dayjs.Dayjs,
-                                            });
-                                        }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} sx={{ width: 150 }} />
-                                        )}
-                                    />
-                                </Stack>
-                            </Stack>
-                        </Stack>
-
-                        <Stack spacing={2}>
-                            <FormLabel id="category-select">Category*</FormLabel>
-                            <Select
-                                required
-                                labelId="category-select"
-                                value={formVars.category}
-                                label="Category"
-                                variant="standard"
-                                sx={{ width: 300 }}
-                                name="category"
-                                onChange={handleChange}
+                        <form onSubmit={handleSubmit}>
+                            <Stack
+                                // margin={3}
+                                paddingY={'64px'}
+                                spacing={4}
+                                direction="column"
+                                // style={{ backgroundColor: 'red' }}
+                                // paddingX={isMobile ? '0px' : 25}
                             >
-                                <MenuItem value={'USAGE_SUSPECTED'}>
-                                    Suspected Usage of drugs
-                                </MenuItem>
-                                <MenuItem value={'USAGE_CONFIRMED'}>
-                                    Confirmed Usage of drugs
-                                </MenuItem>
-                                <MenuItem value={'TRADING_SUSPECTED'}>
-                                    Suspected Trading of drugs
-                                </MenuItem>
-                                <MenuItem value={'TRADING_CONFIRMED'}>
-                                    Confirmed Trading of drugs
-                                </MenuItem>
-                            </Select>
-                        </Stack>
+                                <Typography variant="h3">Submit a Drug Report</Typography>
 
-                        <Stack spacing={2}>
-                            <FormLabel>Description*</FormLabel>
-                            <TextareaAutosize
-                                placeholder="Describe what happened. The more details you provide the better we can investigate your report."
-                                required
-                                minRows={5}
-                                maxRows={12}
-                                name="description"
-                                onBlur={handleChange}
-                            />
-                        </Stack>
-
-                        <Stack spacing={2}>
-                            <FormLabel>Location*</FormLabel>
-                            <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
-                        </Stack>
-
-                        <Stack spacing={2}>
-                            <FormLabel id="school-select">Select School</FormLabel>
-                            <Select
-                                labelId="school-select"
-                                value={formVars.tenant}
-                                onChange={(e) => {
-                                    const id = e.target.value;
-                                    setFormVars({
-                                        ...formVars,
-                                        tenant: id,
-                                        student: {
-                                            name: formVars.student?.name ?? '',
-                                            class:
-                                                schools.find((e) => e.id === id)?.classes[0] ?? '',
-                                        },
-                                    });
-                                }}
-                            >
-                                {schools.map((e) => (
-                                    <MenuItem key={e.id} value={e.id}>
-                                        {e.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Stack>
-
-                        <Stack spacing={2}>
-                            <FormControl>
-                                <FormLabel id="student-flag">Is the person a student?</FormLabel>
-                                <RadioGroup
-                                    aria-labelledby="student-flag"
-                                    value={enableStudentOption}
-                                    name="student-flag-group"
-                                    onChange={(e, value) => {
-                                        const currentVal = value === 'true';
-                                        setEnableStudentOption(currentVal);
-                                    }}
+                                <Stack
+                                    spacing={4}
+                                    // direction={isMobile ? 'column' : 'row'}
                                 >
-                                    <Stack direction="row">
-                                        <FormControlLabel
-                                            value={true}
-                                            control={<Radio />}
-                                            label="Yes"
-                                        />
-                                        <FormControlLabel
-                                            value={false}
-                                            control={<Radio />}
-                                            label="No"
+                                    <Stack spacing={2}>
+                                        <FormLabel>Incident Date*</FormLabel>
+                                        <DatePicker
+                                            views={['year', 'month', 'day']}
+                                            value={formVars.dateIncident}
+                                            onChange={(newValue) => {
+                                                setFormVars({
+                                                    ...formVars,
+                                                    dateIncident: newValue as dayjs.Dayjs,
+                                                });
+                                            }}
+                                            inputFormat="DD/MM/YYYY"
+                                            renderInput={(params) => (
+                                                <TextField {...params} sx={{ width: 220 }} />
+                                            )}
                                         />
                                     </Stack>
-                                </RadioGroup>
-                            </FormControl>
-                        </Stack>
 
-                        {enableStudentOption ? (
-                            <Stack spacing={2}>
+                                    <Stack spacing={2}>
+                                        <FormLabel id="incident-time">Incident Time*</FormLabel>
+                                        <Stack spacing={2} direction="row">
+                                            <TimePicker
+                                                label="From"
+                                                value={formVars.timeFrom}
+                                                onChange={(newValue) => {
+                                                    setFormVars({
+                                                        ...formVars,
+                                                        timeFrom: newValue as dayjs.Dayjs,
+                                                    });
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} sx={{ width: 150 }} />
+                                                )}
+                                            />
+
+                                            <TimePicker
+                                                label="To"
+                                                value={formVars.timeTo}
+                                                onChange={(newValue) => {
+                                                    setFormVars({
+                                                        ...formVars,
+                                                        timeTo: newValue as dayjs.Dayjs,
+                                                    });
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} sx={{ width: 150 }} />
+                                                )}
+                                            />
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+
                                 <Stack spacing={2}>
-                                    <FormLabel id="class-select">Select Class</FormLabel>
+                                    <FormLabel id="category-select">Category*</FormLabel>
                                     <Select
-                                        labelId="class-select"
-                                        value={formVars.student?.class}
-                                        onChange={(e) =>
-                                            setFormVars({
-                                                ...formVars,
-                                                student: {
-                                                    name: formVars.student?.name ?? '',
-                                                    class: e.target.value,
-                                                },
-                                            })
-                                        }
+                                        required
+                                        labelId="category-select"
+                                        value={formVars.category}
+                                        label="Category"
+                                        variant="outlined"
+                                        sx={{ width: 300 }}
+                                        name="category"
+                                        onChange={handleChange}
                                     >
-                                        {schools
-                                            .find((e) => e.id === formVars.tenant)
-                                            ?.classes.map((e) => (
-                                                <MenuItem value={e}>{e}</MenuItem>
-                                            ))}
+                                        <MenuItem value={'USAGE_SUSPECTED'}>
+                                            Suspected Usage of drugs
+                                        </MenuItem>
+                                        <MenuItem value={'USAGE_CONFIRMED'}>
+                                            Confirmed Usage of drugs
+                                        </MenuItem>
+                                        <MenuItem value={'TRADING_SUSPECTED'}>
+                                            Suspected Trading of drugs
+                                        </MenuItem>
+                                        <MenuItem value={'TRADING_CONFIRMED'}>
+                                            Confirmed Trading of drugs
+                                        </MenuItem>
                                     </Select>
                                 </Stack>
 
                                 <Stack spacing={2}>
-                                    <FormLabel id="name-enter">
-                                        Enter Name (Please Enter the full name)
-                                    </FormLabel>
-                                    <TextField
-                                        variant="outlined"
-                                        onBlur={(e) => {
+                                    <FormLabel>Description*</FormLabel>
+                                    <TextareaAutosize
+                                        placeholder="Describe what happened. The more details you provide the better we can investigate your report."
+                                        required
+                                        minRows={5}
+                                        maxRows={12}
+                                        name="description"
+                                        onBlur={handleChange}
+                                    />
+                                </Stack>
+
+                                <Stack spacing={2}>
+                                    <FormLabel>Location*</FormLabel>
+                                    <PlaceSearch formVars={formVars} setFormVars={setFormVars} />
+                                </Stack>
+
+                                <Stack spacing={2}>
+                                    <FormLabel id="school-select">Select School</FormLabel>
+                                    <Select
+                                        labelId="school-select"
+                                        value={formVars.tenant}
+                                        onChange={(e) => {
+                                            const id = e.target.value;
                                             setFormVars({
                                                 ...formVars,
+                                                tenant: id,
                                                 student: {
-                                                    name: e.target.value,
-                                                    class: formVars.student?.class ?? '',
+                                                    name: formVars.student?.name ?? '',
+                                                    class:
+                                                        schools.find((e) => e.id === id)
+                                                            ?.classes[0] ?? '',
                                                 },
                                             });
                                         }}
-                                    />
+                                    >
+                                        {schools.map((e) => (
+                                            <MenuItem key={e.id} value={e.id}>
+                                                {e.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </Stack>
+
+                                <Stack spacing={2}>
+                                    <FormControl>
+                                        <FormLabel id="student-flag">
+                                            Is the person a student?
+                                        </FormLabel>
+                                        <RadioGroup
+                                            aria-labelledby="student-flag"
+                                            value={enableStudentOption}
+                                            name="student-flag-group"
+                                            onChange={(e, value) => {
+                                                const currentVal = value === 'true';
+                                                setEnableStudentOption(currentVal);
+                                            }}
+                                        >
+                                            <Stack direction="row">
+                                                <FormControlLabel
+                                                    value={true}
+                                                    control={<Radio />}
+                                                    label="Yes"
+                                                />
+                                                <FormControlLabel
+                                                    value={false}
+                                                    control={<Radio />}
+                                                    label="No"
+                                                />
+                                            </Stack>
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Stack>
+
+                                {enableStudentOption ? (
+                                    <Stack spacing={2}>
+                                        <Stack spacing={2}>
+                                            <FormLabel id="class-select">Select Class</FormLabel>
+                                            <Select
+                                                labelId="class-select"
+                                                value={formVars.student?.class}
+                                                onChange={(e) =>
+                                                    setFormVars({
+                                                        ...formVars,
+                                                        student: {
+                                                            name: formVars.student?.name ?? '',
+                                                            class: e.target.value,
+                                                        },
+                                                    })
+                                                }
+                                            >
+                                                {schools
+                                                    .find((e) => e.id === formVars.tenant)
+                                                    ?.classes.map((e) => (
+                                                        <MenuItem value={e}>{e}</MenuItem>
+                                                    ))}
+                                            </Select>
+                                        </Stack>
+
+                                        <Stack spacing={2}>
+                                            <FormLabel id="name-enter">
+                                                Enter Name (Please Enter the full name)
+                                            </FormLabel>
+                                            <TextField
+                                                variant="outlined"
+                                                onBlur={(e) => {
+                                                    setFormVars({
+                                                        ...formVars,
+                                                        student: {
+                                                            name: e.target.value,
+                                                            class: formVars.student?.class ?? '',
+                                                        },
+                                                    });
+                                                }}
+                                            />
+                                        </Stack>
+                                    </Stack>
+                                ) : (
+                                    <FacialField
+                                        enableFacialFeatures={enableFaceOption}
+                                        setEnableFacialFeatures={setEnableFaceOption}
+                                        facialData={facialData}
+                                        setFacialData={setFacialData}
+                                    />
+                                )}
+
+                                {error.length > 0 && (
+                                    <Alert severity="error">
+                                        {error.map((e, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    {e}
+                                                    <br />
+                                                </div>
+                                            );
+                                        })}
+                                    </Alert>
+                                )}
+
+                                <LoadingButton
+                                    type="submit"
+                                    loading={submitLoading}
+                                    variant="contained"
+                                    sx={{}}
+                                >
+                                    Submit
+                                </LoadingButton>
+
+                                <div style={{ height: '24px' }}></div>
                             </Stack>
-                        ) : (
-                            <FacialField
-                                enableFacialFeatures={enableFaceOption}
-                                setEnableFacialFeatures={setEnableFaceOption}
-                                facialData={facialData}
-                                setFacialData={setFacialData}
-                            />
-                        )}
+                        </form>
+                    </Grid>
+                    <Grid item lg xs></Grid>
 
-                        {error.length > 0 && (
-                            <Alert severity="error">
-                                {error.map((e, index) => {
-                                    return (
-                                        <div key={index}>
-                                            {e}
-                                            <br />
-                                        </div>
-                                    );
-                                })}
-                            </Alert>
-                        )}
-
-                        <hr />
-
+                    <Grid
+                        item
+                        xs={5}
+                        sm={0}
+                        md={3}
+                        lg={3}
+                        sx={{
+                            borderRadius: ' 10px',
+                            border: '1px solid rgba(199, 173, 165, 0.50)',
+                            background: SDSColorsSemantic.surface,
+                            padding: '16px',
+                            boxSizing: 'border-box',
+                            height: '100%',
+                            overflow: 'scroll',
+                        }}
+                    >
                         <Stack
-                            justifyContent="center"
+                            marginY={4}
+                            spacing={4}
                             alignItems="center"
-                            direction="row"
-                            margin={0}
+                            justifyContent="center"
+                            direction="column"
                         >
-                            <LoadingButton
-                                type="submit"
-                                loading={submitLoading}
-                                variant="contained"
-                                sx={{ width: '20rem' }}
-                            >
-                                Submit
-                            </LoadingButton>
+                            <Typography variant="h6">
+                                <span style={{ color: 'red' }}>We guarantee your privacy</span>. All
+                                the data you submit is{' '}
+                                <span style={{ color: 'red' }}>encrypted</span> and can only be seen
+                                by a authorized personnel from Excise Department.
+                            </Typography>
+
+                            <Stack>
+                                <CardMedia
+                                    component="video"
+                                    style={{
+                                        minWidth: '20vw',
+                                        maxWidth: 700,
+                                        border: '5px solid black',
+                                        display: 'block',
+                                        margin: '10px  auto',
+                                    }}
+                                    image={ReportVideo}
+                                    autoPlay
+                                    loop
+                                    controls
+                                />
+                                <Typography variant="h6" align="center">
+                                    <br /> You can see the stored reports data in our database{' '}
+                                    <LinkRouter to="/visualize" color="primary">
+                                        here
+                                    </LinkRouter>
+                                </Typography>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </form>
-            </Stack>
-            <DialogBox
-                title={dialogData.title}
-                description={dialogData.description}
-                openFlag={dialogOpen}
-                handleOpen={setDialogOpen}
-            />
-        </LocalizationProvider>
+                    </Grid>
+                </Grid>
+
+                <DialogBox
+                    title={dialogData.title}
+                    description={dialogData.description}
+                    openFlag={dialogOpen}
+                    handleOpen={setDialogOpen}
+                />
+            </LocalizationProvider>
+        </Page>
     );
 }
