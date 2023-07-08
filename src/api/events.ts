@@ -2,7 +2,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { fireStore, processSnapshot } from '.';
 import { Event } from 'types/General Awarness';
 import { MAPPING } from './mapping';
-import { migrateData } from 'hooks/dataMigrater';
+import { migrateData } from 'util/dataMigrater';
 import { EventInformation } from 'types/Media';
 
 export const getEvents = async () => {

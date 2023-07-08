@@ -1,7 +1,7 @@
 import { collection, Timestamp, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { fireStore, processSnapshot } from '.';
 import { CommunityVideo, CommunityArticle } from 'types/Community';
-import { migrateData } from 'hooks/dataMigrater';
+import { migrateData } from 'util/dataMigrater';
 import { MAPPING } from './mapping';
 import { MediaInformation } from 'types/Media';
 

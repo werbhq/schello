@@ -4,7 +4,7 @@ import { MAPPING } from './mapping';
 import { GeneralNews, GeneralVideo } from 'types/General Awarness';
 import { sortByTimeStamp } from 'util/TimeStamp';
 import { MediaInformation } from 'types/Media';
-import { migrateData } from 'hooks/dataMigrater';
+import { migrateData } from 'util/dataMigrater';
 
 export const getGeneralVideos = async () => {
     const videoRef = collection(fireStore, MAPPING.GENERAL.VIDEO);
