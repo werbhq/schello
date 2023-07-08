@@ -9,7 +9,7 @@ import Error from './pages/Error/Error';
 import VisualizePage from './pages/Visualize/Visualize';
 import CommunityForm from './pages/Community/Form/Form';
 import ChatPage from './pages/Chat';
-import Article from 'pages/Article/Article';
+import Article from './pages/Article/Article';
 import ROUTES from 'routes';
 
 const queryClient = new QueryClient({
