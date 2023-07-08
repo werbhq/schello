@@ -1,4 +1,5 @@
 import { Link, Stack, Card, CardMedia, Typography, CardContent, Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import {
     AccessTimeFilledRounded,
     People,
@@ -14,6 +15,7 @@ import schelloStudentImg from 'assets/images/characters/student.png';
 import schelloAdminImg from 'assets/images/characters/admin.png';
 import schelloExciseImg from 'assets/images/characters/excise.png';
 import schelloNewsImg from 'assets/images/characters/news.png';
+import { removeHtmlTags, formatTimestamp } from 'util/media';
 
 import dayjs from 'dayjs';
 
@@ -28,6 +30,7 @@ export default function MediaCard(props: {
     expand?: boolean;
     index: number;
     grow?: boolean;
+    page: string;
 }) {
     const displayTime = {
         startDate:
@@ -44,10 +47,6 @@ export default function MediaCard(props: {
 
     const descriptionLimit = 250;
 
-    function removeHtmlTags(str: string): string {
-        return str.replace(/<[^>]*>?/gm, '');
-    }
-
     function truncateString(str: string, limit: number): string {
         if (str.length > limit) {
             return str.slice(0, limit) + '...';
@@ -57,33 +56,6 @@ export default function MediaCard(props: {
     }
 
     const expand = props.expand ?? true;
-
-    const formatTimestamp = (timestamp: string) => {
-        const currentTime = new Date().getTime();
-        const timeDiff = currentTime - new Date(timestamp).getTime();
-
-        // Convert milliseconds to different time units
-        const seconds = Math.floor(timeDiff / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        const months = Math.floor(days / 30);
-        const years = Math.floor(months / 12);
-
-        if (seconds < 60) {
-            return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
-        } else if (minutes < 60) {
-            return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-        } else if (hours < 24) {
-            return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-        } else if (days < 30) {
-            return `${days} day${days !== 1 ? 's' : ''} ago`;
-        } else if (months < 12) {
-            return `${months} month${months !== 1 ? 's' : ''} ago`;
-        } else {
-            return `${years} year${years !== 1 ? 's' : ''} ago`;
-        }
-    };
 
     // let description: any = stringToHtml('description' in props ? props.data.description ?? '' : '');
 
@@ -259,22 +231,27 @@ export default function MediaCard(props: {
                     {props.data.type === 'MEDIA' &&
                         (props.data.media_type === 'ARTICLE' ||
                             props.data.media_type === 'NEWS') && (
-                            <a href={props.data.url ?? undefined} target="_blank" rel="noreferrer">
+                            <NavLink
+                                target={props.data.redirect ? '_blank' : undefined}
+                                to={
+                                    props.data.redirect
+                                        ? props.data.url!
+                                        : `/article/${props.data.id}`
+                                }
+                                state={{
+                                    data: props.data,
+                                    fromPage: props.page,
+                                    profileColor: backgroundColors[props.index % 3],
+                                }}
+                            >
                                 <Button
-                                    onClick={
-                                        !props.data.redirect
-                                            ? () => {
-                                                  alert('this works');
-                                              }
-                                            : undefined
-                                    }
                                     startIcon={<LaunchRounded />}
                                     size="small"
                                     variant="contained"
                                 >
                                     Continue Reading
                                 </Button>
-                            </a>
+                            </NavLink>
                         )}
 
                     {props.data.type === 'EVENT' && (

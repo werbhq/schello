@@ -223,6 +223,7 @@ function CommunityPage() {
                                             key={index}
                                             index={index}
                                             grow={true}
+                                            page="Explore"
                                         />
                                     </Grid>
                                 ))}
