@@ -57,7 +57,10 @@ export default function MediaCard(props: {
 
     const expand = props.expand ?? true;
 
-    // let description: any = stringToHtml('description' in props ? props.data.description ?? '' : '');
+    const description: string = truncateString(
+        removeHtmlTags(props.data.description ?? ''),
+        descriptionLimit
+    );
 
     return (
         <Card
@@ -185,14 +188,17 @@ export default function MediaCard(props: {
                 </Stack>
 
                 <Typography variant="body2" color="text.secondary" style={{ maxLines: 3 }}>
-                    {truncateString(removeHtmlTags(props.data.description ?? ''), descriptionLimit)}
+                    {description.length > 0 ? description : 'No description available'}
                 </Typography>
+
+                <div style={{ flex: 1 }}></div>
 
                 <Stack
                     justifyContent={'space-between'}
                     direction={'row'}
                     flexWrap={'wrap'}
                     rowGap={'12px'}
+                    sx={{ display: 'flex' }}
                 >
                     <Stack
                         direction="row"
