@@ -6,6 +6,6 @@
 
 ### SCREENSHOTS
 1. HOME
-   ![Home](/images/home.png)
+   ![Home](/src/pages/Chat/images/home.png)
 2. CHAT
-   ![chat](/images/chat-area.png)
+   ![chat](/src/pages/Chat/images/chat-area.png)
